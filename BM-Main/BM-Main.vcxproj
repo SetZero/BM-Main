@@ -103,10 +103,9 @@
   <ItemGroup>
     <ClInclude Include="..\..\..\..\Documents\GitHub\BM-Code-Snippets\avr\mega328.h" />
     <ClInclude Include="..\..\..\..\Documents\GitHub\BM-Code-Snippets\avr\register.h" />
-    <ClInclude Include="MicroController.h" />
-    <ClInclude Include="Ports.h" />
+    <ClInclude Include="mega328.h" />
     <ClInclude Include="SPI.h" />
-    <ClInclude Include="Utils.h" />
+    <ClInclude Include="Utils\Utils.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
