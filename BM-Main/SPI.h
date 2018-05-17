@@ -1,12 +1,16 @@
 #pragma once
 #ifndef __AVR_ATmega328P__
-#define __AVR_ATmega328P__
+	#define __AVR_ATmega328P__
 #endif // !__AVR_ATmega328P__
 #include <avr/io.h>
+#include "mega328.h"
+
+using namespace BMCPP;
+using namespace AVR;
 
 //TODO get PORT via the UC class
-#define __SPI_PORT PORTB //0x05	 +0x00 ->  bei anderer Architektur evtl + 0x20
-#define __SPI_DDR DDRB	 //0x04	 s.o.
+uintptr_t* port = (uintptr_t*)(ATmega328_SPI_DataRegister::portb); //0x25
+uintptr_t* ddr = (uintptr_t*)(ATmega328_SPI_DataDirectionRegister::ddrb);
 constexpr uint8_t MOSI = 5;
 constexpr uint8_t MISO = 6;
 constexpr uint8_t SCK = 7;
@@ -41,10 +45,10 @@ void spi_init(uint8_t lsbfirst,
 	uint8_t clkrate,
 	uint8_t dblclk) {
 	//set outputs
-	__SPI_DDR |= ((1 << MOSI) | (1 << SCK));
+	*ddr |= ((1 << MOSI) | (1 << SCK));
 	//set inputs
-	__SPI_DDR &= ~(1 << MISO);
-	__SPI_PORT |= (1 << MISO); //turn on pull-up resistor
+	*ddr &= ~(1 << MISO);
+	*port |= (1 << MISO); //turn on pull-up resistor
 									 //set SPI control register
 	SPCR = (
 		(1 << SPE) | //enable SPI

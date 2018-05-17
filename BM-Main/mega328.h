@@ -26,8 +26,6 @@
 	# include <avr/io.h>
 #endif
 
-
-
 #include "register.h"
 
 namespace BMCPP
@@ -48,7 +46,8 @@ namespace BMCPP
                 DataRegister<Port, ReadOnly, uint8_t> in;
                 DataRegister<Port, ReadWrite, uint8_t> ddr;
                 DataRegister<Port, ReadWrite, uint8_t> out;
-                template<typename L> struct address;
+                template<typename L> 
+				struct address;
             };
 
             struct Timer8Bit {
@@ -97,7 +96,14 @@ namespace BMCPP
         {
              static constexpr uintptr_t value = 0x29;
         };
-        
+		enum class ATmega328_SPI_DataDirectionRegister : uintptr_t
+		{
+			ddrb = 0x24
+		};
+		enum class ATmega328_SPI_DataRegister : uintptr_t
+		{
+			portb = 0x25
+		};
         //Timer0
         template<>
         struct ATMega328::Timer8Bit::address<0> {
