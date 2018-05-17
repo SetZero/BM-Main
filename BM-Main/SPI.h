@@ -3,6 +3,7 @@
 	#define __AVR_ATmega328P__
 #endif // !__AVR_ATmega328P__
 #include <avr/io.h>
+#include <stdint.h>
 #include "mega328.h"
 
 using namespace BMCPP;
@@ -39,31 +40,42 @@ constexpr uint8_t DBLCLK_MASK = 0b00000001;
 //                    3      CPUCLK/128
 //  uint8_t dblclk - if 1: doubles the SPI clock rate in master mode
 //  EXAMPLE: spi_init(0, 1, 0, 3, 0)
-void spi_init(uint8_t lsbfirst,
-	uint8_t master,
-	uint8_t mode,
-	uint8_t clkrate,
-	uint8_t dblclk) {
-	//set outputs
-	*ddr |= ((1 << MOSI) | (1 << SCK));
-	//set inputs
-	*ddr &= ~(1 << MISO);
-	*port |= (1 << MISO); //turn on pull-up resistor
-									 //set SPI control register
-	SPCR = (
-		(1 << SPE) | //enable SPI
-		((lsbfirst & LSBFIRST_MASK) << DORD) | //set msb/lsb ordering
-		((master & MASTER_MASK) << MSTR) | //set master/slave mode
-		((mode & MODE_MASK) << CPHA) | //set mode
-		(clkrate & SPEED_MASK << SPR0) //set speed
-		);
-	//set double speed bit
-	SPSR = ((dblclk&DBLCLK_MASK) << SPI2X);
-}
 
+enum class Mode : uint8_t {
+	m0 = 0,
+	m1 = 1,
+	m2 = 2,
+	m3 = 3
+};
 
+enum class ClkRate : uint8_t {
+	 clkRateDiv4 = 0,
+	 clkRateDiv16 = 1,
+	 clkRateDiv64 = 2,
+	clkRateDiv128 = 3
+};
+
+ template<bool Master = true, bool lsbfirst = true, bool doubleSpeed = true, Mode mode, ClkRate clockRate> 
 struct SPI
 {
+		constexpr uint8_t master = Master ? 1 : 0;
+		constexpr uint8_t lsbFirst = lsbfirst ? 1 : 0;
+		//set outputs
+		constexpr ddr |= ((1 << MOSI) | (1 << SCK));
+		//set inputs
+		constexpr ddr &= ~(1 << MISO);
+		constexpr port |= (1 << MISO); //turn on pull-up resistor
+							  //set SPI control register
+		SPCR = (
+			(1 << SPE) | //enable SPI
+			((lsbfirst & LSBFIRST_MASK) << DORD) | //set msb/lsb ordering
+			((master & MASTER_MASK) << MSTR) | //set master/slave mode
+			((static_cast<uint8_t>(mode) & MODE_MASK) << CPHA) | //set mode
+			(static_cast<uint8_t>(clockRate) & SPEED_MASK << SPR0) //set speed
+			);
+		//set double speed bit
+		SPSR = ((dblclk&DBLCLK_MASK) << SPI2X);
+
 //shifts out 8 bits of data
 //  uint8_t data - the data to be shifted out
 //  returns uint8_t - the data received during sending

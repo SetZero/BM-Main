@@ -87,7 +87,7 @@ namespace BMCPP {
         private:
             volatile value_type hwRegister;
         };
-        template<typename Component, typename Mode = UnUsed, typename ValueType = std::byte, ValueType mask = ValueType{0xff}>
+        template<typename Component, typename Mode = UnUsed, typename ValueType = uint8_t, ValueType mask = ValueType{0xff}>
         struct DataRegister; // <> Unvollständige Deklaration des allg. Templates
         template<typename Component, typename ValueType, ValueType mask>
         struct DataRegister<Component, UnUsed, ValueType, mask> final   // <> Partielle Spezialisierung für `UnUsed`

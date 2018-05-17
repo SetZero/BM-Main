@@ -26,9 +26,6 @@
     <ClInclude Include="..\..\..\..\Documents\GitHub\BM-Code-Snippets\avr\register.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\Documents\GitHub\BM-Code-Snippets\avr\mega328.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
     <ClInclude Include="mega328.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>

@@ -6,8 +6,11 @@
 #include <avr\io.h>
 #include <util\delay.h>
 #include "Utils\Utils.h"
-#include "avr\mega328.h"
+#include "mega328.h"
 
+
+using namespace BMCPP;
+using namespace AVR;
 
 int main(){
 	constexpr bool x = utils::isEqual<int, int>::value;
@@ -18,6 +21,7 @@ int main(){
 	constexpr bool t = c1 < c2;
 	static_assert(t, "c1 was >= c2");
 	using erg = utils::minRequired<420>::type;
+
 	constexpr bool tttt = utils::isEqual<erg, short>::value;
 	static_assert(tttt, "??");
 	return 0;

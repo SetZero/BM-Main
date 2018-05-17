@@ -43,7 +43,7 @@ namespace BMCPP
             struct Port final
             {
                 Port() = delete;
-                DataRegister<Port, ReadOnly, uint8_t> in;
+				DataRegister<Port, ReadOnly, uint8_t> in;
                 DataRegister<Port, ReadWrite, uint8_t> ddr;
                 DataRegister<Port, ReadWrite, uint8_t> out;
                 template<typename L> 
@@ -71,10 +71,10 @@ namespace BMCPP
                     cs0 = (1 << CS00),
                 };
                 
-                using tccrb = ControlRegister<Timer8Bit, TCCRB>;
-                using tcnt = DataRegister<Timer8Bit, ReadWrite>;
-                using ocra = DataRegister<Timer8Bit, ReadWrite>;
-				using ocrb = DataRegister<Timer8Bit, ReadWrite>;
+                ControlRegister<Timer8Bit, TCCRB> tccrb;
+                DataRegister<Timer8Bit, ReadWrite, uint8_t> tcnt;
+                DataRegister<Timer8Bit, ReadWrite, uint8_t> ocra;
+				DataRegister<Timer8Bit, ReadWrite, uint8_t> ocrb;
                 template<int N> struct address;
             };
         
@@ -99,6 +99,14 @@ namespace BMCPP
 		enum class ATmega328_SPI_DataDirectionRegister : uintptr_t
 		{
 			ddrb = 0x24
+		};
+
+		template<typename L, uint8_t number>
+		struct PINS
+		{
+			static constexpr bool used = true;
+			static constexpr uint8_t num = number;
+			using port = L;
 		};
 		enum class ATmega328_SPI_DataRegister : uintptr_t
 		{
