@@ -115,7 +115,28 @@ namespace BMCPP
 			struct ADConverter {
 				static constexpr const uint8_t count = 5;
 
-				template<uint8_t adc> struct channel_select;
+				enum class ADMUX : uint8_t {
+					refs1 = (1 << REFS1),
+					refs0 = (1 << REFS0),
+					adlar = (1 << ADLAR),
+					mux3 = (1 << MUX3),
+					mux2 = (1 << MUX2),
+					mux1 = (1 << MUX1),
+					mux0 = (1 << MUX0),
+				};
+				ControlRegister<ADConverter, ADMUX> admux;
+
+				enum class ADCSRA : uint8_t {
+					aden = (1 << ADEN),
+					adsc = (1 << ADSC),
+					adfr = (1 << ADFR),
+					adif = (1 << ADIF),
+					adie = (1 << ADIE),
+					adps2 = (1 << ADPS2),
+					adps1 = (1 << ADPS1),
+					adps0 = (1 << ADPS0),
+				};
+				ControlRegister<ADConverter, ADCSRA> adcsra;
 			};
         
         } __attribute__((packed));
@@ -145,37 +166,6 @@ namespace BMCPP
         struct ATMega328::Timer8Bit::address<0> {
             static constexpr uint8_t value = 0x44;
         };
-        
-        //ADC
-		template<>
-		struct ATMega328::ADC::channel_select<0> {
-			static constexpr uint8_t value = 0b0000;
-		};
-
-		template<>
-		struct ATMega328::ADC::channel_select<1> {
-			static constexpr uint8_t value = 0b0001;
-		};
-
-		template<>
-		struct ATMega328::ADC::channel_select<2> {
-			static constexpr uint8_t value = 0b0010;
-		};
-
-		template<>
-		struct ATMega328::ADC::channel_select<3> {
-			static constexpr uint8_t value = 0b0011;
-		};
-
-		template<>
-		struct ATMega328::ADC::channel_select<4> {
-			static constexpr uint8_t value = 0b0100;
-		};
-
-		template<>
-		struct ATMega328::ADC::channel_select<5> {
-			static constexpr uint8_t value = 0b0101;
-		};
         
         template<typename Component, uint8_t N>
         constexpr Component* getAddress()
