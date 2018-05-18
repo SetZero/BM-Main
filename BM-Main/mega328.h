@@ -112,7 +112,7 @@ namespace BMCPP
                 template<int N> struct address;
             };
 
-			struct ADC {
+			struct ADConverter {
 				static constexpr const uint8_t count = 5;
 
 				template<uint8_t adc> struct channel_select;

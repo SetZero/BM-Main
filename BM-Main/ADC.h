@@ -10,13 +10,13 @@ namespace BMCPP
 		};
 
 		template<typename... ADCChannels, ADCMeasurementType measurement_type, uint8_t prescaler_value>
-		struct ADC final
+		struct ADConverter final
 		{
 			//TODO
 			template<typename Channel>
 			uint16_t getValue();
 
-			constexpr uint8_t get_prescaler_register() {
+			constexpr uint8_t get_prescaler_value() {
 				static_assert(prescaler_value >= 2 && prescaler_value <= 128, "Prescaler value has to be between 2 and 128!");
 				static_assert((prescaler_value & (prescaler_value - 1)) == 0, "Prescaler value is not a power of 2!");
 				switch (i) {
