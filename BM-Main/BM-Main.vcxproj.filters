@@ -18,6 +18,9 @@
     <ClCompile Include="main.cc">
       <Filter>Quelldateien</Filter>
     </ClCompile>
+    <ClCompile Include="AVR_concepts.cpp">
+      <Filter>Headerdateien</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SPI.h">
@@ -33,6 +36,9 @@
       <Filter>Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="ADC.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="hal\port.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
   </ItemGroup>

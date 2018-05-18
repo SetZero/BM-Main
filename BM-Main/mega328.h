@@ -27,6 +27,7 @@
 #endif
 
 #include "register.h"
+#include "Utils\Utils.h"
 
 namespace BMCPP
 {
@@ -34,23 +35,11 @@ namespace BMCPP
     {
 		//////////////////////////////////////////////////////////////////////////////////////
 		////PROTOTYP
-		template<typename... pins>
-		struct setUsedPins {
-			static_assert(utils::sameTypes(pins...) && utils::isEqual<utils::front<pins...>::type,PIN>::value,"wrong parameters, only PIN allowed");
-			using type = utils::list<pins>;
-		};
 
-		template<auto num, typename Port>
-		struct PIN {
-			constexpr auto number = num;
-			using port = Port;
-		};
-		template<typename AccessType, uintptr_t address, typename firstPin, typename... pins>
-		struct DataReg {
-			static_assert(utils::isEqual<firstPin, PIN>::value && utils::sameTypes(pins), "use Pin struct!");
-			using BitType = AccessType;
-			constexpr auto regAddress = address;
-			using Pins = utils::list<pins...>::type;
+		template<typename firstPin,typename... pins>
+		//requires BMCPP::Hal::(isPin<Pins>() && ...)
+		struct setUsedPins {
+			using type = typename utils::list<pins...>;
 		};
 		//////////////////////////////////////////////////////////////////////////////////////////////////////////
         struct A {};
@@ -69,25 +58,22 @@ namespace BMCPP
             struct Port final
             {
                 Port() = delete;
-				using in = DataRegister<Port, ReadOnly, uint8_t> ;
-                using ddr = DataRegister<Port, ReadWrite, uint8_t> ;
-                using out = DataRegister<Port, ReadWrite, uint8_t> ;
+				DataRegister<Port, ReadOnly, uint8_t> in;
+                DataRegister<Port, ReadWrite, uint8_t> ddr;
+                DataRegister<Port, ReadWrite, uint8_t> out;
                 template<typename L> 
 				struct address;
             };
-			/////////////////////////////////////////////////////////////////////////////////////////////////////////////
-			////    PROTOTYP
-			struct PortB final {
-				//PORTB
-				using out = DataReg <ReadWrite, 0x05, PIN<0,B>, PIN<1,B>, PIN<2,B>, PIN<3,B>, PIN<4,B>, PIN<5,B>, PIN<6,B>, PIN<7,B>>;
-				//PINB
-				using in = DataReg <ReadOnly, 0x03, PIN<0, B>, PIN<1, B>, PIN<2, B>, PIN<3, B>, PIN<4, B>, PIN<5, B>, PIN<6, B>, PIN<7, B>>;
-				//DDRB
-				using ddr = DataReg <ReadWrite, 0x04, PIN<0, B>, PIN<1, B>, PIN<2, B>, PIN<3, B>, PIN<4, B>, PIN<5, B>, PIN<6, B>, PIN<7, B>>;
-				//functions constexpr get pin..... no setpin(runtime)
-				//set usedPin
+
+			struct SPI
+			{
+				SPI() = delete;
+				ControlRegister<SPI, ReadWrite> spcr0;
+				ControlRegister<SPI, ReadWrite> spsr0;
+				DataRegister<SPI, ReadWrite> spdr0;
 			};
-			////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
             struct Timer8Bit {
                 static constexpr const uint8_t count = 2;
                 typedef uint8_t value_type;
@@ -119,6 +105,7 @@ namespace BMCPP
 			struct ADConverter {
 				static constexpr const uint8_t count = 5;
 
+
 				enum class ADMux : uint8_t {
 					refs1 = (1 << REFS1),
 					refs0 = (1 << REFS0),
@@ -130,7 +117,7 @@ namespace BMCPP
 				};
 				ControlRegister<ADConverter, ADMux> admux;
 
-				enum class ADCsra : uint8_t {
+				enum class ADCsra : uint8_t{
 					aden = (1 << ADEN),
 					adsc = (1 << ADSC),
 					adfr = (1 << ADATE),
@@ -140,6 +127,7 @@ namespace BMCPP
 					adps1 = (1 << ADPS1),
 					adps0 = (1 << ADPS0),
 				};
+
 				ControlRegister<ADConverter, ADCsra> adcsra;
 
 				enum class ADCsrb : uint8_t {
@@ -148,6 +136,7 @@ namespace BMCPP
 					adts1 = (1 << ADTS1),
 					adts0 = (1 << ADTS0),
 				};
+
 				ControlRegister<ADConverter, ADCsrb> adcsrb;
 
 				DataRegister<ADConverter, ReadOnly, uint8_t> adch;
@@ -159,7 +148,7 @@ namespace BMCPP
         
 		template<typename ATMega328>
 		struct setPin {
-			using type = A
+			using type = A;
 		};
 
         template<>

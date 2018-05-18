@@ -18,6 +18,7 @@
 #pragma once
 
 #include <type_traits>
+#include <stdint.h>
 
 namespace BMCPP {
     namespace AVR {

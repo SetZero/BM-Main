@@ -53,12 +53,14 @@ enum class ClkRate : uint8_t {
 	clkRateDiv128 = 3
 };
 
+
 //maybe: another template as parameter -> containing port and constants informaations (remove defines)
  template<Mode mode, ClkRate clockRate,uintptr_t portAddress, uintptr_t ddrAddress, bool Master = true, bool lsbfirst = true, bool doubleSpeed = true >
 struct SPI
 {
 	inline static constexpr  uintptr_t port = portAddress | (1 << MISO); 
-	inline static constexpr uintptr_t ddr = (ddrAddress | (((1 << MOSI) | (1 << SCK)))) & ~(1 << MISO);
+	inline static constexpr uintptr_t ddr = (ddrAddress | (((1 << MOSI) | (1 << SCK)))) 	  // set outputs
+		& ~(1 << MISO);			 //set inputs
 	static constexpr uint8_t master = Master ? 1 : 0;
 	static constexpr uint8_t lsbFirst = lsbfirst ? 1 : 0;
 	static constexpr uint8_t dblclk = doubleSpeed ? 1 : 0;
@@ -88,17 +90,17 @@ struct SPI
 //shifts out 8 bits of data
 //  uint8_t data - the data to be shifted out
 //  returns uint8_t - the data received during sending
-uint8_t spi_send(uint8_t value) {
-	uint8_t result;
+	static uint8_t spi_send(uint8_t value) {
+		uint8_t result;
 
-	//shift the first byte of the value
-	SPDR = value;
-	//wait for the SPI bus to finish
-	while (!(SPSR & (1 << SPIF)));
-	//get the received data
-	result = SPDR;
+		//shift the first byte of the value
+		SPDR = value;
+		//wait for the SPI bus to finish
+		while (!(SPSR & (1 << SPIF)));
+		//get the received data
+		result = SPDR;
 
-	return result;
-}
+		return result;
+	}
 
 };

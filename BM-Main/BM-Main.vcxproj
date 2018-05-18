@@ -99,10 +99,12 @@
   <ItemDefinitionGroup>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="AVR_concepts.cpp" />
     <ClCompile Include="main.cc" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ADC.h" />
+    <ClInclude Include="hal\port.h" />
     <ClInclude Include="mega328.h" />
     <ClInclude Include="register.h" />
     <ClInclude Include="SPI.h" />
