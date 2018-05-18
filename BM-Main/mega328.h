@@ -47,6 +47,10 @@ namespace BMCPP
         struct C {};
         struct D {};
         struct E {};
+
+		struct ADMultiplexer {};
+		struct ADCStatusRegisterA {};
+		struct ADCStatusRegisterB {};
 		
         struct ATMega328 final
         {
@@ -101,7 +105,11 @@ namespace BMCPP
 			struct ADConverter {
 				static constexpr const uint8_t count = 5;
 
+<<<<<<< HEAD
 				enum class admux : uint8_t {
+=======
+				enum class ADMux : uint8_t {
+>>>>>>> 4cfaff3177cd8cff7b9749a4159da178b059d7e1
 					refs1 = (1 << REFS1),
 					refs0 = (1 << REFS0),
 					adlar = (1 << ADLAR),
@@ -110,9 +118,15 @@ namespace BMCPP
 					mux1 = (1 << MUX1),
 					mux0 = (1 << MUX0),
 				};
+<<<<<<< HEAD
 				ControlRegister<ADConverter, admux> admux;
 
 				enum class adcsra : uint8_t {
+=======
+				ControlRegister<ADConverter, ADMux> admux;
+
+				enum class ADCsra : uint8_t {
+>>>>>>> 4cfaff3177cd8cff7b9749a4159da178b059d7e1
 					aden = (1 << ADEN),
 					adsc = (1 << ADSC),
 					adfr = (1 << ADATE),
@@ -122,7 +136,23 @@ namespace BMCPP
 					adps1 = (1 << ADPS1),
 					adps0 = (1 << ADPS0),
 				};
+<<<<<<< HEAD
 				ControlRegister<ADConverter, adcsra> adcsra;
+=======
+				ControlRegister<ADConverter, ADCsra> adcsra;
+
+				enum class ADCsrb : uint8_t {
+					acme = (1 << ACME),
+					adts2 = (1 << ADTS2),
+					adts1 = (1 << ADTS1),
+					adts0 = (1 << ADTS0),
+				};
+				ControlRegister<ADConverter, ADCsrb> adcsrb;
+
+				DataRegister<ADConverter, ReadOnly, uint8_t> adch;
+				DataRegister<ADConverter, ReadOnly, uint8_t> adcl;
+				template<typename register_name> struct address;
+>>>>>>> 4cfaff3177cd8cff7b9749a4159da178b059d7e1
 			};
         
         } __attribute__((packed));
@@ -152,6 +182,22 @@ namespace BMCPP
         struct ATMega328::Timer8Bit::address<0> {
             static constexpr uint8_t value = 0x44;
         };
+
+		//ADC
+		template<>
+		struct ATMega328::ADConverter::address<ADMultiplexer> {
+			static constexpr uintptr_t value = 0x7C;
+		};
+
+		template<>
+		struct ATMega328::ADConverter::address<ADCStatusRegisterA> {
+			static constexpr uintptr_t value = 0x7A;
+		};
+
+		template<>
+		struct ATMega328::ADConverter::address<ADCStatusRegisterB> {
+			static constexpr uintptr_t value = 0x7B;
+		};
         
         template<typename Component, uint8_t N>
         constexpr Component* getAddress()
