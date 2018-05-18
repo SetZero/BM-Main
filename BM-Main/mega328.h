@@ -58,6 +58,9 @@ namespace BMCPP
         struct C {};
         struct D {};
         struct E {};
+
+		struct ADMultiplexer {};
+		struct ADCStatusRegisterA {};
 		
         struct ATMega328 final
         {
@@ -115,7 +118,7 @@ namespace BMCPP
 			struct ADConverter {
 				static constexpr const uint8_t count = 5;
 
-				enum class ADMUX : uint8_t {
+				enum class ADMux : uint8_t {
 					refs1 = (1 << REFS1),
 					refs0 = (1 << REFS0),
 					adlar = (1 << ADLAR),
@@ -124,22 +127,22 @@ namespace BMCPP
 					mux1 = (1 << MUX1),
 					mux0 = (1 << MUX0),
 				};
-				ControlRegister<ADConverter, ADMUX> admux;
+				ControlRegister<ADConverter, ADMux> admux;
 
-				enum class ADCSRA : uint8_t {
+				enum class ADCsra : uint8_t {
 					aden = (1 << ADEN),
 					adsc = (1 << ADSC),
-					adfr = (1 << ADFR),
+					adfr = (1 << ADATE),
 					adif = (1 << ADIF),
 					adie = (1 << ADIE),
 					adps2 = (1 << ADPS2),
 					adps1 = (1 << ADPS1),
 					adps0 = (1 << ADPS0),
 				};
-				ControlRegister<ADConverter, ADCSRA> adcsra;
+				ControlRegister<ADConverter, ADCsra> adcsra;
 				DataRegister<ADConverter, ReadOnly, uint8_t> adch;
 				DataRegister<ADConverter, ReadOnly, uint8_t> adcl;
-				template<int N> struct address;
+				template<typename register_name> struct address;
 			};
         
         } __attribute__((packed));
@@ -173,13 +176,13 @@ namespace BMCPP
 		//ADC
 		//ADCL
 		template<>
-		struct ATMega328::ADConverter::address<0> {
-			static constexpr uint8_t value = 0x78;
+		struct ATMega328::ADConverter::address<ADMultiplexer> {
+			static constexpr uintptr_t value = 0x7C;
 		};
 		//ADCH
 		template<>
-		struct ATMega328::ADConverter::address<0> {
-			static constexpr uint8_t value = 0x79;
+		struct ATMega328::ADConverter::address<ADCStatusRegisterA> {
+			static constexpr uintptr_t value = 0x79;
 		};
         
         template<typename Component, uint8_t N>
