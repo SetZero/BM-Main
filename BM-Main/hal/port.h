@@ -18,41 +18,32 @@
 
 #pragma once
 
-#include <cstdint>
-#include <cstddef>
+#include <stdint.h>
 
 #include <meta/meta.h>
+#include "avr\mega328.h"
 
 namespace BMCPP {
     namespace Hal {
         struct Output {};
         struct Input {};
+       
         
-        template<typename T>
-        concept bool isPin() {
-            return requires(T t) {
-                typename T::port_type;
-                T::on();
-                T::off();
-                T::number;
-                T::template dir<Output>();
-            };
-        }
-        
-        template<typename PortName>
+        template<typename PortName, typename PORT>
+		
         class Port {
             Port() = delete;
-            static inline constexpr auto port = BMCPP::AVR::getAddress<BMCPP::AVR::ATMega328::Port, PortName>;
+            static inline constexpr auto port = PORT;
         public:
             typedef PortName portname_type;
             
-            static volatile std::byte& ddr() {
+            static volatile uint8_t& ddr() {
                 return *port()->ddr;
             }
-            static volatile std::byte& get() {
+            static volatile uint8_t& get() {
                 return *port()->out;
             }
-            static volatile std::byte& read() {
+            static volatile uint8_t& read() {
                 return *port()->in;
             }
         };
@@ -87,9 +78,11 @@ namespace BMCPP {
         };
         
         template<typename... Pins>
-        requires (sizeof...(Pins) >= 1) && (sizeof...(Pins) <= 8) && 
-        (std::is_same<typename Meta::front<Meta::List<Pins...>>::port_type, typename Pins::port_type>::value && ...) &&
-        (isPin<Pins>() && ...)
+        requires 
+			(sizeof...(Pins) >= 1) && 
+			(sizeof...(Pins) <= 8) && 
+			(std::is_same<typename Meta::front<Meta::List<Pins...>>::port_type, typename Pins::port_type>::value && ...) &&
+			(isPin<Pins>() && ...)
         class PinSet {
             PinSet() = delete;
             static_assert(sizeof...(Pins) >= 1);

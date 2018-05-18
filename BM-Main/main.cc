@@ -21,7 +21,9 @@ int main(){
 	constexpr double c2 = utils::integralConstant<int, 4>::value;
 	constexpr bool t = c1 < c2;
 	static_assert(t, "c1 was >= c2");
+
 	using erg = utils::minRequired<420>::type;
+	static_assert(utils::sameTypes<int, int, int>(), "");
 	using spiComp = SPI<Mode::m0, ClkRate::clkRateDiv4,0x2b,0x2C>;
 	constexpr bool tttt = utils::isEqual<erg, short>::value;
 	static_assert(tttt, "??");
