@@ -137,6 +137,9 @@ namespace BMCPP
 					adps0 = (1 << ADPS0),
 				};
 				ControlRegister<ADConverter, ADCSRA> adcsra;
+				DataRegister<ADConverter, ReadOnly, uint8_t> adch;
+				DataRegister<ADConverter, ReadOnly, uint8_t> adcl;
+				template<int N> struct address;
 			};
         
         } __attribute__((packed));
@@ -166,6 +169,18 @@ namespace BMCPP
         struct ATMega328::Timer8Bit::address<0> {
             static constexpr uint8_t value = 0x44;
         };
+
+		//ADC
+		//ADCL
+		template<>
+		struct ATMega328::ADConverter::address<0> {
+			static constexpr uint8_t value = 0x78;
+		};
+		//ADCH
+		template<>
+		struct ATMega328::ADConverter::address<0> {
+			static constexpr uint8_t value = 0x79;
+		};
         
         template<typename Component, uint8_t N>
         constexpr Component* getAddress()
