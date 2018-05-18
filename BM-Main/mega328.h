@@ -32,25 +32,58 @@ namespace BMCPP
 {
     namespace AVR
     {
-		//modelling ports and pins: use tl for used pins
+		//////////////////////////////////////////////////////////////////////////////////////
+		////PROTOTYP
+		template<typename... pins>
+		struct setUsedPins {
+			static_assert(utils::sameTypes(pins...) && utils::isEqual<utils::front<pins...>::type,PIN>::value,"wrong parameters, only PIN allowed");
+			using type = utils::list<pins>;
+		};
+
+		template<auto num, typename Port>
+		struct PIN {
+			constexpr auto number = num;
+			using port = Port;
+		};
+		template<typename AccessType, uintptr_t address, typename firstPin, typename... pins>
+		struct DataReg {
+			static_assert(utils::isEqual<firstPin, PIN>::value && utils::sameTypes(pins), "use Pin struct!");
+			using BitType = AccessType;
+			constexpr auto regAddress = address;
+			using Pins = utils::list<pins...>::type;
+		};
+		//////////////////////////////////////////////////////////////////////////////////////////////////////////
         struct A {};
         struct B {};
         struct C {};
         struct D {};
         struct E {};
+		
         struct ATMega328 final
         {
             ATMega328() = delete;
             struct Port final
             {
                 Port() = delete;
-				DataRegister<Port, ReadOnly, uint8_t> in;
-                DataRegister<Port, ReadWrite, uint8_t> ddr;
-                DataRegister<Port, ReadWrite, uint8_t> out;
+				using in = DataRegister<Port, ReadOnly, uint8_t> ;
+                using ddr = DataRegister<Port, ReadWrite, uint8_t> ;
+                using out = DataRegister<Port, ReadWrite, uint8_t> ;
                 template<typename L> 
 				struct address;
             };
-
+			/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+			////    PROTOTYP
+			struct PortB final {
+				//PORTB
+				using out = DataReg <ReadWrite, 0x05, PIN<0,B>, PIN<1,B>, PIN<2,B>, PIN<3,B>, PIN<4,B>, PIN<5,B>, PIN<6,B>, PIN<7,B>>;
+				//PINB
+				using in = DataReg <ReadOnly, 0x03, PIN<0, B>, PIN<1, B>, PIN<2, B>, PIN<3, B>, PIN<4, B>, PIN<5, B>, PIN<6, B>, PIN<7, B>>;
+				//DDRB
+				using ddr = DataReg <ReadWrite, 0x04, PIN<0, B>, PIN<1, B>, PIN<2, B>, PIN<3, B>, PIN<4, B>, PIN<5, B>, PIN<6, B>, PIN<7, B>>;
+				//functions constexpr get pin..... no setpin(runtime)
+				//set usedPin
+			};
+			////////////////////////////////////////////////////////////////////////////////////////////////////////////////
             struct Timer8Bit {
                 static constexpr const uint8_t count = 2;
                 typedef uint8_t value_type;
@@ -82,6 +115,11 @@ namespace BMCPP
         
         } __attribute__((packed));
         
+		template<typename ATMega328>
+		struct setPin {
+			using type = A
+		};
+
         template<>
         struct ATMega328::Port::address<B>
         {
@@ -97,22 +135,6 @@ namespace BMCPP
         {
              static constexpr uintptr_t value = 0x29;
         };
-		enum class ATmega328_SPI_DataDirectionRegister : uintptr_t
-		{
-			ddrb = 0x24
-		};
-
-		template<typename L, uint8_t number>
-		struct PINS
-		{
-			static constexpr bool used = true;
-			static constexpr uint8_t num = number;
-			using port = L;
-		};
-		enum class ATmega328_SPI_DataRegister : uintptr_t
-		{
-			portb = 0x25
-		};
         //Timer0
         template<>
         struct ATMega328::Timer8Bit::address<0> {

@@ -53,6 +53,7 @@ enum class ClkRate : uint8_t {
 	clkRateDiv128 = 3
 };
 
+//maybe: another template as parameter -> containing port and constants informaations (remove defines)
  template<Mode mode, ClkRate clockRate,uintptr_t portAddress, uintptr_t ddrAddress, bool Master = true, bool lsbfirst = true, bool doubleSpeed = true >
 struct SPI
 {

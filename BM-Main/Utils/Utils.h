@@ -156,8 +156,14 @@ namespace utils {
 		static constexpr bool value = details::isUnsigned<T>::value;
 	};
 
-	template<typename first,typename ...T>
+
+	template<typename ...T>
 	struct list {
+		static constexpr auto size = sizeof...(T)+1;
+	};
+	 //to test if this change will cause bugs or other problems
+	template<typename first, typename ...T>
+	struct list<first, T...> {
 		static constexpr auto size = sizeof...(T)+1;
 	};
 
