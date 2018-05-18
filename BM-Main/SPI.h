@@ -10,8 +10,6 @@ using namespace BMCPP;
 using namespace AVR;
 
 //TODO get PORT via the UC class
-uintptr_t* port = (uintptr_t*)(ATmega328_SPI_DataRegister::portb); //0x25
-uintptr_t* ddr = (uintptr_t*)(ATmega328_SPI_DataDirectionRegister::ddrb);
 constexpr uint8_t MOSI = 5;
 constexpr uint8_t MISO = 6;
 constexpr uint8_t SCK = 7;
@@ -55,26 +53,36 @@ enum class ClkRate : uint8_t {
 	clkRateDiv128 = 3
 };
 
- template<bool Master = true, bool lsbfirst = true, bool doubleSpeed = true, Mode mode, ClkRate clockRate> 
+ template<Mode mode, ClkRate clockRate,uintptr_t portAddress, uintptr_t ddrAddress, bool Master = true, bool lsbfirst = true, bool doubleSpeed = true >
 struct SPI
 {
-		constexpr uint8_t master = Master ? 1 : 0;
-		constexpr uint8_t lsbFirst = lsbfirst ? 1 : 0;
+	inline static constexpr  uintptr_t port = portAddress | (1 << MISO); 
+	inline static constexpr uintptr_t ddr = (ddrAddress | (((1 << MOSI) | (1 << SCK)))) & ~(1 << MISO);
+	static constexpr uint8_t master = Master ? 1 : 0;
+	static constexpr uint8_t lsbFirst = lsbfirst ? 1 : 0;
+	static constexpr uint8_t dblclk = doubleSpeed ? 1 : 0;
+	static constexpr uint8_t modeB = static_cast<uint8_t> (mode);
+	static constexpr uint8_t clockRateB = static_cast<uint8_t> (clockRate);
+	static constexpr uint8_t spcr = (
+		(1 << SPE) | //enable SPI
+		((lsbFirst & LSBFIRST_MASK) << DORD) | //set msb/lsb ordering
+		((master & MASTER_MASK) << MSTR) | //set master/slave mode
+		((modeB & MODE_MASK) << CPHA) | //set mode
+		(clockRateB & SPEED_MASK << SPR0) //set speed
+		);
+	static constexpr uint8_t clockspeed = ((dblclk&DBLCLK_MASK) << SPI2X);
+		//static volatile constexpr auto spcr = SPCR
 		//set outputs
-		constexpr ddr |= ((1 << MOSI) | (1 << SCK));
+		//constexpr ddr |= ((1 << MOSI) | (1 << SCK));
 		//set inputs
-		constexpr ddr &= ~(1 << MISO);
-		constexpr port |= (1 << MISO); //turn on pull-up resistor
+		//constexpr ddr &= ~(1 << MISO);
+		//constexpr port |= (1 << MISO); //turn on pull-up resistor
 							  //set SPI control register
-		SPCR = (
-			(1 << SPE) | //enable SPI
-			((lsbfirst & LSBFIRST_MASK) << DORD) | //set msb/lsb ordering
-			((master & MASTER_MASK) << MSTR) | //set master/slave mode
-			((static_cast<uint8_t>(mode) & MODE_MASK) << CPHA) | //set mode
-			(static_cast<uint8_t>(clockRate) & SPEED_MASK << SPR0) //set speed
-			);
-		//set double speed bit
-		SPSR = ((dblclk&DBLCLK_MASK) << SPI2X);
+		static void init() {
+			SPCR = spcr;
+			//set double speed bit
+			SPSR = clockspeed;
+		}
 
 //shifts out 8 bits of data
 //  uint8_t data - the data to be shifted out

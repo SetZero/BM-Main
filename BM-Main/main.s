@@ -69,7 +69,7 @@ main:
 /* frame size = 0 */
 /* stack size = 0 */
 .L__stack_usage = 0
- ;  main.cc:28: }															   
+ ;  main.cc:29: }															   
 	ldi r25,0	 ; 
 	ldi r24,0	 ; 
 /* epilogue start */

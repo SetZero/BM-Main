@@ -32,6 +32,7 @@ namespace BMCPP
 {
     namespace AVR
     {
+		//modelling ports and pins: use tl for used pins
         struct A {};
         struct B {};
         struct C {};
