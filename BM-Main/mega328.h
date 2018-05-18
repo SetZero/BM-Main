@@ -61,20 +61,15 @@ namespace BMCPP
 				struct address;
             };
 
-			/////////////////////////////////////////////////////////////////////////////////////////////////////////////
-			////    PROTOTYP  
-			/*
-			struct PortB final {
-				//PORTB
-				using out = DataReg <ReadWrite, 0x05, PIN<0,B>, PIN<1,B>, PIN<2,B>, PIN<3,B>, PIN<4,B>, PIN<5,B>, PIN<6,B>, PIN<7,B>>;
-				//PINB
-				using in = DataReg <ReadOnly, 0x03, PIN<0, B>, PIN<1, B>, PIN<2,B>, PIN<3, B>, PIN<4, B>, PIN<5, B>, PIN<6, B>, PIN<7, B>>;
-				//DDRB
-				using ddr = DataReg <ReadWrite, 0x04, PIN<0, B>, PIN<1, B>, PIN<2,B>, PIN<3, B>, PIN<4, B>, PIN<5, B>, PIN<6, B>, PIN<7, B>>;
-				//functions constexpr get pin..... no setpin(runtime)
-				//set usedPin
-			};		   */
-			////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+			struct SPI
+			{
+				SPI() = delete;
+				ControlRegister<SPI, ReadWrite> spcr0;
+				ControlRegister<SPI, ReadWrite> spsr0;
+				DataRegister<SPI, ReadWrite> spdr0;
+			};
+
+
             struct Timer8Bit {
                 static constexpr const uint8_t count = 2;
                 typedef uint8_t value_type;
@@ -102,10 +97,32 @@ namespace BMCPP
 				DataRegister<Timer8Bit, ReadWrite, uint8_t> ocrb;
                 template<int N> struct address;
             };
-			struct afd {
+
+			struct ADConverter {
 				static constexpr const uint8_t count = 5;
 
-				template<uint8_t adc> struct channel_select;
+				enum class admux : uint8_t {
+					refs1 = (1 << REFS1),
+					refs0 = (1 << REFS0),
+					adlar = (1 << ADLAR),
+					mux3 = (1 << MUX3),
+					mux2 = (1 << MUX2),
+					mux1 = (1 << MUX1),
+					mux0 = (1 << MUX0),
+				};
+				ControlRegister<ADConverter, admux> admux;
+
+				enum class adcsra : uint8_t {
+					aden = (1 << ADEN),
+					adsc = (1 << ADSC),
+					adfr = (1 << ADATE),
+					adif = (1 << ADIF),
+					adie = (1 << ADIE),
+					adps2 = (1 << ADPS2),
+					adps1 = (1 << ADPS1),
+					adps0 = (1 << ADPS0),
+				};
+				ControlRegister<ADConverter, adcsra> adcsra;
 			};
         
         } __attribute__((packed));
@@ -136,39 +153,6 @@ namespace BMCPP
             static constexpr uint8_t value = 0x44;
         };
         
-        //ADC
-		/*
-		template<>
-		struct ATMega328::ADC::channel_select<0> {
-			static constexpr uint8_t value = 0b0000;
-		};
-
-		template<>
-		struct ATMega328::ADC::channel_select<1> {
-			static constexpr uint8_t value = 0b0001;
-		};
-
-		template<>
-		struct ATMega328::ADC::channel_select<2> {
-			static constexpr uint8_t value = 0b0010;
-		};
-
-		template<>
-		struct ATMega328::ADC::channel_select<3> {
-			static constexpr uint8_t value = 0b0011;
-		};
-
-		template<>
-		struct ATMega328::ADC::channel_select<4> {
-			static constexpr uint8_t value = 0b0100;
-		};
-
-		template<>
-		struct ATMega328::ADC::channel_select<5> {
-			static constexpr uint8_t value = 0b0101;
-		};
-        
-		*/
         template<typename Component, uint8_t N>
         constexpr Component* getAddress()
         {

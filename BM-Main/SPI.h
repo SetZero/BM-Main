@@ -53,13 +53,6 @@ enum class ClkRate : uint8_t {
 	clkRateDiv128 = 3
 };
 
-template<typename spPort, uint8_t spe, uint8_t dord, uint8_t mstr, uint8_t cpha	 , uint8_t spr0>
-struct spiConsts
-{
-	static constexpr uintptr_t controlRegAddress = static_cast<uintptr_t>(spPort::ddr::address);
-	static constexpr uintptr_t speedRegAddress = static_cast<uintptr_t>(spPort::in::address);
-	static constexpr uintptr_t dataRegAddress = static_cast<uintptr_t>(spPort::out::address);
-};
 
 //maybe: another template as parameter -> containing port and constants informaations (remove defines)
  template<Mode mode, ClkRate clockRate,uintptr_t portAddress, uintptr_t ddrAddress, bool Master = true, bool lsbfirst = true, bool doubleSpeed = true >
