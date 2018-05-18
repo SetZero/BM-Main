@@ -111,7 +111,11 @@ namespace BMCPP
 				DataRegister<Timer8Bit, ReadWrite, uint8_t> ocrb;
                 template<int N> struct address;
             };
-        
+			struct ADC {
+				static constexpr const uint8_t count = 5;
+
+				template<uint8_t adc> struct channel_select;
+			};
         
         } __attribute__((packed));
         
@@ -141,7 +145,36 @@ namespace BMCPP
             static constexpr uint8_t value = 0x44;
         };
         
-        
+        //ADC
+		template<>
+		struct ATMega328::ADC::channel_select<0> {
+			static constexpr uint8_t value = 0b0000;
+		};
+
+		template<>
+		struct ATMega328::ADC::channel_select<1> {
+			static constexpr uint8_t value = 0b0001;
+		};
+
+		template<>
+		struct ATMega328::ADC::channel_select<2> {
+			static constexpr uint8_t value = 0b0010;
+		};
+
+		template<>
+		struct ATMega328::ADC::channel_select<3> {
+			static constexpr uint8_t value = 0b0011;
+		};
+
+		template<>
+		struct ATMega328::ADC::channel_select<4> {
+			static constexpr uint8_t value = 0b0100;
+		};
+
+		template<>
+		struct ATMega328::ADC::channel_select<5> {
+			static constexpr uint8_t value = 0b0101;
+		};
         
         template<typename Component, uint8_t N>
         constexpr Component* getAddress()

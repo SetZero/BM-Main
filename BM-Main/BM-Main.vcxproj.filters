@@ -23,13 +23,16 @@
     <ClInclude Include="SPI.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\Documents\GitHub\BM-Code-Snippets\avr\register.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
     <ClInclude Include="mega328.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="Utils\Utils.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="register.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="ADC.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
   </ItemGroup>

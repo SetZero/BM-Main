@@ -101,8 +101,9 @@
     <ClCompile Include="main.cc" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\..\Documents\GitHub\BM-Code-Snippets\avr\register.h" />
+    <ClInclude Include="ADC.h" />
     <ClInclude Include="mega328.h" />
+    <ClInclude Include="register.h" />
     <ClInclude Include="SPI.h" />
     <ClInclude Include="Utils\Utils.h" />
   </ItemGroup>

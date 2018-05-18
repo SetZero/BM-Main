@@ -1,10 +1,114 @@
 ﻿  avr-g++ -MM -MG -DF_CPU=16000000 -I./include -mmcu=atmega328p -Wall -Wextra -Wconversion -std=c++17 -Os -fconcepts  -fno-exceptions -fno-unwind-tables -fno-rtti -fno-threadsafe-statics  -funsigned-char -funsigned-bitfields -fshort-enums  main.cc | sed "s/main\.o/& main.d/g" > main.d
   avr-g++ -mmcu=atmega328p -Wall -Wextra -Wconversion -std=c++17 -Os -fconcepts  -fno-exceptions -fno-unwind-tables -fno-rtti -fno-threadsafe-statics  -funsigned-char -funsigned-bitfields -fshort-enums  -DF_CPU=16000000 -I./include  -c -o main.o main.cc
-  main.cc: In function 'int main()':
-main.cc(25,63): warning GA3802964: typedef 'using spiComp = struct SPI<(Mode)0, (ClkRate)0, 43, 44>' locally defined but not used [-Wunused-local-typedefs]
-    using spiComp = SPI<Mode::m0, ClkRate::clkRateDiv4,0x2b,0x2C>;
-                                                                 ^
-  avr-gcc -mmcu=atmega328p -Wall -Wextra -Wconversion -std=c11 -Os   -DF_CPU=16000000 -I./include  -Wl,-Map=main.map,--cref  "-Wl,--section-start=.mmcu=0x910000"  -o main.elf main.o
-  ECHO ist ausgeschaltet (OFF).
-  Creating load file for Flash: main.hex
-  avr-objcopy -O ihex -R .flash main.elf main.hex
+  In file included from main.cc:9:
+mega328.h(39,39): error GFD5528CD: expected primary-expression before '...' token
+      static_assert(utils::sameTypes(pins...) && utils::isEqual<utils::front<pins...>::type,PIN>::value,"wrong parameters, only PIN allowed");
+                                         ^~~
+mega328.h(39,90): error G9DF6FDE4: 'PIN' was not declared in this scope
+      static_assert(utils::sameTypes(pins...) && utils::isEqual<utils::front<pins...>::type,PIN>::value,"wrong parameters, only PIN allowed");
+                                                                                            ^~~
+  mega328.h:39:90: note: suggested alternative: 'PIN0'
+      static_assert(utils::sameTypes(pins...) && utils::isEqual<utils::front<pins...>::type,PIN>::value,"wrong parameters, only PIN allowed");
+                                                                                            ^~~
+                                                                                            PIN0
+mega328.h(39,93): error GAB7289CA: type/value mismatch at argument 1 in template parameter list for 'template<class T, class O> struct utils::isEqual'
+      static_assert(utils::sameTypes(pins...) && utils::isEqual<utils::front<pins...>::type,PIN>::value,"wrong parameters, only PIN allowed");
+                                                                                               ^
+  mega328.h:39:93: note:   expected a type, got 'utils::front<pins ...>::type'
+mega328.h(39,93): error G9D3E4D10: template argument 2 is invalid
+  In file included from main.cc:9:
+mega328.h(40,34): error GE5C2EDC9: parameter packs not expanded with '...':
+      using type = utils::list<pins>;
+                                    ^
+  mega328.h:40:34: note:         'pins'
+mega328.h(45,14): error G612FD29E: non-static data member declared with placeholder 'const auto'
+      constexpr auto number = num;
+                ^~~~
+mega328.h(45,28): error G152F1424: non-static data member 'number' declared 'constexpr'
+      constexpr auto number = num;
+                              ^~~
+mega328.h(50,46): error G28DA4653: type/value mismatch at argument 2 in template parameter list for 'template<class T, class O> struct utils::isEqual'
+      static_assert(utils::isEqual<firstPin, PIN>::value && utils::sameTypes(pins), "use Pin struct!");
+                                                ^
+  mega328.h:50:46: note:   expected a type, got 'PIN'
+mega328.h(50,79): error GFD5528CD: expected primary-expression before ')' token
+      static_assert(utils::isEqual<firstPin, PIN>::value && utils::sameTypes(pins), "use Pin struct!");
+                                                                                 ^
+mega328.h(52,14): error G612FD29E: non-static data member declared with placeholder 'const auto'
+      constexpr auto regAddress = address;
+                ^~~~
+mega328.h(52,32): error G152F1424: non-static data member 'regAddress' declared 'constexpr'
+      constexpr auto regAddress = address;
+                                  ^~~~~~~
+mega328.h(53,17): error G5CB07A89: need 'typename' before 'utils::list<pins ...>::type' because 'utils::list<pins ...>' is a dependent scope
+      using Pins = utils::list<pins...>::type;
+                   ^~~~~
+  In file included from e:\programme\avr-gcc\avr\include\avr\io.h:99,
+                   from main.cc:6:
+mega328.h(114,11): error G104D88E2: expected identifier before '(' token
+      struct ADC {
+             ^~~
+mega328.h(114,11): error G49BDF932: expected unqualified-id before 'volatile'
+      struct ADC {
+             ^~~
+mega328.h(114,11): error GC66A3811: expected ')' before 'volatile'
+mega328.h(114,11): error GC66A3811: expected ')' before 'volatile'
+  In file included from main.cc:9:
+mega328.h(124,18): error GC66A3811: expected ';' before '}' token
+      using type = A
+                    ^
+                    ;
+     };
+     ~               
+  In file included from e:\programme\avr-gcc\avr\include\avr\io.h:99,
+                   from main.cc:6:
+mega328.h(150,21): error G104D88E2: expected identifier before '(' token
+     struct ATMega328::ADC::channel_select<0> {
+                       ^~~
+mega328.h(150,21): error G49BDF932: expected unqualified-id before 'volatile'
+     struct ATMega328::ADC::channel_select<0> {
+                       ^~~
+mega328.h(150,21): error GC66A3811: expected ')' before 'volatile'
+mega328.h(150,21): error GC66A3811: expected ')' before 'volatile'
+mega328.h(155,21): error G104D88E2: expected identifier before '(' token
+     struct ATMega328::ADC::channel_select<1> {
+                       ^~~
+mega328.h(155,21): error G49BDF932: expected unqualified-id before 'volatile'
+     struct ATMega328::ADC::channel_select<1> {
+                       ^~~
+mega328.h(155,21): error GC66A3811: expected ')' before 'volatile'
+mega328.h(155,21): error GC66A3811: expected ')' before 'volatile'
+mega328.h(160,21): error G104D88E2: expected identifier before '(' token
+     struct ATMega328::ADC::channel_select<2> {
+                       ^~~
+mega328.h(160,21): error G49BDF932: expected unqualified-id before 'volatile'
+     struct ATMega328::ADC::channel_select<2> {
+                       ^~~
+mega328.h(160,21): error GC66A3811: expected ')' before 'volatile'
+mega328.h(160,21): error GC66A3811: expected ')' before 'volatile'
+mega328.h(165,21): error G104D88E2: expected identifier before '(' token
+     struct ATMega328::ADC::channel_select<3> {
+                       ^~~
+mega328.h(165,21): error G49BDF932: expected unqualified-id before 'volatile'
+     struct ATMega328::ADC::channel_select<3> {
+                       ^~~
+mega328.h(165,21): error GC66A3811: expected ')' before 'volatile'
+mega328.h(165,21): error GC66A3811: expected ')' before 'volatile'
+mega328.h(170,21): error G104D88E2: expected identifier before '(' token
+     struct ATMega328::ADC::channel_select<4> {
+                       ^~~
+mega328.h(170,21): error G49BDF932: expected unqualified-id before 'volatile'
+     struct ATMega328::ADC::channel_select<4> {
+                       ^~~
+mega328.h(170,21): error GC66A3811: expected ')' before 'volatile'
+mega328.h(170,21): error GC66A3811: expected ')' before 'volatile'
+mega328.h(175,21): error G104D88E2: expected identifier before '(' token
+     struct ATMega328::ADC::channel_select<5> {
+                       ^~~
+mega328.h(175,21): error G49BDF932: expected unqualified-id before 'volatile'
+     struct ATMega328::ADC::channel_select<5> {
+                       ^~~
+mega328.h(175,21): error GC66A3811: expected ')' before 'volatile'
+mega328.h(175,21): error GC66A3811: expected ')' before 'volatile'
+  make: *** [<builtin>: main.o] Error 1
+C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\VC\VCTargets\Microsoft.MakeFile.Targets(44,5): error MSB3073: Der Befehl "make" wurde mit dem Code 2 beendet.
