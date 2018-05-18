@@ -111,6 +111,7 @@ namespace BMCPP
 				DataRegister<Timer8Bit, ReadWrite, uint8_t> ocrb;
                 template<int N> struct address;
             };
+
 			struct ADC {
 				static constexpr const uint8_t count = 5;
 
