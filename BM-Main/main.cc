@@ -30,11 +30,14 @@ int main(){
 	constexpr bool tttt = utils::isEqual<erg, short>::value;
 	static_assert(tttt, "??");	 */
 	volatile uintptr_t* PortB = (uintptr_t*)0x25;
+	using spi0 = spi::SPI<spi::Mode::m0, spi::ClkRate::clkRateDiv4, 0x25, 0x26>;
+	spi0::init();
 	while (true) {
 		volatile uintptr_t* pbadr = (uintptr_t*)BMCPP::AVR::getAddress<BMCPP::AVR::ATMega328::Port, BMCPP::AVR::B>();
 		//using outB = BMCPP::Hal::Port<BMCPP::Hal::Output,BMCPP::AVR::ATMega328::Port>;
 		*pbadr ^= (1 << 3);
 		_delay_ms(500);
+		spi0::spi_send(0);
 	}
 	return 0;
 }															   

@@ -69,8 +69,18 @@ main:
 /* frame size = 0 */
 /* stack size = 0 */
 .L__stack_usage = 0
-.L2:
- ;  main.cc:36: 		*pbadr ^= (1 << 3);
+ ;  SPI.h:87: 			*spcr_adr = spcr;
+	ldi r24,lo8(117)	 ;  tmp49,
+	ldi r25,0	 ; 
+	out 0x2c+1,r25	 ;  MEM[(volatile uintptr_t *)76B], tmp49
+	out 0x2c,r24	 ;  MEM[(volatile uintptr_t *)76B], tmp49
+ ;  SPI.h:90: 			*spsr_adr = clockspeed;
+	ldi r24,lo8(2)	 ;  tmp51,
+	ldi r25,0	 ; 
+	out 0x2d+1,r25	 ;  MEM[(volatile uintptr_t *)77B], tmp51
+	out 0x2d,r24	 ;  MEM[(volatile uintptr_t *)77B], tmp51
+.L3:
+ ;  main.cc:38: 		*pbadr ^= (1 << 3);
 	in r24,0x3	 ;  _1, MEM[(volatile uintptr_t *)35B]
 	in r25,0x3+1	 ;  _1, MEM[(volatile uintptr_t *)35B]
 	ldi r18,8	 ; ,
@@ -87,6 +97,18 @@ main:
 	brne 1b
 	rjmp .
 	nop
+ ;  SPI.h:101: 			*spdr_adr = value;
+	out 0x2e+1,__zero_reg__	 ;  MEM[(volatile uintptr_t *)78B],
+	out 0x2e,__zero_reg__	 ;  MEM[(volatile uintptr_t *)78B],
+.L2:
+ ;  SPI.h:103: 			while (!(*spsr_adr & (static_cast<uint8_t>(BMCPP::AVR::ATMega328::SPI::spsr::SPIF0))));
+	in r24,0x2d	 ;  _9, MEM[(volatile uintptr_t *)77B]
+	in r25,0x2d+1	 ;  _9, MEM[(volatile uintptr_t *)77B]
+	sbrs r24,7	 ;  _9,
 	rjmp .L2	 ; 
+ ;  SPI.h:105: 			result = *spdr_adr;
+	in r24,0x2e	 ;  result, MEM[(volatile uintptr_t *)78B]
+	in r25,0x2e+1	 ;  result, MEM[(volatile uintptr_t *)78B]
+	rjmp .L3	 ; 
 	.size	main, .-main
 	.ident	"GCC: (GNU) 7.3.0"

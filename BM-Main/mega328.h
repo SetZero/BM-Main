@@ -51,6 +51,13 @@ namespace BMCPP
 		struct ADMultiplexer {};
 		struct ADCStatusRegisterA {};
 		struct ADCStatusRegisterB {};
+
+		template<uint8_t number>
+		struct Spcr { static_assert(number == 0,"only number 0 on ATMega328"); };
+		template<uint8_t number>
+		struct Spsr { static_assert(number == 0, "only number 0 on ATMega328"); };
+		template<uint8_t number>
+		struct Spdr { static_assert(number == 0, "only number 0 on ATMega328"); };
 		
         struct ATMega328 final
         {
@@ -197,6 +204,21 @@ namespace BMCPP
 		template<>
 		struct ATMega328::ADConverter::address<ADCStatusRegisterB> {
 			static constexpr uintptr_t value = 0x7B;
+		};
+
+		template<>
+		struct ATMega328::SPI::address<Spcr<0>> {
+			static constexpr uintptr_t value = 0x4C;   //4c
+		};
+
+		template<>
+		struct ATMega328::SPI::address<Spsr<0>> {
+			static constexpr uintptr_t value = 0x4D;
+		};
+
+		template<>
+		struct ATMega328::SPI::address<Spdr<0>> {
+			static constexpr uintptr_t value = 0x4E;
 		};
         
         template<typename Component, uint8_t N>
