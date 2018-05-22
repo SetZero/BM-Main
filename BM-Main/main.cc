@@ -37,7 +37,7 @@ int main(){
 		//using outB = BMCPP::Hal::Port<BMCPP::Hal::Output,BMCPP::AVR::ATMega328::Port>;
 		*pbadr ^= (1 << 3);
 		_delay_ms(500);
-		spi0::spi_send(0);
+		//spi0::spi_send(0);
 	}
 	return 0;
 }															   

@@ -100,7 +100,7 @@ namespace spi {
 			//shift the first byte of the value
 			*spdr_adr = value;
 			//wait for the SPI bus to finish
-			//while (!(*spsr_adr & (static_cast<uint8_t>(BMCPP::AVR::ATMega328::SPI::spsr::SPIF0))));
+			while (!(*spsr_adr & (static_cast<uint8_t>(BMCPP::AVR::ATMega328::SPI::spsr::SPIF0))));
 			//get the received data
 			result = *spdr_adr;
 
