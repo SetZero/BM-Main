@@ -69,14 +69,24 @@ namespace BMCPP
 			{
 				SPI() = delete;
 				enum class spcr : uint8_t {
-					SPIE0 = (1 << SPIE), 					SPE0 = (1 << SPE),					DORD0 = (1 << DORD),					MSTR0 = (1 << MSTR),					CPOL0 = (1 << CPOL),					CPHA0 = (1 << CPHA),					SPR01 = (1 << SPR1),					SPR00 = (1 << SPR0)
+					SPIE0 = (1 << SPIE), 
+					SPE0 = (1 << SPE),
+					DORD0 = (1 << DORD),
+					MSTR0 = (1 << MSTR),
+					CPOL0 = (1 << CPOL),
+					CPHA0 = (1 << CPHA),
+					SPR01 = (1 << SPR1),
+					SPR00 = (1 << SPR0)
 				};
 				enum class spsr : uint8_t {
-					SPIF0  = (1 << SPIF),					WCOL0  = (1 << WCOL),					SPI2X0 = (1 << SPI2X)
+					SPIF0  = (1 << SPIF),
+					WCOL0  = (1 << WCOL),
+					SPI2X0 = (1 << SPI2X)
 				};
 				ControlRegister<SPI, spcr> spcr0;
 				ControlRegister<SPI, spsr> spsr0;
 				DataRegister<SPI, ReadWrite> spdr0;
+				template<typename register_name> struct address;
 			};
 
 
@@ -152,11 +162,6 @@ namespace BMCPP
         
         } __attribute__((packed));
         
-		template<typename ATMega328>
-		struct setPin {
-			using type = A;
-		};
-
         template<>
         struct ATMega328::Port::address<B>
         {

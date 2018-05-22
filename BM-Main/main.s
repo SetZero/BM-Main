@@ -69,10 +69,24 @@ main:
 /* frame size = 0 */
 /* stack size = 0 */
 .L__stack_usage = 0
- ;  main.cc:31: }															   
-	ldi r25,0	 ; 
-	ldi r24,0	 ; 
-/* epilogue start */
-	ret
+.L2:
+ ;  main.cc:36: 		*pbadr ^= (1 << 3);
+	in r24,0x3	 ;  _1, MEM[(volatile uintptr_t *)35B]
+	in r25,0x3+1	 ;  _1, MEM[(volatile uintptr_t *)35B]
+	ldi r18,8	 ; ,
+	eor r24,r18	 ;  _2,
+	out 0x3+1,r25	 ;  MEM[(volatile uintptr_t *)35B], _2
+	out 0x3,r24	 ;  MEM[(volatile uintptr_t *)35B], _2
+ ;  f:\users\keven\downloads\avr-gcc-7.3.0-x64-mingw\avr\include\util\delay.h:187: 	__builtin_avr_delay_cycles(__ticks_dc);
+	ldi r24,lo8(1599999)	 ; ,
+	ldi r25,hi8(1599999)	 ; ,
+	ldi r18,hlo8(1599999)	 ; ,
+1:	subi r24,1	 ; 
+	sbci r25,0	 ; 
+	sbci r18,0	 ; 
+	brne 1b
+	rjmp .
+	nop
+	rjmp .L2	 ; 
 	.size	main, .-main
 	.ident	"GCC: (GNU) 7.3.0"

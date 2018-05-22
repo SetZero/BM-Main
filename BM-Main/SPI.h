@@ -4,10 +4,9 @@
 #endif // !__AVR_ATmega328P__
 #include <avr/io.h>
 #include <stdint.h>
-#include "mega328.h"
+//#include "mega328.h"
 
 using namespace BMCPP;
-using namespace AVR;
 
 //TODO get PORT via the UC class
 constexpr uint8_t MOSI = 5;
@@ -54,7 +53,7 @@ enum class ClkRate : uint8_t {
 };
 
 
-//maybe: another template as parameter -> containing port and constants informaations (remove defines)
+//maybe: another template as parameter -> containing port and constants informations (remove defines)
  template<Mode mode, ClkRate clockRate,uintptr_t portAddress, uintptr_t ddrAddress, bool Master = true, bool lsbfirst = true, bool doubleSpeed = true >
 struct SPI
 {

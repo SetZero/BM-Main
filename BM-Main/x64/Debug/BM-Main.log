@@ -1,10 +1,15 @@
 ﻿  avr-g++ -MM -MG -DF_CPU=16000000 -I./include -mmcu=atmega328p -Wall -Wextra -Wconversion -std=c++17 -Os -fconcepts  -fno-exceptions -fno-unwind-tables -fno-rtti -fno-threadsafe-statics  -funsigned-char -funsigned-bitfields -fshort-enums  main.cc | sed "s/main\.o/& main.d/g" > main.d
   avr-g++ -mmcu=atmega328p -Wall -Wextra -Wconversion -std=c++17 -Os -fconcepts  -fno-exceptions -fno-unwind-tables -fno-rtti -fno-threadsafe-statics  -funsigned-char -funsigned-bitfields -fshort-enums  -DF_CPU=16000000 -I./include  -c -o main.o main.cc
   main.cc: In function 'int main()':
-main.cc(27,63): warning GA3802964: typedef 'using spiComp = struct SPI<(Mode)0, (ClkRate)0, 43, 44>' locally defined but not used [-Wunused-local-typedefs]
-    using spiComp = SPI<Mode::m0, ClkRate::clkRateDiv4,0x2b,0x2C>;
-                                                                 ^
+main.cc(32,22): warning G7C671A4C: unused variable 'PortB' [-Wunused-variable]
+    volatile uintptr_t* PortB = (uintptr_t*)0x25;
+                        ^~~~~
   avr-gcc -mmcu=atmega328p -Wall -Wextra -Wconversion -std=c11 -Os   -DF_CPU=16000000 -I./include  -Wl,-Map=main.map,--cref  "-Wl,--section-start=.mmcu=0x910000"  -o main.elf main.o
   ECHO ist ausgeschaltet (OFF).
   Creating load file for Flash: main.hex
   avr-objcopy -O ihex -R .flash main.elf main.hex
+  avr-g++ -DF_CPU=16000000 -I./include -mmcu=atmega328p -Wall -Wextra -Wconversion -std=c++17 -Os -fconcepts  -fno-exceptions -fno-unwind-tables -fno-rtti -fno-threadsafe-statics  -funsigned-char -funsigned-bitfields -fshort-enums  -fverbose-asm -Wa,-adhln -S -o main.s main.cc
+  main.cc: In function 'int main()':
+main.cc(32,22): warning G7C671A4C: unused variable 'PortB' [-Wunused-variable]
+    volatile uintptr_t* PortB = (uintptr_t*)0x25;
+                        ^~~~~
