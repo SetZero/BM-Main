@@ -53,11 +53,11 @@ namespace BMCPP
 		struct ADCStatusRegisterB {};
 
 		template<uint8_t number>
-		struct Spcr { static_assert(number == 0,"only number 0 on ATMega328"); };
+		struct Spcr { };
 		template<uint8_t number>
-		struct Spsr { static_assert(number == 0, "only number 0 on ATMega328"); };
+		struct Spsr { };
 		template<uint8_t number>
-		struct Spdr { static_assert(number == 0, "only number 0 on ATMega328"); };
+		struct Spdr { };
 		
         struct ATMega328 final
         {
