@@ -15,15 +15,10 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cc">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="register.h">
+    <ClInclude Include="meta\meta.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="SPI.h">
+    <ClInclude Include="Utils\Utils.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="ADC.h">
@@ -35,5 +30,22 @@
     <ClInclude Include="mega328.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
+    <ClInclude Include="register.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="SPI.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="avr\register.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="hal\port.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cc">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

@@ -4,15 +4,15 @@ __SP_L__ = 0x3d
 __SREG__ = 0x3f
 __tmp_reg__ = 0
 __zero_reg__ = 1
- ;  GNU C++17 (GCC) version 8.1.0 (avr)
- ; 	compiled by GNU C version 5.3.0, GMP version 6.1.0, MPFR version 3.1.4, MPC version 1.0.3, isl version isl-0.18-GMP
+ ;  GNU C++14 (GCC) version 7.3.0 (avr)
+ ; 	compiled by GNU C version 5.3.0, GMP version 6.1.0, MPFR version 3.1.4, MPC version 1.0.3, isl version isl-0.16.1-GMP
 
  ;  GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072
  ;  options passed:  -I ./include -imultilib avr5
- ;  -iprefix c:\program files (x86)\avr-gcc\avr-gcc-8.1.0-x64-mingw\bin\../lib/gcc/avr/8.1.0/
+ ;  -iprefix c:\users\keven\downloads\avr-gcc-7.3.0-x64-mingw\bin\../lib/gcc/avr/7.3.0/
  ;  -D__AVR_ATmega328P__ -D__AVR_DEVICE_NAME__=atmega328p -D F_CPU=16000000
  ;  main.cc -mn-flash=1 -mmcu=avr5 -auxbase-strip main.s -Os -Wall -Wextra
- ;  -Wconversion -std=c++17 -fconcepts -fno-unwind-tables
+ ;  -Wconversion -std=c++1z -fconcepts -fno-unwind-tables
  ;  -fno-threadsafe-statics -funsigned-char -funsigned-bitfields
  ;  -fshort-enums -fverbose-asm -mn-flash=1 -mno-skip-bug -fno-rtti
  ;  -fno-enforce-eh-specs -fno-exceptions
@@ -48,7 +48,7 @@ __zero_reg__ = 1
  ;  -fsched-stalled-insns-dep -fschedule-fusion -fsemantic-interposition
  ;  -fshow-column -fshrink-wrap -fshrink-wrap-separate -fsigned-zeros
  ;  -fsplit-ivs-in-unroller -fsplit-wide-types -fssa-backprop -fssa-phiopt
- ;  -fstdarg-opt -fstore-merging -fstrict-aliasing
+ ;  -fstdarg-opt -fstore-merging -fstrict-aliasing -fstrict-overflow
  ;  -fstrict-volatile-bitfields -fsync-libcalls -fthread-jumps
  ;  -ftoplevel-reorder -ftrapping-math -ftree-bit-ccp
  ;  -ftree-builtin-call-dce -ftree-ccp -ftree-ch -ftree-coalesce-vars
@@ -58,7 +58,7 @@ __zero_reg__ = 1
  ;  -ftree-phiprop -ftree-pre -ftree-pta -ftree-reassoc -ftree-scev-cprop
  ;  -ftree-sink -ftree-slsr -ftree-sra -ftree-switch-conversion
  ;  -ftree-tail-merge -ftree-ter -ftree-vrp -funit-at-a-time -fverbose-asm
- ;  -fzero-initialized-in-bss -mgas-isr-prologues -mmain-is-OS_task
+ ;  -fzero-initialized-in-bss
 
 	.text
 	.section	.text.startup,"ax",@progbits
@@ -69,25 +69,25 @@ main:
 /* frame size = 0 */
 /* stack size = 0 */
 .L__stack_usage = 0
- ;  SPI.h:87: 			*spcr_adr = spcr;
-	ldi r24,lo8(117)	 ;  tmp46,
-	ldi r25,0		 ; 
-	out 0x2c+1,r25	 ;  MEM[(volatile uintptr_t *)76B], tmp46
-	out 0x2c,r24	 ;  MEM[(volatile uintptr_t *)76B], tmp46
- ;  SPI.h:90: 			*spsr_adr = clockspeed;
-	ldi r24,lo8(2)	 ;  tmp48,
-	ldi r25,0		 ; 
-	out 0x2d+1,r25	 ;  MEM[(volatile uintptr_t *)77B], tmp48
-	out 0x2d,r24	 ;  MEM[(volatile uintptr_t *)77B], tmp48
+ ;  SPI.h:91: 			*spcr_adr = spcr;
+	ldi r24,lo8(117)	 ;  tmp48,
+	ldi r25,0	 ; 
+	out 0x2c+1,r25	 ;  MEM[(volatile uintptr_t *)76B], tmp48
+	out 0x2c,r24	 ;  MEM[(volatile uintptr_t *)76B], tmp48
+ ;  SPI.h:94: 			*spsr_adr = clockspeed;
+	ldi r24,lo8(1)	 ;  tmp50,
+	ldi r25,0	 ; 
+	out 0x2d+1,r25	 ;  MEM[(volatile uintptr_t *)77B], tmp50
+	out 0x2d,r24	 ;  MEM[(volatile uintptr_t *)77B], tmp50
 .L2:
- ;  main.cc:38: 		*pbadr ^= (1 << 3);
+ ;  main.cc:40: 		*pbadr ^= (1 << 3);
 	in r24,0x3	 ;  _1, MEM[(volatile uintptr_t *)35B]
 	in r25,0x3+1	 ;  _1, MEM[(volatile uintptr_t *)35B]
 	ldi r18,8	 ; ,
 	eor r24,r18	 ;  _2,
 	out 0x3+1,r25	 ;  MEM[(volatile uintptr_t *)35B], _2
 	out 0x3,r24	 ;  MEM[(volatile uintptr_t *)35B], _2
- ;  c:\program files (x86)\avr-gcc\avr-gcc-8.1.0-x64-mingw\avr\include\util\delay.h:187: 	__builtin_avr_delay_cycles(__ticks_dc);
+ ;  c:\users\keven\downloads\avr-gcc-7.3.0-x64-mingw\avr\include\util\delay.h:187: 	__builtin_avr_delay_cycles(__ticks_dc);
 	ldi r24,lo8(1599999)	 ; ,
 	ldi r25,hi8(1599999)	 ; ,
 	ldi r18,hlo8(1599999)	 ; ,
@@ -95,8 +95,17 @@ main:
 	sbci r25,0	 ; 
 	sbci r18,0	 ; 
 	brne 1b
-	rjmp .	
-	nop	
-	rjmp .L2		 ; 
+	rjmp .
+	nop
+ ;  SPI.h:105: 			*spdr_adr = value;
+	out 0x2e+1,__zero_reg__	 ;  MEM[(volatile uintptr_t *)78B],
+	out 0x2e,__zero_reg__	 ;  MEM[(volatile uintptr_t *)78B],
+ ;  SPI.h:107: 			while (!(*spsr_adr | (static_cast<uint8_t>(UC::SPI::spsr::SPIF0))));
+	in r24,0x2d	 ;  vol.1_9, MEM[(volatile uintptr_t *)77B]
+	in r25,0x2d+1	 ;  vol.1_9, MEM[(volatile uintptr_t *)77B]
+ ;  SPI.h:109: 			result = *spdr_adr;
+	in r24,0x2e	 ;  result, MEM[(volatile uintptr_t *)78B]
+	in r25,0x2e+1	 ;  result, MEM[(volatile uintptr_t *)78B]
+	rjmp .L2	 ; 
 	.size	main, .-main
-	.ident	"GCC: (GNU) 8.1.0"
+	.ident	"GCC: (GNU) 7.3.0"
