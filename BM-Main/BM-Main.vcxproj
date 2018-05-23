@@ -78,7 +78,7 @@
     <NMakeReBuildCommandLine>make rebuild</NMakeReBuildCommandLine>
     <NMakePreprocessorDefinitions>_DEBUG;$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
     <NMakeIncludeSearchPath>F:\Users\keven\Downloads\avr-gcc-7.3.0-x64-mingw\avr\include;$(NMakeIncludeSearchPath)</NMakeIncludeSearchPath>
-    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);E:\Programme\avr-gcc\avr\include;</IncludePath>
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);E:\Programme\avr-gcc\avr\include;C:\Program Files (x86)\avr-gcc\avr-gcc-8.1.0-x64-mingw\avr\include;</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <NMakeBuildCommandLine>make</NMakeBuildCommandLine>
@@ -99,16 +99,14 @@
   <ItemDefinitionGroup>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="AVR_concepts.h" />
     <ClCompile Include="main.cc" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ADC.h" />
-    <ClInclude Include="avr\mega328.h" />
-    <ClInclude Include="avr\register.h" />
-    <ClInclude Include="hal\port.h" />
+    <ClInclude Include="AVR_concepts.h" />
+    <ClInclude Include="mega328.h" />
+    <ClInclude Include="register.h" />
     <ClInclude Include="SPI.h" />
-    <ClInclude Include="Utils\Utils.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

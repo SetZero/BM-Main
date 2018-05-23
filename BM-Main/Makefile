@@ -55,6 +55,7 @@ program: $(TARGET).hex
 -include $(DEP)
 
 # Define programs and commands.
+RM = del
 SHELL = sh
 CC = avr-gcc
 OBJCOPY = avr-objcopy
@@ -62,7 +63,7 @@ OBJDUMP = avr-objdump
 SIZE = avr-size
 NM = avr-nm
 AVRDUDE = avrdude
-REMOVE = rm -f
+REMOVE = del 
 COPY = cp
 FORMAT = ihex
 MSG_FLASH = Creating load file for Flash:
