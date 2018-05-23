@@ -58,6 +58,7 @@ namespace spi {
 
 	//
 	template<typename MicroController,Mode mode, ClkRate clockRate, bool Master = true, bool lsbfirst = true, bool doubleSpeed = true >
+	//requires isUC<MicroController>()	-> moved to static assert (syntax highlighting)
 	struct SPI
 	{
 		using UC = MicroController;
@@ -87,7 +88,7 @@ namespace spi {
 		static void init(uintptr_t* portAddress,uintptr_t* ddrAddress) {
 			*portAddress |= MISO;
 			*ddrAddress |= (MOSI | SCK) 	  // set outputs
-				& ~(MISO);			 //set inputs
+						& ~(MISO);			 //  set inputs
 
 			volatile uintptr_t* spcr_adr = (uintptr_t*)getAddress<typename UC::SPI, Spcr<0>>();
 			*spcr_adr = spcr;
