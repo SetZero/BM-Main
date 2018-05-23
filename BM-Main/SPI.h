@@ -10,9 +10,9 @@
 using namespace BMCPP;
 using namespace AVR;
 
-constexpr uint8_t MOSI = 5;
-constexpr uint8_t MISO = 6;
-constexpr uint8_t SCK = 7;
+constexpr uint8_t MOSI = (1<<5);
+constexpr uint8_t MISO = (1<<6);
+constexpr uint8_t SCK = (1<<7);
 constexpr uint8_t LSBFIRST_MASK = 0b00000001;
 constexpr uint8_t MASTER_MASK = 0b00000001;
 constexpr uint8_t MODE_MASK = 0b00000011;
@@ -56,15 +56,13 @@ namespace spi {
 	};
 
 
-	//maybe: another template as parameter -> containing port and constants informations (remove defines)
-	template<typename MicroController,Mode mode, ClkRate clockRate, uintptr_t portAddress, uintptr_t ddrAddress, bool Master = true, bool lsbfirst = true, bool doubleSpeed = true >
+	//
+	template<typename MicroController,Mode mode, ClkRate clockRate, bool Master = true, bool lsbfirst = true, bool doubleSpeed = true >
 	struct SPI
 	{
 		using UC = MicroController;
 		static_assert(isUC<UC>(),"typename UC is not a Microcontroller");
-		inline static constexpr  uintptr_t port = portAddress | (1 << MISO);
-		inline static constexpr uintptr_t ddr = (ddrAddress | (((1 << MOSI) | (1 << SCK)))) 	  // set outputs
-			& ~(1 << MISO);			 //set inputs
+
 		static constexpr uint8_t master = Master ? 1 : 0;
 		static constexpr uint8_t lsbFirst = lsbfirst ? 1 : 0;
 		static constexpr uint8_t dblclk = doubleSpeed ? 1 : 0;
@@ -86,7 +84,11 @@ namespace spi {
 		//constexpr port |= (1 << MISO); //turn on pull-up resistor
 							  //set SPI control register
 
-		static void init() {
+		static void init(uintptr_t* portAddress,uintptr_t* ddrAddress) {
+			*portAddress |= MISO;
+			*ddrAddress |= (MOSI | SCK) 	  // set outputs
+				& ~(MISO);			 //set inputs
+
 			volatile uintptr_t* spcr_adr = (uintptr_t*)getAddress<typename UC::SPI, Spcr<0>>();
 			*spcr_adr = spcr;
 			volatile uintptr_t* spsr_adr = (uintptr_t*)getAddress<typename UC::SPI, Spsr<0>>();

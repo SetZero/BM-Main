@@ -33,15 +33,6 @@ namespace BMCPP
 {
     namespace AVR
     {
-		//////////////////////////////////////////////////////////////////////////////////////
-		////PROTOTYP
-
-		template<typename firstPin,typename... pins>
-		//requires BMCPP::Hal::(isPin<Pins>() && ...)
-		struct setUsedPins {
-			using type = typename utils::list<pins...>;
-		};
-		//////////////////////////////////////////////////////////////////////////////////////////////////////////
         struct A {};
         struct B {};
         struct C {};
@@ -172,7 +163,7 @@ namespace BMCPP
         template<>
         struct ATMega328::Port::address<B>
         {
-             static constexpr uintptr_t value = 0x23;
+             static constexpr uintptr_t value = 0x25;
         };
         template<>
         struct ATMega328::Port::address<C>
@@ -208,7 +199,7 @@ namespace BMCPP
 
 		template<>
 		struct ATMega328::SPI::address<Spcr<0>> {
-			static constexpr uintptr_t value = 0x4C;   //4c
+			static constexpr uintptr_t value = 0x4C;  
 		};
 
 		template<>
