@@ -1,4 +1,5 @@
 #pragma once
+#include "mega328.h"
 
 namespace BMCPP
 {
@@ -12,6 +13,7 @@ namespace BMCPP
 		template<typename... ADCChannels, ADCMeasurementType measurement_type, uint8_t prescaler_value>
 		struct ADConverter final
 		{
+			static inline constexpr auto port = BMCPP::AVR::getAddress<BMCPP::AVR::ATMega328::Port, PortName>;
 			//TODO
 			template<typename Channel>
 			uint16_t getValue();

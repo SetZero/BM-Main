@@ -162,8 +162,8 @@ namespace BMCPP
 
 				ControlRegister<ADConverter, ADCsrb> adcsrb;
 
-				DataRegister<ADConverter, ReadOnly, uint8_t> adch;
-				DataRegister<ADConverter, ReadOnly, uint8_t> adcl;
+				//DataRegister<ADConverter, ReadOnly, uint8_t> adch;
+				//DataRegister<ADConverter, ReadOnly, uint8_t> adcl;
 				template<typename register_name> struct address;
 			};
         
