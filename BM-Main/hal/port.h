@@ -19,8 +19,8 @@
 #pragma once
 
 #include <stdint.h>
-
 #include "../meta/meta.h"
+#include "../AVR_concepts.h"
 
 
 namespace BMCPP {
@@ -29,11 +29,38 @@ namespace BMCPP {
         struct Output {};
         struct Input {};
 
+		//currently the only available MMCU in this great library
+	#ifdef __AVR_ATmega328P__
+		#define __DEFAULT_MMCU__ AVR::ATMega328
+	#else
+		#define	 __DEFAULT_MMCU__ AVR::ATMega328
+	#endif // __AVR_ATmega328P__
 
-        template<typename PortName, typename PORT>
+
+		template<uint8_t number, typename MicroController = __DEFAULT_MMCU__>
+		class SPI {
+			static_assert(AVR::isUC<MicroController>(), "type MicroController does not match the requirements");
+			SPI() = delete;
+			static inline constexpr auto spi = AVR::getAddress<typename MicroController::SPI, number>;
+		public:
+			static inline constexpr auto Number = number;
+
+			static volatile uintptr_t& spdr() {
+				return *spi()->Spdr;
+			}
+			static volatile uintptr_t& spcr() {
+				return *spi()->Spcr;
+			}
+			static volatile uintptr_t& spsr() {
+				return *spi()->Spsr;
+			}
+		};
+
+        template<typename PortName, typename MicroController = __DEFAULT_MMCU__>
         class Port {
+			static_assert(AVR::isUC<MicroController>(), "type MicroController does not match the requirements");
             Port() = delete;
-           using port = PORT;
+           static inline constexpr auto port = AVR::getAddress<typename MicroController::Port, PortName>;
         public:
             typedef PortName portname_type;
             

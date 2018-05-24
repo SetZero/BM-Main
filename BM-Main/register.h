@@ -36,6 +36,11 @@ namespace BMCPP {
             ControlRegister(ControlRegister&&) = delete;
             ControlRegister& operator=(const ControlRegister&) = delete;
             ControlRegister& operator=(ControlRegister&&) = delete;
+			//TODO: Meier fragen wieso indirektionsoperator nicht für Controlregister definiert war
+			inline volatile value_type& operator*()   // <> Der _non_-`const` Indirektionsoperator als Schreib-Operator
+			{
+				return hwRegister;
+			}
             template<typename... T>
             void inline set(T... v)
             {
