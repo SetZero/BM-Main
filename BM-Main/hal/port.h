@@ -37,6 +37,25 @@ namespace BMCPP {
 	#endif // __AVR_ATmega328P__
 
 
+		template<uint8_t number, typename MicroController = __DEFAULT_MMCU__>
+		class SPI {
+			static_assert(AVR::isUC<MicroController>(), "type MicroController does not match the requirements");
+			SPI() = delete;
+			static inline constexpr auto spi = AVR::getAddress<typename MicroController::SPI, number>;
+		public:
+			static inline constexpr auto Number = number;
+
+			static volatile uintptr_t& spdr() {
+				return *spi()->Spdr;
+			}
+			static volatile uintptr_t& spcr() {
+				return *spi()->Spcr;
+			}
+			static volatile uintptr_t& spsr() {
+				return *spi()->Spsr;
+			}
+		};
+
         template<typename PortName, typename MicroController = __DEFAULT_MMCU__>
         class Port {
 			static_assert(AVR::isUC<MicroController>(), "type MicroController does not match the requirements");

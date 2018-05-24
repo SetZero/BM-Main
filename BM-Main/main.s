@@ -69,6 +69,34 @@ main:
 /* frame size = 0 */
 /* stack size = 0 */
 .L__stack_usage = 0
+ ;  SPI.h:90: 			*portAddress |= MISO;
+	in r24,0x5	 ;  MEM[(uintptr_t *)37B], MEM[(uintptr_t *)37B]
+	in r25,0x5+1	 ;  MEM[(uintptr_t *)37B], MEM[(uintptr_t *)37B]
+	ori r24,64	 ;  tmp55,
+	out 0x5+1,r25	 ;  MEM[(uintptr_t *)37B], tmp55
+	out 0x5,r24	 ;  MEM[(uintptr_t *)37B], tmp55
+ ;  SPI.h:91: 			*ddrAddress |= (MOSI | SCK) 	  // set outputs
+	in r24,0x6	 ;  MEM[(uintptr_t *)38B], MEM[(uintptr_t *)38B]
+	in r25,0x6+1	 ;  MEM[(uintptr_t *)38B], MEM[(uintptr_t *)38B]
+	ori r24,160	 ;  tmp59,
+	out 0x6+1,r25	 ;  MEM[(uintptr_t *)38B], tmp59
+	out 0x6,r24	 ;  MEM[(uintptr_t *)38B], tmp59
+ ;  SPI.h:94: 			volatile uintptr_t* spcr_adr = (uintptr_t*)BMCPP::Hal::SPI<0>::spcr();
+	in r30,0x2c	 ;  _12, MEM[(volatile uintptr_t &)76B]
+	in r31,0x2c+1	 ;  _12, MEM[(volatile uintptr_t &)76B]
+ ;  SPI.h:95: 			*spcr_adr = spcr;
+	ldi r24,lo8(117)	 ;  tmp62,
+	ldi r25,0	 ; 
+	std Z+1,r25	 ;  *spcr_adr_13, tmp62
+	st Z,r24	 ;  *spcr_adr_13, tmp62
+ ;  SPI.h:96: 			volatile uintptr_t* spsr_adr = (uintptr_t*)BMCPP::Hal::SPI<0>::spsr();
+	in r30,0x2e	 ;  _14, MEM[(volatile uintptr_t &)76B + 2]
+	in r31,0x2e+1	 ;  _14, MEM[(volatile uintptr_t &)76B + 2]
+ ;  SPI.h:98: 			*spsr_adr = clockspeed;
+	ldi r24,lo8(1)	 ;  tmp64,
+	ldi r25,0	 ; 
+	std Z+1,r25	 ;  *spsr_adr_15, tmp64
+	st Z,r24	 ;  *spsr_adr_15, tmp64
  ;  main.cc:37: 	DDRB |= (1 << PB5);
 	sbi 0x4,5	 ; ,
 .L2:

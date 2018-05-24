@@ -74,11 +74,10 @@ namespace BMCPP
 					WCOL0  = (1 << WCOL),
 					SPI2X0 = (1 << SPI2X)
 				};
-				ControlRegister<SPI, spcr> spcr0;
-				ControlRegister<SPI, spsr> spsr0;
-				DataRegister<SPI, ReadWrite> spdr0;
-
-				template<uint8_t N> struct address;
+				ControlRegister<SPI, spcr, uintptr_t> Spcr;
+				ControlRegister<SPI, spsr, uintptr_t> Spsr;
+				DataRegister<SPI, ReadWrite, uintptr_t> Spdr;
+				template<uintptr_t N> struct address;
 			};
 
 
@@ -192,7 +191,7 @@ namespace BMCPP
 		template<>
 		struct ATMega328::SPI::address<0>
 		{
-			static constexpr uint8_t value = 0x4C;
+			static constexpr uintptr_t value = 0x4C;
 		};
 
 		//ADC

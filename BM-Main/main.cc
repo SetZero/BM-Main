@@ -32,8 +32,8 @@ int main(){
 	constexpr bool tttt = utils::isEqual<erg, short>::value;
 	static_assert(tttt, "??");	 */
 	//volatile uintptr_t* PortB = (uintptr_t*)0x25;
-	//using spi0 = spi::SPI<BMCPP::AVR::ATMega328,spi::Mode::m0, spi::ClkRate::clkRateDiv4>;
-	//spi0::init((uintptr_t*)0x25, (uintptr_t*)0x26);
+	using spi0 = spi::SPI<spi::Mode::m0, spi::ClkRate::clkRateDiv4>;
+	spi0::init((uintptr_t*)0x25, (uintptr_t*)0x26);
 	DDRB |= (1 << PB5);
 	while (true) {
 		//volatile uintptr_t* pbadr = ((uintptr_t*)getAddress<ATMega328::Port,B>());

@@ -6,6 +6,7 @@
 #include <stdint.h>
 #include "mega328.h"
 #include "AVR_concepts.h"
+#include "hal\port.h"
 
 using namespace BMCPP;
 using namespace AVR;
@@ -57,7 +58,7 @@ namespace spi {
 
 
 	//
-	template<typename MicroController,Mode mode, ClkRate clockRate, bool Master = true, bool lsbfirst = true, bool doubleSpeed = true >
+	template<Mode mode, ClkRate clockRate, bool Master = true, bool lsbfirst = true, bool doubleSpeed = true, typename MicroController = __DEFAULT_MMCU__ >
 	//requires isUC<MicroController>()	-> moved to static assert (syntax highlighting)
 	struct SPI
 	{
@@ -90,9 +91,9 @@ namespace spi {
 			*ddrAddress |= (MOSI | SCK) 	  // set outputs
 						& ~(MISO);			 //  set inputs
 
-			volatile uintptr_t* spcr_adr = (uintptr_t*)getAddress<typename UC::SPI, Spcr<0>>();
+			volatile uintptr_t* spcr_adr = (uintptr_t*)BMCPP::Hal::SPI<0>::spcr();
 			*spcr_adr = spcr;
-			volatile uintptr_t* spsr_adr = (uintptr_t*)getAddress<typename UC::SPI, Spsr<0>>();
+			volatile uintptr_t* spsr_adr = (uintptr_t*)BMCPP::Hal::SPI<0>::spsr();
 			//set double speed bit
 			*spsr_adr = clockspeed;
 		}
@@ -101,9 +102,9 @@ namespace spi {
 		//  uint8_t data - the data to be shifted out
 		//  returns uint8_t - the data received during sending
 		static uintptr_t spi_send(uintptr_t value) {
-			volatile uintptr_t* spdr_adr = (uintptr_t*)getAddress<typename UC::SPI, Spdr<0>>();
+			volatile uintptr_t* spdr_adr = (uintptr_t*)BMCPP::Hal::SPI<0>::spdr();
 			uintptr_t result;
-			volatile uintptr_t* spsr_adr = (uintptr_t*)getAddress<typename UC::SPI, Spsr<0>>();
+			volatile uintptr_t* spsr_adr = (uintptr_t*)BMCPP::Hal::SPI<0>::spsr();
 			//shift the first byte of the value
 			*spdr_adr = value;
 			//wait for the SPI bus to finish
