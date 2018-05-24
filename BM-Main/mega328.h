@@ -69,10 +69,19 @@ namespace BMCPP
 			{
 				SPI() = delete;
 				enum class spcr : uint8_t {
-					SPIE0 = (1 << SPIE), 					SPE0 = (1 << SPE),					DORD0 = (1 << DORD),					MSTR0 = (1 << MSTR),					CPOL0 = (1 << CPOL),					CPHA0 = (1 << CPHA),					SPR01 = (1 << SPR1),					SPR00 = (1 << SPR0)
+					SPIE0 = (1 << SPIE), 
+					SPE0 = (1 << SPE),
+					DORD0 = (1 << DORD),
+					MSTR0 = (1 << MSTR),
+					CPOL0 = (1 << CPOL),
+					CPHA0 = (1 << CPHA),
+					SPR01 = (1 << SPR1),
+					SPR00 = (1 << SPR0)
 				};
 				enum class spsr : uint8_t {
-					SPIF0  = (1 << SPIF),					WCOL0  = (1 << WCOL),					SPI2X0 = (1 << SPI2X)
+					SPIF0  = (1 << SPIF),
+					WCOL0  = (1 << WCOL),
+					SPI2X0 = (1 << SPI2X)
 				};
 				ControlRegister<SPI, spcr> spcr0;
 				ControlRegister<SPI, spsr> spsr0;
@@ -109,21 +118,10 @@ namespace BMCPP
             };
 
 			struct ADConverter {
-				static constexpr const uint8_t count = 5;
+				DataRegister<ADConverter, ReadOnly, uint8_t> adch;
+				DataRegister<ADConverter, ReadOnly, uint8_t> adcl;
 
-
-				enum class ADMux : uint8_t {
-					refs1 = (1 << REFS1),
-					refs0 = (1 << REFS0),
-					adlar = (1 << ADLAR),
-					mux3 = (1 << MUX3),
-					mux2 = (1 << MUX2),
-					mux1 = (1 << MUX1),
-					mux0 = (1 << MUX0),
-				};
-				ControlRegister<ADConverter, ADMux> admux;
-
-				enum class ADCsra : uint8_t{
+				enum class ADCsra : uint8_t {
 					aden = (1 << ADEN),
 					adsc = (1 << ADSC),
 					adfr = (1 << ADATE),
@@ -145,9 +143,33 @@ namespace BMCPP
 
 				ControlRegister<ADConverter, ADCsrb> adcsrb;
 
-				DataRegister<ADConverter, ReadOnly, uint8_t> adch;
-				DataRegister<ADConverter, ReadOnly, uint8_t> adcl;
-				template<typename register_name> struct address;
+				enum class ADMux : uint8_t {
+					refs1 = (1 << REFS1),
+					refs0 = (1 << REFS0),
+					adlar = (1 << ADLAR),
+					mux3 = (1 << MUX3),
+					mux2 = (1 << MUX2),
+					mux1 = (1 << MUX1),
+					mux0 = (1 << MUX0),
+				};
+				ControlRegister<ADConverter, ADMux> admux;
+
+				DataRegister<ADConverter, UnUsed, uint8_t> reserved;
+
+				enum class DigitalInputDisable : uint8_t {
+					adc7d = (1 << 7),
+					adc6d = (1 << 6),
+					adc5d = (1 << 5),
+					adc4d = (1 << 4),
+					adc3d = (1 << 3),
+					adc2d = (1 << 2),
+					adc1d = (1 << 1),
+					adc0d = (1 << 0),
+				};
+
+				ControlRegister<ADConverter, ADMux> didr0;
+
+				template<int N> struct address;
 			};
         
         } __attribute__((packed));
@@ -180,18 +202,8 @@ namespace BMCPP
 
 		//ADC
 		template<>
-		struct ATMega328::ADConverter::address<ADMultiplexer> {
-			static constexpr uintptr_t value = 0x7C;
-		};
-
-		template<>
-		struct ATMega328::ADConverter::address<ADCStatusRegisterA> {
-			static constexpr uintptr_t value = 0x7A;
-		};
-
-		template<>
-		struct ATMega328::ADConverter::address<ADCStatusRegisterB> {
-			static constexpr uintptr_t value = 0x7B;
+		struct ATMega328::ADConverter::address<0> {
+			static constexpr uintptr_t value = 0x78;
 		};
         
         template<typename Component, uint8_t N>
