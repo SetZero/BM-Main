@@ -17,6 +17,7 @@ CXXFLAGS += -funsigned-char -funsigned-bitfields -fshort-enums
 ASMFLAGS += -fverbose-asm
 ASMFLAGS +=  -Wa,-adhln
 
+RM = del
 LDFLAGS = $(MCUFLAGS) -Wl,-Map=main.map,--cref 
 LDFLAGS += "-Wl,--section-start=.mmcu=0x910000"
 
@@ -62,7 +63,6 @@ OBJDUMP = avr-objdump
 SIZE = avr-size
 NM = avr-nm
 AVRDUDE = avrdude
-REMOVE = rm -f
 COPY = cp
 FORMAT = ihex
 MSG_FLASH = Creating load file for Flash:
@@ -110,3 +110,4 @@ AVRDUDE_FLAGS = -p $(MCU) -P $(AVRDUDE_PORT) -c $(AVRDUDE_PROGRAMMER) #-b $(BAUD
 AVRDUDE_FLAGS += $(AVRDUDE_NO_VERIFY)
 AVRDUDE_FLAGS += $(AVRDUDE_VERBOSE)
 AVRDUDE_FLAGS += $(AVRDUDE_ERASE_COUNTER)
+REMOVE = del

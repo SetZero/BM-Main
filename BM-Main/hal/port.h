@@ -20,20 +20,20 @@
 
 #include <stdint.h>
 
-#include <meta/meta.h>
-#include "avr\mega328.h"
+#include "../meta/meta.h"
+
 
 namespace BMCPP {
     namespace Hal {
+
         struct Output {};
         struct Input {};
-       
-        
+
+
         template<typename PortName, typename PORT>
-		
         class Port {
             Port() = delete;
-            static inline constexpr auto port = PORT;
+           using port = PORT;
         public:
             typedef PortName portname_type;
             
@@ -53,7 +53,7 @@ namespace BMCPP {
             Pin() = delete;
             static_assert(Number < 8);
         public:
-            static inline constexpr std::byte mask{1 << Number};
+            static inline constexpr uint8_t mask{1 << Number};
             static inline constexpr uint8_t number = Number;
             typedef Port port_type;
         
@@ -77,6 +77,17 @@ namespace BMCPP {
             }
         };
         
+		template<typename T>
+		concept bool isPin() {
+			return requires(T t) {
+				typename T::port_type;
+				T::on();
+				T::off();
+				T::number;
+				T::template dir<Output>();
+			};
+		}
+
         template<typename... Pins>
         requires 
 			(sizeof...(Pins) >= 1) && 

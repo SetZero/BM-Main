@@ -33,15 +33,6 @@ namespace BMCPP
 {
     namespace AVR
     {
-		//////////////////////////////////////////////////////////////////////////////////////
-		////PROTOTYP
-
-		template<typename firstPin,typename... pins>
-		//requires BMCPP::Hal::(isPin<Pins>() && ...)
-		struct setUsedPins {
-			using type = typename utils::list<pins...>;
-		};
-		//////////////////////////////////////////////////////////////////////////////////////////////////////////
         struct A {};
         struct B {};
         struct C {};
@@ -51,6 +42,13 @@ namespace BMCPP
 		struct ADMultiplexer {};
 		struct ADCStatusRegisterA {};
 		struct ADCStatusRegisterB {};
+
+		template<uint8_t number>
+		struct Spcr { };
+		template<uint8_t number>
+		struct Spsr { };
+		template<uint8_t number>
+		struct Spdr { };
 		
         struct ATMega328 final
         {
@@ -86,6 +84,8 @@ namespace BMCPP
 				ControlRegister<SPI, spcr> spcr0;
 				ControlRegister<SPI, spsr> spsr0;
 				DataRegister<SPI, ReadWrite> spdr0;
+
+				template<typename register_name> struct address;
 			};
 
 
@@ -174,15 +174,11 @@ namespace BMCPP
         
         } __attribute__((packed));
         
-		template<typename ATMega328>
-		struct setPin {
-			using type = A;
-		};
 
         template<>
         struct ATMega328::Port::address<B>
         {
-             static constexpr uintptr_t value = 0x23;
+             static constexpr uintptr_t value = 0x25;
         };
         template<>
         struct ATMega328::Port::address<C>
