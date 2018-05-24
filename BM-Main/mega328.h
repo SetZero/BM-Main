@@ -118,6 +118,9 @@ namespace BMCPP
             };
 
 			struct ADConverter {
+				static constexpr const uint8_t count = 1;
+				typedef uint8_t value_type;
+
 				DataRegister<ADConverter, ReadOnly, uint8_t> adch;
 				DataRegister<ADConverter, ReadOnly, uint8_t> adcl;
 
