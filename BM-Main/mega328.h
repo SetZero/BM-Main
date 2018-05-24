@@ -42,13 +42,6 @@ namespace BMCPP
 		struct ADMultiplexer {};
 		struct ADCStatusRegisterA {};
 		struct ADCStatusRegisterB {};
-
-		template<uint8_t number>
-		struct Spcr { };
-		template<uint8_t number>
-		struct Spsr { };
-		template<uint8_t number>
-		struct Spdr { };
 		
         struct ATMega328 final
         {
@@ -85,7 +78,7 @@ namespace BMCPP
 				ControlRegister<SPI, spsr> spsr0;
 				DataRegister<SPI, ReadWrite> spdr0;
 
-				template<typename register_name> struct address;
+				template<uint8_t N> struct address;
 			};
 
 
@@ -178,7 +171,7 @@ namespace BMCPP
         template<>
         struct ATMega328::Port::address<B>
         {
-             static constexpr uintptr_t value = 0x25;
+             static constexpr uintptr_t value = 0x23;
         };
         template<>
         struct ATMega328::Port::address<C>
@@ -195,6 +188,12 @@ namespace BMCPP
         struct ATMega328::Timer8Bit::address<0> {
             static constexpr uint8_t value = 0x44;
         };
+
+		template<>
+		struct ATMega328::SPI::address<0>
+		{
+			static constexpr uint8_t value = 0x4C;
+		};
 
 		//ADC
 		template<>

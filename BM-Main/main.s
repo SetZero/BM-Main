@@ -9,7 +9,7 @@ __zero_reg__ = 1
 
  ;  GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072
  ;  options passed:  -I ./include -imultilib avr5
- ;  -iprefix c:\users\keven\downloads\avr-gcc-7.3.0-x64-mingw\bin\../lib/gcc/avr/7.3.0/
+ ;  -iprefix f:\users\keven\downloads\avr-gcc-7.3.0-x64-mingw\bin\../lib/gcc/avr/7.3.0/
  ;  -D__AVR_ATmega328P__ -D__AVR_DEVICE_NAME__=atmega328p -D F_CPU=16000000
  ;  main.cc -mn-flash=1 -mmcu=avr5 -auxbase-strip main.s -Os -Wall -Wextra
  ;  -Wconversion -std=c++1z -fconcepts -fno-unwind-tables
@@ -69,33 +69,16 @@ main:
 /* frame size = 0 */
 /* stack size = 0 */
 .L__stack_usage = 0
- ;  SPI.h:93: 			*spcr_adr = spcr;
-	ldi r24,lo8(117)	 ;  tmp48,
-	ldi r25,0	 ; 
-	out 0x2c+1,r25	 ;  MEM[(volatile uintptr_t *)76B], tmp48
-	out 0x2c,r24	 ;  MEM[(volatile uintptr_t *)76B], tmp48
- ;  SPI.h:96: 			*spsr_adr = clockspeed;
-	ldi r24,lo8(1)	 ;  tmp50,
-	ldi r25,0	 ; 
-	out 0x2d+1,r25	 ;  MEM[(volatile uintptr_t *)77B], tmp50
-	out 0x2d,r24	 ;  MEM[(volatile uintptr_t *)77B], tmp50
  ;  main.cc:37: 	DDRB |= (1 << PB5);
 	sbi 0x4,5	 ; ,
 .L2:
- ;  main.cc:42: 		*pbadr ^= (1 << 5);
-	in r24,0x5	 ;  _3, MEM[(volatile uintptr_t *)37B]
-	in r25,0x5+1	 ;  _3, MEM[(volatile uintptr_t *)37B]
-	ldi r18,32	 ; ,
-	eor r24,r18	 ;  _4,
-	out 0x5+1,r25	 ;  MEM[(volatile uintptr_t *)37B], _4
-	out 0x5,r24	 ;  MEM[(volatile uintptr_t *)37B], _4
- ;  c:\users\keven\downloads\avr-gcc-7.3.0-x64-mingw\avr\include\util\delay.h:187: 	__builtin_avr_delay_cycles(__ticks_dc);
-	ldi r24,lo8(1599999)	 ; ,
-	ldi r25,hi8(1599999)	 ; ,
-	ldi r18,hlo8(1599999)	 ; ,
-1:	subi r24,1	 ; 
+ ;  f:\users\keven\downloads\avr-gcc-7.3.0-x64-mingw\avr\include\util\delay.h:187: 	__builtin_avr_delay_cycles(__ticks_dc);
+	ldi r18,lo8(1599999)	 ; ,
+	ldi r24,hi8(1599999)	 ; ,
+	ldi r25,hlo8(1599999)	 ; ,
+1:	subi r18,1	 ; 
+	sbci r24,0	 ; 
 	sbci r25,0	 ; 
-	sbci r18,0	 ; 
 	brne 1b
 	rjmp .
 	nop
