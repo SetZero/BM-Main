@@ -72,41 +72,41 @@ main:
  ;  SPI.h:90: 			*portAddress |= MISO;
 	in r24,0x5	 ;  MEM[(uintptr_t *)37B], MEM[(uintptr_t *)37B]
 	in r25,0x5+1	 ;  MEM[(uintptr_t *)37B], MEM[(uintptr_t *)37B]
-	ori r24,64	 ;  tmp59,
-	out 0x5+1,r25	 ;  MEM[(uintptr_t *)37B], tmp59
-	out 0x5,r24	 ;  MEM[(uintptr_t *)37B], tmp59
+	ori r24,64	 ;  tmp63,
+	out 0x5+1,r25	 ;  MEM[(uintptr_t *)37B], tmp63
+	out 0x5,r24	 ;  MEM[(uintptr_t *)37B], tmp63
  ;  SPI.h:91: 			*ddrAddress |= (MOSI | SCK) 	  // set outputs
 	in r24,0x6	 ;  MEM[(uintptr_t *)38B], MEM[(uintptr_t *)38B]
 	in r25,0x6+1	 ;  MEM[(uintptr_t *)38B], MEM[(uintptr_t *)38B]
-	ori r24,160	 ;  tmp63,
-	out 0x6+1,r25	 ;  MEM[(uintptr_t *)38B], tmp63
-	out 0x6,r24	 ;  MEM[(uintptr_t *)38B], tmp63
- ;  SPI.h:94: 			volatile uintptr_t* spcr_adr = (uintptr_t*)BMCPP::Hal::SPI<0>::spcr();
-	in r30,0x2c	 ;  _18, MEM[(volatile uintptr_t &)76B]
-	in r31,0x2c+1	 ;  _18, MEM[(volatile uintptr_t &)76B]
+	ori r24,160	 ;  tmp67,
+	out 0x6+1,r25	 ;  MEM[(uintptr_t *)38B], tmp67
+	out 0x6,r24	 ;  MEM[(uintptr_t *)38B], tmp67
+ ;  register.h:83:                 return hwRegister;
+	in r30,0x2c	 ;  _18, MEM[(struct ControlRegister *)76B].hwRegister
+	in r31,0x2c+1	 ;  _18, MEM[(struct ControlRegister *)76B].hwRegister
  ;  SPI.h:95: 			*spcr_adr = spcr;
-	ldi r24,lo8(117)	 ;  tmp66,
+	ldi r24,lo8(117)	 ;  tmp70,
 	ldi r25,0	 ; 
-	std Z+1,r25	 ;  *spcr_adr_19, tmp66
-	st Z,r24	 ;  *spcr_adr_19, tmp66
- ;  SPI.h:96: 			volatile uintptr_t* spsr_adr = (uintptr_t*)BMCPP::Hal::SPI<0>::spsr();
-	in r30,0x2e	 ;  _20, MEM[(volatile uintptr_t &)76B + 2]
-	in r31,0x2e+1	 ;  _20, MEM[(volatile uintptr_t &)76B + 2]
+	std Z+1,r25	 ;  *spcr_adr_20, tmp70
+	st Z,r24	 ;  *spcr_adr_20, tmp70
+ ;  register.h:83:                 return hwRegister;
+	in r30,0x2e	 ;  _21, MEM[(struct ControlRegister *)76B + 2B].hwRegister
+	in r31,0x2e+1	 ;  _21, MEM[(struct ControlRegister *)76B + 2B].hwRegister
  ;  SPI.h:98: 			*spsr_adr = clockspeed;
-	ldi r24,lo8(1)	 ;  tmp68,
+	ldi r24,lo8(1)	 ;  tmp72,
 	ldi r25,0	 ; 
-	std Z+1,r25	 ;  *spsr_adr_21, tmp68
-	st Z,r24	 ;  *spsr_adr_21, tmp68
- ;  main.cc:37: 	DDRB |= (1 << PB5);
+	std Z+1,r25	 ;  *spsr_adr_23, tmp72
+	st Z,r24	 ;  *spsr_adr_23, tmp72
+ ;  main.cc:36: 	DDRB |= (1 << PB5);
 	sbi 0x4,5	 ; ,
  ;  hal\port.h:92:                     Port::ddr() |= mask;
 	sbi 0x4,3	 ; ,
  ;  main.cc:44: 		test ^= (1 << 5);
-	ldi r25,lo8(32)	 ;  tmp74,
+	ldi r25,lo8(32)	 ;  tmp78,
 .L2:
  ;  main.cc:44: 		test ^= (1 << 5);
 	in r24,0x5	 ;  _3, MEM[(volatile uint8_t &)35B + 2]
-	eor r24,r25	 ;  _4, tmp74
+	eor r24,r25	 ;  _4, tmp78
 	out 0x5,r24	 ;  MEM[(volatile uint8_t &)35B + 2], _4
  ;  c:\users\keven\downloads\avr-gcc-7.3.0-x64-mingw\avr\include\util\delay.h:187: 	__builtin_avr_delay_cycles(__ticks_dc);
 	ldi r18,lo8(1599999)	 ; ,

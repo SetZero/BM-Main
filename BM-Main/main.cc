@@ -15,11 +15,6 @@
 using namespace BMCPP;
 using namespace AVR;
 
-struct ab {
-	ab() = delete;
-	inline void testfunc() {}
-};
-
 int main(){
 	/*
 	constexpr bool x = utils::isEqual<int, int>::value;
@@ -41,10 +36,10 @@ int main(){
 	DDRB |= (1 << PB5);
 	using outB = BMCPP::Hal::Port<AVR::B>;
 	volatile uint8_t& test = outB::get();
-	ab tt;
-	tt.testfunc();
 	using pinb3 = BMCPP::Hal::Pin<outB, 3>;
 	pinb3::dir<BMCPP::Hal::Output>();
+	constexpr auto x = BMCPP::Hal::SPI<0>::spcr();
+	
 	while (true) {
 		
 		//volatile uintptr_t* pbadr = ((uintptr_t*)getAddress<ATMega328::Port,B>());

@@ -50,10 +50,10 @@ namespace BMCPP {
 			static volatile uintptr_t& spdr() {
 				return *spi()->Spdr;
 			}
-			static volatile uintptr_t spcr() {
+			static volatile auto spcr() {
 				return spi()->Spcr.raw();
 			}
-			static volatile uintptr_t spsr() {
+			static volatile auto spsr() {
 				return spi()->Spsr.raw();
 			}
 		};

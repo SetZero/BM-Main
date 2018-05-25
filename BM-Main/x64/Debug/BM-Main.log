@@ -1,18 +1,14 @@
 ﻿  avr-g++ -MM -MG -DF_CPU=16000000 -I./include -mmcu=atmega328p -Wall -Wextra -Wconversion -std=c++17 -Os -fconcepts  -fno-exceptions -fno-unwind-tables -fno-rtti -fno-threadsafe-statics  -funsigned-char -funsigned-bitfields -fshort-enums  main.cc | sed "s/main\.o/& main.d/g" > main.d
   avr-g++ -mmcu=atmega328p -Wall -Wextra -Wconversion -std=c++17 -Os -fconcepts  -fno-exceptions -fno-unwind-tables -fno-rtti -fno-threadsafe-statics  -funsigned-char -funsigned-bitfields -fshort-enums  -DF_CPU=16000000 -I./include  -c -o main.o main.cc
-  In file included from main.cc:11:0:
-hal\port.h(53,11): warning G09FAF064: type qualifiers ignored on function return type [-Wignored-qualifiers]
-      static volatile uintptr_t spcr() {
-             ^~~~~~~~
-hal\port.h(56,11): warning G09FAF064: type qualifiers ignored on function return type [-Wignored-qualifiers]
-      static volatile uintptr_t spsr() {
-             ^~~~~~~~
   main.cc: In function 'int main()':
-main.cc(44,5): error GD4849D22: use of deleted function 'main()::ab::ab()'
-    ab tt;
-       ^~
-  main.cc:36:3: note: declared here
-     ab() = delete;
-     ^~
+main.cc(41,45): error G0CEF2681: call to non-constexpr function 'static volatile auto BMCPP::Hal::SPI<number, MicroController>::spcr() [with unsigned char number = 0; MicroController = BMCPP::AVR::ATMega328]'
+    constexpr auto x = BMCPP::Hal::SPI<0>::spcr();
+                       ~~~~~~~~~~~~~~~~~~~~~~~~^~
+main.cc(42,32): error G0DBC36AE: could not convert template argument 'x' from 'const unsigned int' to 'int'
+    utils::integralConstant<int, x>::_;
+                                  ^
+main.cc(42,35): warning G7C671A4C: unused variable '_' [-Wunused-variable]
+    utils::integralConstant<int, x>::_;
+                                     ^
   make: *** [<builtin>: main.o] Error 1
 C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\VC\VCTargets\Microsoft.MakeFile.Targets(44,5): error MSB3073: Der Befehl "make" wurde mit dem Code 2 beendet.
