@@ -2,37 +2,38 @@
 
 #include <stdint.h>
 #include "SPI.h"
+#include "Utils\Utils.h"
 
-#define Idle_CMD 				0x00
-#define Mem_CMD					0x01
-#define GenerateRandomId_CMD	0x02
-#define CalcCRC_CMD				0x03
-#define Transmit_CMD			0x04
-#define NoCmdChange_CMD			0x07
-#define Receive_CMD				0x08
-#define Transceive_CMD			0x0C
-#define Reserved_CMD			0x0D
-#define MFAuthent_CMD			0x0E
-#define SoftReset_CMD			0x0F
+constexpr char Idle_CMD = 0x00;
+constexpr char Mem_CMD = 0x01;
+constexpr char GenerateRandomId_CMD = 0x02;
+constexpr char CalcCRC_CMD = 0x03;
+constexpr char Transmit_CMD = 0x04;
+constexpr char NoCmdChange_CMD = 0x07;
+constexpr char Receive_CMD = 0x08;
+constexpr char Transceive_CMD = 0x0C;
+constexpr char Reserved_CMD = 0x0D;
+constexpr char MFAuthent_CMD = 0x0E;
+constexpr char SoftReset_CMD = 0x0F;
 
 
 //Page 0 ==> Command and Status
-#define Page0_Reserved_1 	0x00
-#define CommandReg			0x01
-#define ComIEnReg			0x02
-#define DivIEnReg			0x03
-#define ComIrqReg			0x04
-#define DivIrqReg			0x05
-#define ErrorReg			0x06
-#define Status1Reg			0x07
-#define Status2Reg			0x08
-#define FIFODataReg			0x09
-#define FIFOLevelReg		0x0A
-#define WaterLevelReg		0x0B
-#define ControlReg			0x0C
-#define BitFramingReg		0x0D
-#define CollReg				0x0E
-#define Page0_Reserved_2	0x0F
+constexpr char Page0_Reserved_1 =	0x00;
+constexpr char CommandReg		=	0x01;
+constexpr char ComIEnReg		=	0x02;
+constexpr char DivIEnReg		=	0x03;
+constexpr char ComIrqReg		=	0x04;
+constexpr char DivIrqReg		=	0x05;
+constexpr char ErrorReg			=0x06;
+constexpr char Status1Reg = 0x07;
+constexpr char Status2Reg = 0x08;
+constexpr char FIFODataReg = 0x09;
+constexpr char FIFOLevelReg = 0x0A;
+constexpr char WaterLevelReg = 0x0B;
+constexpr char ControlReg = 0x0C;
+constexpr char BitFramingReg = 0x0D;
+constexpr char CollReg = 0x0E;
+constexpr char Page0_Reserved_2 = 0x0F;
 
 //Page 1 ==> Command
 #define Page1_Reserved_1	0x10
@@ -123,12 +124,13 @@ uint8_t mfrc522_read(uint8_t reg);
 uint8_t	mfrc522_request(uint8_t req_mode, uint8_t * tag_type);
 uint8_t mfrc522_to_card(uint8_t cmd, uint8_t *send_data, uint8_t send_data_len, uint8_t *back_data, uint32_t *back_data_len);
 uint8_t mfrc522_get_card_serial(uint8_t * serial_out);
+using spi0 = spi::SPI<spi::Mode::m1, spi::ClkRate::clkRateDiv16>;
 
-void mfrc522_init()
+void mfrc522_init(uintptr_t* port)
 {
+	spi0::init(port,++port);
 	uint8_t byte;
 	mfrc522_reset();
-
 	mfrc522_write(TModeReg, 0x8D);
 	mfrc522_write(TPrescalerReg, 0x3E);
 	mfrc522_write(TReloadReg_1, 30);
@@ -143,11 +145,10 @@ void mfrc522_init()
 	}
 }
 
-using spi0 = spi::SPI<spi::Mode::m1, spi::ClkRate::clkRateDiv16>;
+
 void mfrc522_write(uint8_t reg, uint8_t data)
 {
 	//ENABLE_CHIP();
-	
 	spi0::spi_send((reg << 1) & 0x7E);
 	spi0::spi_send(data);
 	//DISABLE_CHIP();
@@ -163,11 +164,12 @@ uint8_t mfrc522_read(uint8_t reg)
 	return data;
 }
 
+
 void mfrc522_reset()
 {
 	mfrc522_write(CommandReg, SoftReset_CMD);
 }
-
+   /*
 uint8_t	mfrc522_request(uint8_t req_mode, uint8_t * tag_type)
 {
 	uint8_t  status;
@@ -329,3 +331,4 @@ uint8_t mfrc522_get_card_serial(uint8_t * serial_out)
 	}
 	return status;
 }
+*/
