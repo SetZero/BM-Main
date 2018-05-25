@@ -15,6 +15,10 @@
 using namespace BMCPP;
 using namespace AVR;
 
+struct ab {
+	ab() = delete;
+	inline void testfunc() {}
+};
 
 int main(){
 	/*
@@ -35,10 +39,16 @@ int main(){
 	using spi0 = spi::SPI<spi::Mode::m0, spi::ClkRate::clkRateDiv4>;
 	spi0::init((uintptr_t*)0x25, (uintptr_t*)0x26);
 	DDRB |= (1 << PB5);
+	using outB = BMCPP::Hal::Port<AVR::B>;
+	volatile uint8_t& test = outB::get();
+	ab tt;
+	tt.testfunc();
+	using pinb3 = BMCPP::Hal::Pin<outB, 3>;
+	pinb3::dir<BMCPP::Hal::Output>();
 	while (true) {
+		
 		//volatile uintptr_t* pbadr = ((uintptr_t*)getAddress<ATMega328::Port,B>());
-		using outB = BMCPP::Hal::Port<AVR::B>;
-	    outB::get();
+		test ^= (1 << 5);
 		//*pbadr ^= (1 << 5);
 		_delay_ms(500);
 		//spi0::spi_send(0);

@@ -19,6 +19,7 @@
 #pragma once
 
 #include <stdint.h>
+#include "../Utils/Utils.h"
 #include "../meta/meta.h"
 #include "../AVR_concepts.h"
 
@@ -33,12 +34,13 @@ namespace BMCPP {
 	#ifdef __AVR_ATmega328P__
 		#define __DEFAULT_MMCU__ AVR::ATMega328
 	#else
-		#define	 __DEFAULT_MMCU__ AVR::ATMega328
+		#define	 __DEFAULT_MMCU__ void
 	#endif // __AVR_ATmega328P__
 
 
 		template<uint8_t number, typename MicroController = __DEFAULT_MMCU__>
 		class SPI {
+			static_assert(!utils::isEqual<void, __DEFAULT_MMCU__>::value, "no default MMCU defined");
 			static_assert(AVR::isUC<MicroController>(), "type MicroController does not match the requirements");
 			SPI() = delete;
 			static inline constexpr auto spi = AVR::getAddress<typename MicroController::SPI, number>;
@@ -48,11 +50,11 @@ namespace BMCPP {
 			static volatile uintptr_t& spdr() {
 				return *spi()->Spdr;
 			}
-			static volatile uintptr_t& spcr() {
-				return *spi()->Spcr;
+			static volatile uintptr_t spcr() {
+				return spi()->Spcr.raw();
 			}
-			static volatile uintptr_t& spsr() {
-				return *spi()->Spsr;
+			static volatile uintptr_t spsr() {
+				return spi()->Spsr.raw();
 			}
 		};
 

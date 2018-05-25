@@ -64,7 +64,7 @@ namespace spi {
 	{
 		using UC = MicroController;
 		static_assert(isUC<UC>(),"typename UC is not a Microcontroller");
-
+		static constexpr volatile uint8_t& scr_adr = Hal::Port<B>::get();
 		static constexpr uint8_t master = Master ? 1 : 0;
 		static constexpr uint8_t lsbFirst = lsbfirst ? 1 : 0;
 		static constexpr uint8_t dblclk = doubleSpeed ? 1 : 0;
