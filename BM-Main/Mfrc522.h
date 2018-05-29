@@ -4,17 +4,13 @@
 #include "SPI.h"
 #include "Utils\Utils.h"
 
-constexpr char Idle_CMD = 0x00;
-constexpr char Mem_CMD = 0x01;
-constexpr char GenerateRandomId_CMD = 0x02;
-constexpr char CalcCRC_CMD = 0x03;
-constexpr char Transmit_CMD = 0x04;
-constexpr char NoCmdChange_CMD = 0x07;
-constexpr char Receive_CMD = 0x08;
-constexpr char Transceive_CMD = 0x0C;
-constexpr char Reserved_CMD = 0x0D;
-constexpr char MFAuthent_CMD = 0x0E;
-constexpr char SoftReset_CMD = 0x0F;
+enum class commands : uint8_t {
+	Idle_CMD = 0x00, Mem_CMD = 0x01,GenerateRandomId_CMD = 0x02,CalcCRC_CMD = 0x03,
+	Transmit_CMD = 0x04, NoCmdChange_CMD = 0x07, Receive_CMD = 0x08,Transceive_CMD = 0x0C,
+    Reserved_CMD = 0x0D,MFAuthent_CMD = 0x0E,SoftReset_CMD = 0x0F
+};
+
+
 
 
 //Page 0 ==> Command and Status
@@ -124,11 +120,13 @@ uint8_t mfrc522_read(uint8_t reg);
 uint8_t	mfrc522_request(uint8_t req_mode, uint8_t * tag_type);
 uint8_t mfrc522_to_card(uint8_t cmd, uint8_t *send_data, uint8_t send_data_len, uint8_t *back_data, uint32_t *back_data_len);
 uint8_t mfrc522_get_card_serial(uint8_t * serial_out);
+
 using spi0 = spi::SPI<spi::Mode::m1, spi::ClkRate::clkRateDiv16>;
 
 void mfrc522_init(uintptr_t* port)
 {
-	spi0::init(port,++port);
+	//out port ----- ddr port
+	spi0::init(port+2,++port);
 	uint8_t byte;
 	mfrc522_reset();
 	mfrc522_write(TModeReg, 0x8D);
@@ -167,9 +165,9 @@ uint8_t mfrc522_read(uint8_t reg)
 
 void mfrc522_reset()
 {
-	mfrc522_write(CommandReg, SoftReset_CMD);
+	mfrc522_write(CommandReg, static_cast<uint8_t>(commands::SoftReset_CMD));
 }
-   /*
+
 uint8_t	mfrc522_request(uint8_t req_mode, uint8_t * tag_type)
 {
 	uint8_t  status;
@@ -178,7 +176,7 @@ uint8_t	mfrc522_request(uint8_t req_mode, uint8_t * tag_type)
 	mfrc522_write(BitFramingReg, 0x07);//TxLastBists = BitFramingReg[2..0]	???
 
 	tag_type[0] = req_mode;
-	status = mfrc522_to_card(Transceive_CMD, tag_type, 1, tag_type, &backBits);
+	status = mfrc522_to_card(static_cast<uint8_t>(commands::Transceive_CMD), tag_type, 1, tag_type, &backBits);
 
 	if ((status != CARD_FOUND) || (backBits != 0x10))
 	{
@@ -188,7 +186,7 @@ uint8_t	mfrc522_request(uint8_t req_mode, uint8_t * tag_type)
 	return status;
 }
 
-uint8_t mfrc522_to_card(uint8_t cmd, uint8_t *send_data, uint8_t send_data_len, uint8_t *back_data, uint32_t *back_data_len)
+uint8_t mfrc522_to_card(commands cmd, uint8_t *send_data, uint8_t send_data_len, uint8_t *back_data, uint32_t *back_data_len)
 {
 	uint8_t status = ERROR;
 	uint8_t irqEn = 0x00;
@@ -200,13 +198,13 @@ uint8_t mfrc522_to_card(uint8_t cmd, uint8_t *send_data, uint8_t send_data_len, 
 
 	switch (cmd)
 	{
-	case MFAuthent_CMD:		//Certification cards close
+	case  (commands::MFAuthent_CMD):		//Certification cards close
 	{
 		irqEn = 0x12;
 		waitIRq = 0x10;
 		break;
 	}
-	case Transceive_CMD:	//Transmit FIFO data
+	case  (commands::Transceive_CMD):	//Transmit FIFO data
 	{
 		irqEn = 0x77;
 		waitIRq = 0x30;
@@ -222,7 +220,7 @@ uint8_t mfrc522_to_card(uint8_t cmd, uint8_t *send_data, uint8_t send_data_len, 
 	n = mfrc522_read(FIFOLevelReg);
 	mfrc522_write(FIFOLevelReg, n | 0x80);//flush FIFO data
 
-	mfrc522_write(CommandReg, Idle_CMD);	//NO action; Cancel the current cmd???
+	mfrc522_write(CommandReg, static_cast<uint8_t>(commands::Idle_CMD));	//NO action; Cancel the current cmd???
 
 											//Writing data to the FIFO
 	for (i = 0; i<send_data_len; i++)
@@ -231,8 +229,8 @@ uint8_t mfrc522_to_card(uint8_t cmd, uint8_t *send_data, uint8_t send_data_len, 
 	}
 
 	//Execute the cmd
-	mfrc522_write(CommandReg, cmd);
-	if (cmd == Transceive_CMD)
+	mfrc522_write(CommandReg, static_cast<uint8_t>(cmd));
+	if (cmd == commands::Transceive_CMD)
 	{
 		n = mfrc522_read(BitFramingReg);
 		mfrc522_write(BitFramingReg, n | 0x80);
@@ -261,7 +259,7 @@ uint8_t mfrc522_to_card(uint8_t cmd, uint8_t *send_data, uint8_t send_data_len, 
 				status = CARD_NOT_FOUND;			//??   
 			}
 
-			if (cmd == Transceive_CMD)
+			if (cmd == commands::Transceive_CMD)
 			{
 				n = mfrc522_read(FIFOLevelReg);
 				lastBits = mfrc522_read(ControlReg) & 0x07;
@@ -315,7 +313,7 @@ uint8_t mfrc522_get_card_serial(uint8_t * serial_out)
 
 	serial_out[0] = PICC_ANTICOLL;
 	serial_out[1] = 0x20;
-	status = mfrc522_to_card(Transceive_CMD, serial_out, 2, serial_out, &unLen);
+	status = mfrc522_to_card(commands::Transceive_CMD, serial_out, 2, serial_out, &unLen);
 
 	if (status == CARD_FOUND)
 	{
@@ -331,4 +329,3 @@ uint8_t mfrc522_get_card_serial(uint8_t * serial_out)
 	}
 	return status;
 }
-*/
