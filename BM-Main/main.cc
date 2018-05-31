@@ -10,38 +10,24 @@
 #include "mega328.h"
 #include "hal\port.h"
 #include "SPI.h"
+#include "Mfrc522.h"
 
 
 using namespace BMCPP;
 using namespace AVR;
 
 int main(){
-	/*
-	constexpr bool x = utils::isEqual<int, int>::value;
-	using s = utils::conditional<x, long, double>::type;
-	static_assert(utils::isEqual<s, long>::value, "?");
-	constexpr double c1 = utils::integralConstant<int, 3>::value;
-	constexpr double c2 = utils::integralConstant<int, 4>::value;
-	constexpr bool t = c1 < c2;
-	static_assert(t, "c1 was >= c2");
-
-	using erg = utils::minRequired<420>::type;
-	static_assert(utils::sameTypes<int, int, int>(), "");
-	using spiComp = SPI<Mode::m0, ClkRate::clkRateDiv4,0x2b,0x2C>;
-	constexpr bool tttt = utils::isEqual<erg, short>::value;
-	static_assert(tttt, "??");	 */
-	//volatile uintptr_t* PortB = (uintptr_t*)0x25;
 	using spi0 = spi::SPI<spi::Mode::m0, spi::ClkRate::clkRateDiv4>;
-	spi0::init((uintptr_t*)0x25, (uintptr_t*)0x26);
+	spi0::init<BMCPP::Hal::Port<BMCPP::AVR::B>>();
+	MFRC522<>::mfrc522_init<BMCPP::Hal::Port<BMCPP::AVR::B>>();
 	DDRB |= (1 << PB5);
 	using outB = BMCPP::Hal::Port<AVR::B>;
 	volatile uint8_t& test = outB::get();
 	using pinb3 = BMCPP::Hal::Pin<outB, 3>;
 	pinb3::dir<BMCPP::Hal::Output>();
-	constexpr auto x = BMCPP::Hal::SPI<0>::spcr();
+	auto x = BMCPP::Hal::SPI<0>::spcr();
 	
 	while (true) {
-		
 		//volatile uintptr_t* pbadr = ((uintptr_t*)getAddress<ATMega328::Port,B>());
 		test ^= (1 << 5);
 		//*pbadr ^= (1 << 5);

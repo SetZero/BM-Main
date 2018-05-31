@@ -27,6 +27,7 @@
     <ClInclude Include="meta\meta.h" />
     <ClInclude Include="Mfrc522.h" />
     <ClInclude Include="register.h" />
+    <ClInclude Include="RFID_Cards.h" />
     <ClInclude Include="SPI.h" />
     <ClInclude Include="Utils\Utils.h" />
   </ItemGroup>

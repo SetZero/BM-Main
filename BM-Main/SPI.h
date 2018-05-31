@@ -60,16 +60,15 @@ namespace spi {
 	//
 	template<Mode mode, ClkRate clockRate, bool Master = true, bool lsbfirst = true, bool doubleSpeed = true, typename MicroController = __DEFAULT_MMCU__ >
 	//requires isUC<MicroController>()	-> moved to static assert (syntax highlighting)
-	struct SPI
-	{
+	struct SPI {
 		using UC = MicroController;
-		static_assert(isUC<UC>(),"typename UC is not a Microcontroller");
+		static_assert(isUC<UC>(),"typename MicroController is not a Microcontroller");
 		static constexpr volatile uint8_t& scr_adr = Hal::Port<B>::get();
 		static constexpr uint8_t master = Master ? 1 : 0;
 		static constexpr uint8_t lsbFirst = lsbfirst ? 1 : 0;
 		static constexpr uint8_t dblclk = doubleSpeed ? 1 : 0;
 		static constexpr uint8_t modeB = static_cast<uint8_t> (mode);
-		static constexpr uint8_t clockRateB = static_cast<uint8_t> (clockRate);
+		static constexpr uint8_t clockRateB = static_cast<uint8_t> (UC::ClkRate);
 		static constexpr uint8_t spcr = (
 			(static_cast<uint8_t>(UC::SPI::spcr::SPE0)) | //enable SPI
 			((lsbFirst & LSBFIRST_MASK) | static_cast<uint8_t>(UC::SPI::spcr::DORD0)) | //set msb/lsb ordering
@@ -86,14 +85,16 @@ namespace spi {
 		//constexpr port |= (1 << MISO); //turn on pull-up resistor
 							  //set SPI control register
 
-		static void init(uintptr_t* portAddress,uintptr_t* ddrAddress) {
-			*portAddress |= MISO;
-			*ddrAddress |= (MOSI | SCK) 	  // set outputs
+		template<typename Port>
+		static void init() {
+			static_assert(BMCPP::AVR::isPort<Port>(), "typename Port is not a Port!");
+			Port::get() |= MISO;
+			Port::ddr() |= (MOSI | SCK) 	  // set outputs
 						& ~(MISO);			 //  set inputs
 
-			volatile uintptr_t* spcr_adr = (uintptr_t*)BMCPP::Hal::SPI<0>::spcr();
+			volatile typename UC::Mem_Width* spcr_adr = (typename UC::Mem_Width*)BMCPP::Hal::SPI<0>::spcr();
 			*spcr_adr = spcr;
-			volatile uintptr_t* spsr_adr = (uintptr_t*)BMCPP::Hal::SPI<0>::spsr();
+			volatile typename UC::Mem_Width* spsr_adr = (typename UC::Mem_Width*)BMCPP::Hal::SPI<0>::spsr();
 			//set double speed bit
 			*spsr_adr = clockspeed;
 		}
@@ -101,17 +102,16 @@ namespace spi {
 		//shifts out 8 bits of data
 		//  uint8_t data - the data to be shifted out
 		//  returns uint8_t - the data received during sending
-		static uintptr_t spi_send(uintptr_t value) {
-			volatile uintptr_t* spdr_adr = (uintptr_t*)BMCPP::Hal::SPI<0>::spdr();
-			uintptr_t result;
-			volatile uintptr_t* spsr_adr = (uintptr_t*)BMCPP::Hal::SPI<0>::spsr();
+		static typename UC::Mem_Width spi_send(typename UC::Mem_Width value) {
+			volatile typename UC::Mem_Width* spdr_adr = (typename UC::Mem_Width*)BMCPP::Hal::SPI<0>::spdr();
+			typename UC::Mem_Width result;
+			volatile typename UC::Mem_Width* spsr_adr = (typename UC::Mem_Width*)BMCPP::Hal::SPI<0>::spsr();
 			//shift the first byte of the value
 			*spdr_adr = value;
 			//wait for the SPI bus to finish
 			while (!(*spsr_adr | (static_cast<uint8_t>(UC::SPI::spsr::SPIF0))));
 			//get the received data
 			result = *spdr_adr;
-
 			return result;
 		}
 	};

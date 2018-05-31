@@ -45,6 +45,9 @@
     <ClInclude Include="Mfrc522.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
+    <ClInclude Include="RFID_Cards.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cc">

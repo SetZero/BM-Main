@@ -9,6 +9,17 @@ namespace BMCPP {
 				typename T::SPI;
 				typename T::Timer8Bit;
 				typename T::ADConverter;
+				typename T::Mem_Width;
+				T::ClkRate;
+			};
+		}
+
+		template<typename T>
+		concept bool isPort() {
+			return requires(T t) {
+				T::ddr();
+				T::get();
+				T::read();
 			};
 		}
 	}
