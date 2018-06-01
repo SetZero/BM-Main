@@ -1,7 +1,11 @@
 Archive member included to satisfy reference by file (symbol)
 
-f:/users/keven/downloads/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/avr5\libgcc.a(_exit.o)
-                              f:/users/keven/downloads/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5/crtatmega328p.o (exit)
+e:/programme/avr-gcc/bin/../lib/gcc/avr/8.1.0/avr5\libgcc.a(_exit.o)
+                              e:/programme/avr-gcc/bin/../lib/gcc/avr/8.1.0/../../../../avr/lib/avr5/crtatmega328p.o (exit)
+e:/programme/avr-gcc/bin/../lib/gcc/avr/8.1.0/avr5\libgcc.a(_copy_data.o)
+                              main.o (__do_copy_data)
+e:/programme/avr-gcc/bin/../lib/gcc/avr/8.1.0/avr5\libgcc.a(_clear_bss.o)
+                              main.o (__do_clear_bss)
 
 Discarded input sections
 
@@ -24,14 +28,14 @@ user_signatures  0x0000000000850000 0x0000000000000400 rw !x
 Linker script and memory map
 
 Address of section .data set to 0x800100
-LOAD f:/users/keven/downloads/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5/crtatmega328p.o
+LOAD e:/programme/avr-gcc/bin/../lib/gcc/avr/8.1.0/../../../../avr/lib/avr5/crtatmega328p.o
 Address of section .mmcu set to 0x910000
 LOAD main.o
 START GROUP
-LOAD f:/users/keven/downloads/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/avr5\libgcc.a
-LOAD f:/users/keven/downloads/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libm.a
-LOAD f:/users/keven/downloads/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libc.a
-LOAD f:/users/keven/downloads/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libatmega328p.a
+LOAD e:/programme/avr-gcc/bin/../lib/gcc/avr/8.1.0/avr5\libgcc.a
+LOAD e:/programme/avr-gcc/bin/../lib/gcc/avr/8.1.0/../../../../avr/lib/avr5\libm.a
+LOAD e:/programme/avr-gcc/bin/../lib/gcc/avr/8.1.0/../../../../avr/lib/avr5\libc.a
+LOAD e:/programme/avr-gcc/bin/../lib/gcc/avr/8.1.0/../../../../avr/lib/avr5\libatmega328p.a
 END GROUP
                 0x0000000000020000                __TEXT_REGION_LENGTH__ = DEFINED (__TEXT_REGION_LENGTH__)?__TEXT_REGION_LENGTH__:0x20000
                 0x000000000000ffa0                __DATA_REGION_LENGTH__ = DEFINED (__DATA_REGION_LENGTH__)?__DATA_REGION_LENGTH__:0xffa0
@@ -131,9 +135,9 @@ END GROUP
 .rela.plt
  *(.rela.plt)
 
-.text           0x0000000000000000      0x15a
+.text           0x0000000000000000      0x2fc
  *(.vectors)
- .vectors       0x0000000000000000       0x68 f:/users/keven/downloads/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5/crtatmega328p.o
+ .vectors       0x0000000000000000       0x68 e:/programme/avr-gcc/bin/../lib/gcc/avr/8.1.0/../../../../avr/lib/avr5/crtatmega328p.o
                 0x0000000000000000                __vector_default
                 0x0000000000000000                __vectors
  *(.vectors)
@@ -159,17 +163,21 @@ END GROUP
  SORT_BY_NAME(*)(.ctors)
  SORT_BY_NAME(*)(.dtors)
  *(.init0)
- .init0         0x0000000000000068        0x0 f:/users/keven/downloads/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5/crtatmega328p.o
+ .init0         0x0000000000000068        0x0 e:/programme/avr-gcc/bin/../lib/gcc/avr/8.1.0/../../../../avr/lib/avr5/crtatmega328p.o
                 0x0000000000000068                __init
  *(.init0)
  *(.init1)
  *(.init1)
  *(.init2)
- .init2         0x0000000000000068        0xc f:/users/keven/downloads/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5/crtatmega328p.o
+ .init2         0x0000000000000068        0xc e:/programme/avr-gcc/bin/../lib/gcc/avr/8.1.0/../../../../avr/lib/avr5/crtatmega328p.o
  *(.init2)
  *(.init3)
  *(.init3)
  *(.init4)
+ .init4         0x0000000000000074       0x16 e:/programme/avr-gcc/bin/../lib/gcc/avr/8.1.0/avr5\libgcc.a(_copy_data.o)
+                0x0000000000000074                __do_copy_data
+ .init4         0x000000000000008a       0x10 e:/programme/avr-gcc/bin/../lib/gcc/avr/8.1.0/avr5\libgcc.a(_clear_bss.o)
+                0x000000000000008a                __do_clear_bss
  *(.init4)
  *(.init5)
  *(.init5)
@@ -180,69 +188,102 @@ END GROUP
  *(.init8)
  *(.init8)
  *(.init9)
- .init9         0x0000000000000074        0x8 f:/users/keven/downloads/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5/crtatmega328p.o
+ .init9         0x000000000000009a        0x8 e:/programme/avr-gcc/bin/../lib/gcc/avr/8.1.0/../../../../avr/lib/avr5/crtatmega328p.o
  *(.init9)
  *(.text)
- .text          0x000000000000007c        0x4 f:/users/keven/downloads/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5/crtatmega328p.o
-                0x000000000000007c                __vector_22
-                0x000000000000007c                __vector_1
-                0x000000000000007c                __vector_24
-                0x000000000000007c                __vector_12
-                0x000000000000007c                __bad_interrupt
-                0x000000000000007c                __vector_6
-                0x000000000000007c                __vector_3
-                0x000000000000007c                __vector_23
-                0x000000000000007c                __vector_25
-                0x000000000000007c                __vector_11
-                0x000000000000007c                __vector_13
-                0x000000000000007c                __vector_17
-                0x000000000000007c                __vector_19
-                0x000000000000007c                __vector_7
-                0x000000000000007c                __vector_5
-                0x000000000000007c                __vector_4
-                0x000000000000007c                __vector_9
-                0x000000000000007c                __vector_2
-                0x000000000000007c                __vector_21
-                0x000000000000007c                __vector_15
-                0x000000000000007c                __vector_8
-                0x000000000000007c                __vector_14
-                0x000000000000007c                __vector_10
-                0x000000000000007c                __vector_16
-                0x000000000000007c                __vector_18
-                0x000000000000007c                __vector_20
- .text          0x0000000000000080        0x0 main.o
- .text          0x0000000000000080        0x0 f:/users/keven/downloads/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/avr5\libgcc.a(_exit.o)
-                0x0000000000000080                . = ALIGN (0x2)
+ .text          0x00000000000000a2        0x4 e:/programme/avr-gcc/bin/../lib/gcc/avr/8.1.0/../../../../avr/lib/avr5/crtatmega328p.o
+                0x00000000000000a2                __vector_22
+                0x00000000000000a2                __vector_1
+                0x00000000000000a2                __vector_24
+                0x00000000000000a2                __vector_12
+                0x00000000000000a2                __bad_interrupt
+                0x00000000000000a2                __vector_6
+                0x00000000000000a2                __vector_3
+                0x00000000000000a2                __vector_23
+                0x00000000000000a2                __vector_25
+                0x00000000000000a2                __vector_11
+                0x00000000000000a2                __vector_13
+                0x00000000000000a2                __vector_17
+                0x00000000000000a2                __vector_7
+                0x00000000000000a2                __vector_5
+                0x00000000000000a2                __vector_4
+                0x00000000000000a2                __vector_9
+                0x00000000000000a2                __vector_2
+                0x00000000000000a2                __vector_21
+                0x00000000000000a2                __vector_15
+                0x00000000000000a2                __vector_8
+                0x00000000000000a2                __vector_14
+                0x00000000000000a2                __vector_10
+                0x00000000000000a2                __vector_16
+                0x00000000000000a2                __vector_20
+ .text          0x00000000000000a6      0x16a main.o
+                0x00000000000000a6                __vector_18
+                0x00000000000000f8                __vector_19
+                0x0000000000000142                _Z9uart_initj
+                0x0000000000000174                _Z9uart_getcv
+                0x00000000000001b2                _Z9uart_putch
+                0x00000000000001dc                _Z9uart_putsPKc
+                0x00000000000001f4                _Z11uart_puts_pPKc
+ .text          0x0000000000000210        0x0 e:/programme/avr-gcc/bin/../lib/gcc/avr/8.1.0/avr5\libgcc.a(_exit.o)
+ .text          0x0000000000000210        0x0 e:/programme/avr-gcc/bin/../lib/gcc/avr/8.1.0/avr5\libgcc.a(_copy_data.o)
+ .text          0x0000000000000210        0x0 e:/programme/avr-gcc/bin/../lib/gcc/avr/8.1.0/avr5\libgcc.a(_clear_bss.o)
+                0x0000000000000210                . = ALIGN (0x2)
  *(.text.*)
  .text._ZN3spi3SPIILNS_4ModeE1ELNS_7ClkRateE0ELb1ELb1ELb1EN5BMCPP3AVR9ATMega328EE8spi_sendEh
-                0x0000000000000080       0x10 main.o
-                0x0000000000000080                _ZN3spi3SPIILNS_4ModeE1ELNS_7ClkRateE0ELb1ELb1ELb1EN5BMCPP3AVR9ATMega328EE8spi_sendEh
+                0x0000000000000210       0x10 main.o
+                0x0000000000000210                _ZN3spi3SPIILNS_4ModeE1ELNS_7ClkRateE0ELb1ELb1ELb1EN5BMCPP3AVR9ATMega328EE8spi_sendEh
  .text._ZN7MFRC522IN5BMCPP3AVR9ATMega328EE13mfrc522_writeEN17HardwareAddresses15CommandRegisterEh
-                0x0000000000000090       0x14 main.o
-                0x0000000000000090                _ZN7MFRC522IN5BMCPP3AVR9ATMega328EE13mfrc522_writeEN17HardwareAddresses15CommandRegisterEh
+                0x0000000000000220       0x14 main.o
+                0x0000000000000220                _ZN7MFRC522IN5BMCPP3AVR9ATMega328EE13mfrc522_writeEN17HardwareAddresses15CommandRegisterEh
  .text._ZN7MFRC522IN5BMCPP3AVR9ATMega328EE12mfrc522_initINS0_3Hal4PortINS1_1BES2_EEEEvv
-                0x00000000000000a4       0x72 main.o
-                0x00000000000000a4                _ZN7MFRC522IN5BMCPP3AVR9ATMega328EE12mfrc522_initINS0_3Hal4PortINS1_1BES2_EEEEvv
- .text.startup  0x0000000000000116       0x40 main.o
-                0x0000000000000116                main
+                0x0000000000000234       0x72 main.o
+                0x0000000000000234                _ZN7MFRC522IN5BMCPP3AVR9ATMega328EE12mfrc522_initINS0_3Hal4PortINS1_1BES2_EEEEvv
+ .text.startup  0x00000000000002a6       0x52 main.o
+                0x00000000000002a6                main
  .text.libgcc.mul
-                0x0000000000000156        0x0 f:/users/keven/downloads/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/avr5\libgcc.a(_exit.o)
+                0x00000000000002f8        0x0 e:/programme/avr-gcc/bin/../lib/gcc/avr/8.1.0/avr5\libgcc.a(_exit.o)
  .text.libgcc.div
-                0x0000000000000156        0x0 f:/users/keven/downloads/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/avr5\libgcc.a(_exit.o)
- .text.libgcc   0x0000000000000156        0x0 f:/users/keven/downloads/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/avr5\libgcc.a(_exit.o)
+                0x00000000000002f8        0x0 e:/programme/avr-gcc/bin/../lib/gcc/avr/8.1.0/avr5\libgcc.a(_exit.o)
+ .text.libgcc   0x00000000000002f8        0x0 e:/programme/avr-gcc/bin/../lib/gcc/avr/8.1.0/avr5\libgcc.a(_exit.o)
  .text.libgcc.prologue
-                0x0000000000000156        0x0 f:/users/keven/downloads/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/avr5\libgcc.a(_exit.o)
+                0x00000000000002f8        0x0 e:/programme/avr-gcc/bin/../lib/gcc/avr/8.1.0/avr5\libgcc.a(_exit.o)
  .text.libgcc.builtins
-                0x0000000000000156        0x0 f:/users/keven/downloads/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/avr5\libgcc.a(_exit.o)
+                0x00000000000002f8        0x0 e:/programme/avr-gcc/bin/../lib/gcc/avr/8.1.0/avr5\libgcc.a(_exit.o)
  .text.libgcc.fmul
-                0x0000000000000156        0x0 f:/users/keven/downloads/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/avr5\libgcc.a(_exit.o)
+                0x00000000000002f8        0x0 e:/programme/avr-gcc/bin/../lib/gcc/avr/8.1.0/avr5\libgcc.a(_exit.o)
  .text.libgcc.fixed
-                0x0000000000000156        0x0 f:/users/keven/downloads/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/avr5\libgcc.a(_exit.o)
-                0x0000000000000156                . = ALIGN (0x2)
+                0x00000000000002f8        0x0 e:/programme/avr-gcc/bin/../lib/gcc/avr/8.1.0/avr5\libgcc.a(_exit.o)
+ .text.libgcc.mul
+                0x00000000000002f8        0x0 e:/programme/avr-gcc/bin/../lib/gcc/avr/8.1.0/avr5\libgcc.a(_copy_data.o)
+ .text.libgcc.div
+                0x00000000000002f8        0x0 e:/programme/avr-gcc/bin/../lib/gcc/avr/8.1.0/avr5\libgcc.a(_copy_data.o)
+ .text.libgcc   0x00000000000002f8        0x0 e:/programme/avr-gcc/bin/../lib/gcc/avr/8.1.0/avr5\libgcc.a(_copy_data.o)
+ .text.libgcc.prologue
+                0x00000000000002f8        0x0 e:/programme/avr-gcc/bin/../lib/gcc/avr/8.1.0/avr5\libgcc.a(_copy_data.o)
+ .text.libgcc.builtins
+                0x00000000000002f8        0x0 e:/programme/avr-gcc/bin/../lib/gcc/avr/8.1.0/avr5\libgcc.a(_copy_data.o)
+ .text.libgcc.fmul
+                0x00000000000002f8        0x0 e:/programme/avr-gcc/bin/../lib/gcc/avr/8.1.0/avr5\libgcc.a(_copy_data.o)
+ .text.libgcc.fixed
+                0x00000000000002f8        0x0 e:/programme/avr-gcc/bin/../lib/gcc/avr/8.1.0/avr5\libgcc.a(_copy_data.o)
+ .text.libgcc.mul
+                0x00000000000002f8        0x0 e:/programme/avr-gcc/bin/../lib/gcc/avr/8.1.0/avr5\libgcc.a(_clear_bss.o)
+ .text.libgcc.div
+                0x00000000000002f8        0x0 e:/programme/avr-gcc/bin/../lib/gcc/avr/8.1.0/avr5\libgcc.a(_clear_bss.o)
+ .text.libgcc   0x00000000000002f8        0x0 e:/programme/avr-gcc/bin/../lib/gcc/avr/8.1.0/avr5\libgcc.a(_clear_bss.o)
+ .text.libgcc.prologue
+                0x00000000000002f8        0x0 e:/programme/avr-gcc/bin/../lib/gcc/avr/8.1.0/avr5\libgcc.a(_clear_bss.o)
+ .text.libgcc.builtins
+                0x00000000000002f8        0x0 e:/programme/avr-gcc/bin/../lib/gcc/avr/8.1.0/avr5\libgcc.a(_clear_bss.o)
+ .text.libgcc.fmul
+                0x00000000000002f8        0x0 e:/programme/avr-gcc/bin/../lib/gcc/avr/8.1.0/avr5\libgcc.a(_clear_bss.o)
+ .text.libgcc.fixed
+                0x00000000000002f8        0x0 e:/programme/avr-gcc/bin/../lib/gcc/avr/8.1.0/avr5\libgcc.a(_clear_bss.o)
+                0x00000000000002f8                . = ALIGN (0x2)
  *(.fini9)
- .fini9         0x0000000000000156        0x0 f:/users/keven/downloads/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/avr5\libgcc.a(_exit.o)
-                0x0000000000000156                _exit
-                0x0000000000000156                exit
+ .fini9         0x00000000000002f8        0x0 e:/programme/avr-gcc/bin/../lib/gcc/avr/8.1.0/avr5\libgcc.a(_exit.o)
+                0x00000000000002f8                _exit
+                0x00000000000002f8                exit
  *(.fini9)
  *(.fini8)
  *(.fini8)
@@ -261,48 +302,55 @@ END GROUP
  *(.fini1)
  *(.fini1)
  *(.fini0)
- .fini0         0x0000000000000156        0x4 f:/users/keven/downloads/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/avr5\libgcc.a(_exit.o)
+ .fini0         0x00000000000002f8        0x4 e:/programme/avr-gcc/bin/../lib/gcc/avr/8.1.0/avr5\libgcc.a(_exit.o)
  *(.fini0)
  *(.hightext)
  *(.hightext*)
  *(.progmemx.*)
-                0x000000000000015a                . = ALIGN (0x2)
+                0x00000000000002fc                . = ALIGN (0x2)
  *(.jumptables)
  *(.jumptables*)
-                0x000000000000015a                _etext = .
+                0x00000000000002fc                _etext = .
 
-.data           0x0000000000800100        0x0 load address 0x000000000000015a
-                [!provide]                        PROVIDE (__data_start = .)
+.data           0x0000000000800100        0x6 load address 0x00000000000002fc
+                0x0000000000800100                PROVIDE (__data_start = .)
  *(.data)
- .data          0x0000000000800100        0x0 f:/users/keven/downloads/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5/crtatmega328p.o
+ .data          0x0000000000800100        0x0 e:/programme/avr-gcc/bin/../lib/gcc/avr/8.1.0/../../../../avr/lib/avr5/crtatmega328p.o
  .data          0x0000000000800100        0x0 main.o
- .data          0x0000000000800100        0x0 f:/users/keven/downloads/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/avr5\libgcc.a(_exit.o)
+ .data          0x0000000000800100        0x0 e:/programme/avr-gcc/bin/../lib/gcc/avr/8.1.0/avr5\libgcc.a(_exit.o)
+ .data          0x0000000000800100        0x0 e:/programme/avr-gcc/bin/../lib/gcc/avr/8.1.0/avr5\libgcc.a(_copy_data.o)
+ .data          0x0000000000800100        0x0 e:/programme/avr-gcc/bin/../lib/gcc/avr/8.1.0/avr5\libgcc.a(_clear_bss.o)
  *(.data*)
  *(.gnu.linkonce.d*)
  *(.rodata)
  *(.rodata*)
+ .rodata.str1.1
+                0x0000000000800100        0x5 main.o
  *(.gnu.linkonce.r*)
-                0x0000000000800100                . = ALIGN (0x2)
-                0x0000000000800100                _edata = .
-                [!provide]                        PROVIDE (__data_end = .)
+                0x0000000000800106                . = ALIGN (0x2)
+ *fill*         0x0000000000800105        0x1 
+                0x0000000000800106                _edata = .
+                0x0000000000800106                PROVIDE (__data_end = .)
 
-.bss            0x0000000000800100        0x0
-                [!provide]                        PROVIDE (__bss_start = .)
+.bss            0x0000000000800106       0x45
+                0x0000000000800106                PROVIDE (__bss_start = .)
  *(.bss)
- .bss           0x0000000000800100        0x0 f:/users/keven/downloads/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5/crtatmega328p.o
- .bss           0x0000000000800100        0x0 main.o
- .bss           0x0000000000800100        0x0 f:/users/keven/downloads/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/avr5\libgcc.a(_exit.o)
+ .bss           0x0000000000800106        0x0 e:/programme/avr-gcc/bin/../lib/gcc/avr/8.1.0/../../../../avr/lib/avr5/crtatmega328p.o
+ .bss           0x0000000000800106       0x45 main.o
+ .bss           0x000000000080014b        0x0 e:/programme/avr-gcc/bin/../lib/gcc/avr/8.1.0/avr5\libgcc.a(_exit.o)
+ .bss           0x000000000080014b        0x0 e:/programme/avr-gcc/bin/../lib/gcc/avr/8.1.0/avr5\libgcc.a(_copy_data.o)
+ .bss           0x000000000080014b        0x0 e:/programme/avr-gcc/bin/../lib/gcc/avr/8.1.0/avr5\libgcc.a(_clear_bss.o)
  *(.bss*)
  *(COMMON)
-                [!provide]                        PROVIDE (__bss_end = .)
-                0x000000000000015a                __data_load_start = LOADADDR (.data)
-                0x000000000000015a                __data_load_end = (__data_load_start + SIZEOF (.data))
+                0x000000000080014b                PROVIDE (__bss_end = .)
+                0x00000000000002fc                __data_load_start = LOADADDR (.data)
+                0x0000000000000302                __data_load_end = (__data_load_start + SIZEOF (.data))
 
-.noinit         0x0000000000800100        0x0
+.noinit         0x000000000080014b        0x0
                 [!provide]                        PROVIDE (__noinit_start = .)
  *(.noinit*)
                 [!provide]                        PROVIDE (__noinit_end = .)
-                0x0000000000800100                _end = .
+                0x000000000080014b                _end = .
                 [!provide]                        PROVIDE (__heap_start = .)
 
 .eeprom         0x0000000000810000        0x0
@@ -347,7 +395,7 @@ END GROUP
 .note.gnu.avr.deviceinfo
                 0x0000000000000000       0x40
  .note.gnu.avr.deviceinfo
-                0x0000000000000000       0x40 f:/users/keven/downloads/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5/crtatmega328p.o
+                0x0000000000000000       0x40 e:/programme/avr-gcc/bin/../lib/gcc/avr/8.1.0/../../../../avr/lib/avr5/crtatmega328p.o
 
 .note.gnu.build-id
  *(.note.gnu.build-id)
@@ -364,36 +412,48 @@ END GROUP
 .debug_sfnames
  *(.debug_sfnames)
 
-.debug_aranges  0x0000000000000000       0x20
+.debug_aranges  0x0000000000000000       0x60
  *(.debug_aranges)
  .debug_aranges
-                0x0000000000000000       0x20 f:/users/keven/downloads/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/avr5\libgcc.a(_exit.o)
+                0x0000000000000000       0x20 e:/programme/avr-gcc/bin/../lib/gcc/avr/8.1.0/avr5\libgcc.a(_exit.o)
+ .debug_aranges
+                0x0000000000000020       0x20 e:/programme/avr-gcc/bin/../lib/gcc/avr/8.1.0/avr5\libgcc.a(_copy_data.o)
+ .debug_aranges
+                0x0000000000000040       0x20 e:/programme/avr-gcc/bin/../lib/gcc/avr/8.1.0/avr5\libgcc.a(_clear_bss.o)
 
 .debug_pubnames
  *(.debug_pubnames)
 
-.debug_info     0x0000000000000000      0x61a
+.debug_info     0x0000000000000000      0x666
  *(.debug_info .gnu.linkonce.wi.*)
- .debug_info    0x0000000000000000      0x5f4 f:/users/keven/downloads/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5/crtatmega328p.o
- .debug_info    0x00000000000005f4       0x26 f:/users/keven/downloads/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/avr5\libgcc.a(_exit.o)
+ .debug_info    0x0000000000000000      0x5f4 e:/programme/avr-gcc/bin/../lib/gcc/avr/8.1.0/../../../../avr/lib/avr5/crtatmega328p.o
+ .debug_info    0x00000000000005f4       0x26 e:/programme/avr-gcc/bin/../lib/gcc/avr/8.1.0/avr5\libgcc.a(_exit.o)
+ .debug_info    0x000000000000061a       0x26 e:/programme/avr-gcc/bin/../lib/gcc/avr/8.1.0/avr5\libgcc.a(_copy_data.o)
+ .debug_info    0x0000000000000640       0x26 e:/programme/avr-gcc/bin/../lib/gcc/avr/8.1.0/avr5\libgcc.a(_clear_bss.o)
 
-.debug_abbrev   0x0000000000000000      0x5b6
+.debug_abbrev   0x0000000000000000      0x5de
  *(.debug_abbrev)
- .debug_abbrev  0x0000000000000000      0x5a2 f:/users/keven/downloads/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5/crtatmega328p.o
- .debug_abbrev  0x00000000000005a2       0x14 f:/users/keven/downloads/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/avr5\libgcc.a(_exit.o)
+ .debug_abbrev  0x0000000000000000      0x5a2 e:/programme/avr-gcc/bin/../lib/gcc/avr/8.1.0/../../../../avr/lib/avr5/crtatmega328p.o
+ .debug_abbrev  0x00000000000005a2       0x14 e:/programme/avr-gcc/bin/../lib/gcc/avr/8.1.0/avr5\libgcc.a(_exit.o)
+ .debug_abbrev  0x00000000000005b6       0x14 e:/programme/avr-gcc/bin/../lib/gcc/avr/8.1.0/avr5\libgcc.a(_copy_data.o)
+ .debug_abbrev  0x00000000000005ca       0x14 e:/programme/avr-gcc/bin/../lib/gcc/avr/8.1.0/avr5\libgcc.a(_clear_bss.o)
 
-.debug_line     0x0000000000000000       0x7e
+.debug_line     0x0000000000000000      0x19a
  *(.debug_line .debug_line.* .debug_line_end)
- .debug_line    0x0000000000000000       0x1d f:/users/keven/downloads/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5/crtatmega328p.o
- .debug_line    0x000000000000001d       0x61 f:/users/keven/downloads/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/avr5\libgcc.a(_exit.o)
+ .debug_line    0x0000000000000000       0x1d e:/programme/avr-gcc/bin/../lib/gcc/avr/8.1.0/../../../../avr/lib/avr5/crtatmega328p.o
+ .debug_line    0x000000000000001d       0x61 e:/programme/avr-gcc/bin/../lib/gcc/avr/8.1.0/avr5\libgcc.a(_exit.o)
+ .debug_line    0x000000000000007e       0x97 e:/programme/avr-gcc/bin/../lib/gcc/avr/8.1.0/avr5\libgcc.a(_copy_data.o)
+ .debug_line    0x0000000000000115       0x85 e:/programme/avr-gcc/bin/../lib/gcc/avr/8.1.0/avr5\libgcc.a(_clear_bss.o)
 
 .debug_frame
  *(.debug_frame)
 
 .debug_str      0x0000000000000000      0x266
  *(.debug_str)
- .debug_str     0x0000000000000000      0x208 f:/users/keven/downloads/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5/crtatmega328p.o
- .debug_str     0x0000000000000208       0x5e f:/users/keven/downloads/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/avr5\libgcc.a(_exit.o)
+ .debug_str     0x0000000000000000      0x208 e:/programme/avr-gcc/bin/../lib/gcc/avr/8.1.0/../../../../avr/lib/avr5/crtatmega328p.o
+ .debug_str     0x0000000000000208       0x5e e:/programme/avr-gcc/bin/../lib/gcc/avr/8.1.0/avr5\libgcc.a(_exit.o)
+ .debug_str     0x0000000000000266       0x5e e:/programme/avr-gcc/bin/../lib/gcc/avr/8.1.0/avr5\libgcc.a(_copy_data.o)
+ .debug_str     0x0000000000000266       0x5e e:/programme/avr-gcc/bin/../lib/gcc/avr/8.1.0/avr5\libgcc.a(_clear_bss.o)
 
 .debug_loc
  *(.debug_loc)
@@ -432,42 +492,58 @@ LOAD linker stubs
 Cross Reference Table
 
 Symbol                                            File
+_Z11uart_puts_pPKc                                main.o
+_Z9uart_getcv                                     main.o
+_Z9uart_initj                                     main.o
+_Z9uart_putch                                     main.o
+_Z9uart_putsPKc                                   main.o
 _ZN3spi3SPIILNS_4ModeE1ELNS_7ClkRateE0ELb1ELb1ELb1EN5BMCPP3AVR9ATMega328EE8spi_sendEh main.o
 _ZN7MFRC522IN5BMCPP3AVR9ATMega328EE12mfrc522_initINS0_3Hal4PortINS1_1BES2_EEEEvv main.o
 _ZN7MFRC522IN5BMCPP3AVR9ATMega328EE13mfrc522_writeEN17HardwareAddresses15CommandRegisterEh main.o
-__bad_interrupt                                   f:/users/keven/downloads/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5/crtatmega328p.o
-__heap_end                                        f:/users/keven/downloads/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5/crtatmega328p.o
-__init                                            f:/users/keven/downloads/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5/crtatmega328p.o
-__stack                                           f:/users/keven/downloads/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5/crtatmega328p.o
-__vector_1                                        f:/users/keven/downloads/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5/crtatmega328p.o
-__vector_10                                       f:/users/keven/downloads/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5/crtatmega328p.o
-__vector_11                                       f:/users/keven/downloads/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5/crtatmega328p.o
-__vector_12                                       f:/users/keven/downloads/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5/crtatmega328p.o
-__vector_13                                       f:/users/keven/downloads/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5/crtatmega328p.o
-__vector_14                                       f:/users/keven/downloads/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5/crtatmega328p.o
-__vector_15                                       f:/users/keven/downloads/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5/crtatmega328p.o
-__vector_16                                       f:/users/keven/downloads/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5/crtatmega328p.o
-__vector_17                                       f:/users/keven/downloads/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5/crtatmega328p.o
-__vector_18                                       f:/users/keven/downloads/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5/crtatmega328p.o
-__vector_19                                       f:/users/keven/downloads/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5/crtatmega328p.o
-__vector_2                                        f:/users/keven/downloads/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5/crtatmega328p.o
-__vector_20                                       f:/users/keven/downloads/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5/crtatmega328p.o
-__vector_21                                       f:/users/keven/downloads/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5/crtatmega328p.o
-__vector_22                                       f:/users/keven/downloads/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5/crtatmega328p.o
-__vector_23                                       f:/users/keven/downloads/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5/crtatmega328p.o
-__vector_24                                       f:/users/keven/downloads/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5/crtatmega328p.o
-__vector_25                                       f:/users/keven/downloads/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5/crtatmega328p.o
-__vector_3                                        f:/users/keven/downloads/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5/crtatmega328p.o
-__vector_4                                        f:/users/keven/downloads/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5/crtatmega328p.o
-__vector_5                                        f:/users/keven/downloads/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5/crtatmega328p.o
-__vector_6                                        f:/users/keven/downloads/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5/crtatmega328p.o
-__vector_7                                        f:/users/keven/downloads/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5/crtatmega328p.o
-__vector_8                                        f:/users/keven/downloads/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5/crtatmega328p.o
-__vector_9                                        f:/users/keven/downloads/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5/crtatmega328p.o
-__vector_default                                  f:/users/keven/downloads/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5/crtatmega328p.o
-__vectors                                         f:/users/keven/downloads/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5/crtatmega328p.o
-_exit                                             f:/users/keven/downloads/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/avr5\libgcc.a(_exit.o)
-exit                                              f:/users/keven/downloads/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/avr5\libgcc.a(_exit.o)
-                                                  f:/users/keven/downloads/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5/crtatmega328p.o
+__bad_interrupt                                   e:/programme/avr-gcc/bin/../lib/gcc/avr/8.1.0/../../../../avr/lib/avr5/crtatmega328p.o
+__bss_end                                         e:/programme/avr-gcc/bin/../lib/gcc/avr/8.1.0/avr5\libgcc.a(_clear_bss.o)
+__bss_start                                       e:/programme/avr-gcc/bin/../lib/gcc/avr/8.1.0/avr5\libgcc.a(_clear_bss.o)
+__data_end                                        e:/programme/avr-gcc/bin/../lib/gcc/avr/8.1.0/avr5\libgcc.a(_copy_data.o)
+__data_load_start                                 e:/programme/avr-gcc/bin/../lib/gcc/avr/8.1.0/avr5\libgcc.a(_copy_data.o)
+__data_start                                      e:/programme/avr-gcc/bin/../lib/gcc/avr/8.1.0/avr5\libgcc.a(_copy_data.o)
+__do_clear_bss                                    e:/programme/avr-gcc/bin/../lib/gcc/avr/8.1.0/avr5\libgcc.a(_clear_bss.o)
+                                                  main.o
+__do_copy_data                                    e:/programme/avr-gcc/bin/../lib/gcc/avr/8.1.0/avr5\libgcc.a(_copy_data.o)
+                                                  main.o
+__heap_end                                        e:/programme/avr-gcc/bin/../lib/gcc/avr/8.1.0/../../../../avr/lib/avr5/crtatmega328p.o
+__init                                            e:/programme/avr-gcc/bin/../lib/gcc/avr/8.1.0/../../../../avr/lib/avr5/crtatmega328p.o
+__stack                                           e:/programme/avr-gcc/bin/../lib/gcc/avr/8.1.0/../../../../avr/lib/avr5/crtatmega328p.o
+__vector_1                                        e:/programme/avr-gcc/bin/../lib/gcc/avr/8.1.0/../../../../avr/lib/avr5/crtatmega328p.o
+__vector_10                                       e:/programme/avr-gcc/bin/../lib/gcc/avr/8.1.0/../../../../avr/lib/avr5/crtatmega328p.o
+__vector_11                                       e:/programme/avr-gcc/bin/../lib/gcc/avr/8.1.0/../../../../avr/lib/avr5/crtatmega328p.o
+__vector_12                                       e:/programme/avr-gcc/bin/../lib/gcc/avr/8.1.0/../../../../avr/lib/avr5/crtatmega328p.o
+__vector_13                                       e:/programme/avr-gcc/bin/../lib/gcc/avr/8.1.0/../../../../avr/lib/avr5/crtatmega328p.o
+__vector_14                                       e:/programme/avr-gcc/bin/../lib/gcc/avr/8.1.0/../../../../avr/lib/avr5/crtatmega328p.o
+__vector_15                                       e:/programme/avr-gcc/bin/../lib/gcc/avr/8.1.0/../../../../avr/lib/avr5/crtatmega328p.o
+__vector_16                                       e:/programme/avr-gcc/bin/../lib/gcc/avr/8.1.0/../../../../avr/lib/avr5/crtatmega328p.o
+__vector_17                                       e:/programme/avr-gcc/bin/../lib/gcc/avr/8.1.0/../../../../avr/lib/avr5/crtatmega328p.o
+__vector_18                                       main.o
+                                                  e:/programme/avr-gcc/bin/../lib/gcc/avr/8.1.0/../../../../avr/lib/avr5/crtatmega328p.o
+__vector_19                                       main.o
+                                                  e:/programme/avr-gcc/bin/../lib/gcc/avr/8.1.0/../../../../avr/lib/avr5/crtatmega328p.o
+__vector_2                                        e:/programme/avr-gcc/bin/../lib/gcc/avr/8.1.0/../../../../avr/lib/avr5/crtatmega328p.o
+__vector_20                                       e:/programme/avr-gcc/bin/../lib/gcc/avr/8.1.0/../../../../avr/lib/avr5/crtatmega328p.o
+__vector_21                                       e:/programme/avr-gcc/bin/../lib/gcc/avr/8.1.0/../../../../avr/lib/avr5/crtatmega328p.o
+__vector_22                                       e:/programme/avr-gcc/bin/../lib/gcc/avr/8.1.0/../../../../avr/lib/avr5/crtatmega328p.o
+__vector_23                                       e:/programme/avr-gcc/bin/../lib/gcc/avr/8.1.0/../../../../avr/lib/avr5/crtatmega328p.o
+__vector_24                                       e:/programme/avr-gcc/bin/../lib/gcc/avr/8.1.0/../../../../avr/lib/avr5/crtatmega328p.o
+__vector_25                                       e:/programme/avr-gcc/bin/../lib/gcc/avr/8.1.0/../../../../avr/lib/avr5/crtatmega328p.o
+__vector_3                                        e:/programme/avr-gcc/bin/../lib/gcc/avr/8.1.0/../../../../avr/lib/avr5/crtatmega328p.o
+__vector_4                                        e:/programme/avr-gcc/bin/../lib/gcc/avr/8.1.0/../../../../avr/lib/avr5/crtatmega328p.o
+__vector_5                                        e:/programme/avr-gcc/bin/../lib/gcc/avr/8.1.0/../../../../avr/lib/avr5/crtatmega328p.o
+__vector_6                                        e:/programme/avr-gcc/bin/../lib/gcc/avr/8.1.0/../../../../avr/lib/avr5/crtatmega328p.o
+__vector_7                                        e:/programme/avr-gcc/bin/../lib/gcc/avr/8.1.0/../../../../avr/lib/avr5/crtatmega328p.o
+__vector_8                                        e:/programme/avr-gcc/bin/../lib/gcc/avr/8.1.0/../../../../avr/lib/avr5/crtatmega328p.o
+__vector_9                                        e:/programme/avr-gcc/bin/../lib/gcc/avr/8.1.0/../../../../avr/lib/avr5/crtatmega328p.o
+__vector_default                                  e:/programme/avr-gcc/bin/../lib/gcc/avr/8.1.0/../../../../avr/lib/avr5/crtatmega328p.o
+__vectors                                         e:/programme/avr-gcc/bin/../lib/gcc/avr/8.1.0/../../../../avr/lib/avr5/crtatmega328p.o
+_exit                                             e:/programme/avr-gcc/bin/../lib/gcc/avr/8.1.0/avr5\libgcc.a(_exit.o)
+exit                                              e:/programme/avr-gcc/bin/../lib/gcc/avr/8.1.0/avr5\libgcc.a(_exit.o)
+                                                  e:/programme/avr-gcc/bin/../lib/gcc/avr/8.1.0/../../../../avr/lib/avr5/crtatmega328p.o
 main                                              main.o
-                                                  f:/users/keven/downloads/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5/crtatmega328p.o
+                                                  e:/programme/avr-gcc/bin/../lib/gcc/avr/8.1.0/../../../../avr/lib/avr5/crtatmega328p.o
