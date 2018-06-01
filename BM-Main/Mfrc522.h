@@ -67,7 +67,7 @@ using spi0 = spi::SPI<spi::Mode::m1, spi::ClkRate::clkRateDiv4>;
 template<typename MicroController = __DEFAULT_MMCU__>
 struct MFRC522 {
 	using UC = MicroController;
-	static_assert(BMCPP::AVR::isUC<UC>(), "typename UC is not a MicroController");
+	static_assert(BMCPP::AVR::isUC<UC>(), "typename MicroController is not a MicroController");
 	/*
 	void mfrc522_init();
 	void mfrc522_reset();
