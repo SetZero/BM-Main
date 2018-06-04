@@ -9,7 +9,7 @@ namespace BMCPP {
 				typename T::SPI;
 				typename T::Timer8Bit;
 				typename T::ADConverter;
-				typename T::Mem_Width;
+				typename T::mem_width;
 				T::ClkRate;
 			};
 		}
@@ -20,6 +20,13 @@ namespace BMCPP {
 				T::ddr();
 				T::get();
 				T::read();
+			};
+		}
+
+		template<typename T>
+		concept bool isCardType() {
+			return requires(T t) {
+				typename T::CommandWord;
 			};
 		}
 	}

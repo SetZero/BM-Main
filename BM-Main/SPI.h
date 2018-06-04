@@ -92,9 +92,9 @@ namespace spi {
 			Port::ddr() |= (MOSI | SCK) 	  // set outputs
 						& ~(MISO);			 //  set inputs
 
-			volatile typename UC::Mem_Width* spcr_adr = (typename UC::Mem_Width*)BMCPP::Hal::SPI<0>::spcr();
+			volatile typename UC::mem_width* spcr_adr = (typename UC::mem_width*)BMCPP::Hal::SPI<0>::spcr();
 			*spcr_adr = spcr;
-			volatile typename UC::Mem_Width* spsr_adr = (typename UC::Mem_Width*)BMCPP::Hal::SPI<0>::spsr();
+			volatile typename UC::mem_width* spsr_adr = (typename UC::mem_width*)BMCPP::Hal::SPI<0>::spsr();
 			//set double speed bit
 			*spsr_adr = clockspeed;
 		}
@@ -102,10 +102,10 @@ namespace spi {
 		//shifts out 8 bits of data
 		//  uint8_t data - the data to be shifted out
 		//  returns uint8_t - the data received during sending
-		static typename UC::Mem_Width spi_send(typename UC::Mem_Width value) {
-			volatile typename UC::Mem_Width* spdr_adr = (typename UC::Mem_Width*)BMCPP::Hal::SPI<0>::spdr();
-			typename UC::Mem_Width result;
-			volatile typename UC::Mem_Width* spsr_adr = (typename UC::Mem_Width*)BMCPP::Hal::SPI<0>::spsr();
+		static typename UC::mem_width spi_send(typename UC::mem_width value) {
+			volatile typename UC::mem_width* spdr_adr = (typename UC::mem_width*)BMCPP::Hal::SPI<0>::spdr();
+			typename UC::mem_width result;
+			volatile typename UC::mem_width* spsr_adr = (typename UC::mem_width*)BMCPP::Hal::SPI<0>::spsr();
 			//shift the first byte of the value
 			*spdr_adr = value;
 			//wait for the SPI bus to finish

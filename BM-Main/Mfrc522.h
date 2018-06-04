@@ -3,7 +3,6 @@
 #include <stdint.h>
 #include "SPI.h"
 #include "Utils\Utils.h"
-#include "RFID_Reader_Concepts.h"
 #include "RFID_Cards.h"
 #include "AVR_concepts.h"
 #include "hal\port.h"
@@ -106,14 +105,14 @@ struct MFRC522 {
 		//DISABLE_CHIP();
 	}
 
-	static typename UC::Mem_Width mfrc522_read(CommandRegister reg) {
-		typename UC::Mem_Width data;
+	static typename UC::mem_width mfrc522_read(CommandRegister reg) {
+		typename UC::mem_width data;
 		//ENABLE_CHIP();
 		constexpr uint8_t v1 = 0x7E, v2 = 0x80;
 		// sending 2 frames, the first is the addressof the register second the instruction	 ( <<1 )
-		spi0::spi_send(static_cast<typename UC::Mem_Width>(reg));	 //TODO find out what 0x7E & 0x80
+		spi0::spi_send(static_cast<typename UC::mem_width>(reg));	 //TODO find out what 0x7E & 0x80
 		spi0::spi_send(v1 | v2);
-		data = spi0::spi_send(static_cast<typename UC::Mem_Width>(Commands::Idle_CMD));
+		data = spi0::spi_send(static_cast<typename UC::mem_width>(Commands::Idle_CMD));
 		//DISABLE_CHIP();
 		return data;
 	}
@@ -146,7 +145,7 @@ struct MFRC522 {
 		uint8_t lastBits;
 		uint8_t n;
 		uint8_t	tmp;
-		uint32_t i;	 //TODO get Clock frequenzy and calculate
+		uint32_t i = 400000;	 //TODO get Clock frequenzy and calculate	-> frequenzy /1000 * waiting time (25 ms)
 
 		switch (cmd) {
 		case  (Commands::MFAuthent_CMD):		//Certification cards close
@@ -246,7 +245,7 @@ struct MFRC522 {
 
 	template<typename CardType>
 	static ErrorType mfrc522_get_card_serial(uint8_t * serial_out) {
-		static_assert(BMCPP::RFID::isCardType<CardType>(), "not a cardtype");
+		static_assert(BMCPP::AVR::isCardType<CardType>(), "not a cardtype");
 		ErrorType status;
 		uint8_t i;
 		uint8_t serNumCheck = 0;

@@ -48,7 +48,7 @@ namespace BMCPP
             ATMega328() = delete;
 
 			static constexpr utils::minRequiredUnsigned<16000000>::type ClkRate = 16000000;
-			using Mem_Width = uint8_t;
+			using mem_width = uint8_t;
 
             struct Port final
             {

@@ -82,7 +82,7 @@ namespace BMCPP {
             Pin() = delete;
             static_assert(Number < 8);
         public:
-            static inline constexpr uint8_t mask{1 << Number};
+            static inline constexpr uint8_t mask = 1 << Number;
             static inline constexpr uint8_t number = Number;
             typedef Port port_type;
         
