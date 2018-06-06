@@ -53,6 +53,14 @@ namespace BMCPP {
 			static volatile auto spcr() {
 				return spi()->Spcr.raw();
 			}
+
+			//template<typename... T>
+			static void setSpcr(typename MicroController::mem_width spcrVal) {
+				//constexpr bool same = utils::sameTypes<T...>();
+				//constexpr bool equal = utils::isEqual<typename utils::front<T...>::type, typename MicroController::mem_width>::value;
+				//static_assert(same," Parameters have to be the same Type");
+				spi()->Spcr.setRegister(spcrVal);
+			}
 			static volatile auto spsr() {
 				return spi()->Spsr.raw();
 			}

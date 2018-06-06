@@ -80,7 +80,7 @@ struct MFRC522 {
 	static void mfrc522_init() {
 		//out port ----- ddr port
 		static_assert(BMCPP::AVR::isPort<Port>(), "typename Port is not a Port!");
-		spi0::init<Port>();
+		spi::spi0_init();
 		uint8_t byte;
 		mfrc522_reset();
 		mfrc522_write(CommandRegister::TModeReg, 0x8D);
@@ -100,8 +100,8 @@ struct MFRC522 {
 	static void mfrc522_write(CommandRegister reg, uint8_t data) {
 		//ENABLE_CHIP();
 		constexpr uint8_t v1 = 1, v2 = 0x7E;
-		spi0::spi_send((static_cast<uint8_t>(reg) << v1) & v2);
-		spi0::spi_send(data);
+		spi::spi_fast_shift((static_cast<uint8_t>(reg) << v1) & v2);
+		spi::spi_fast_shift(data);
 		//DISABLE_CHIP();
 	}
 
@@ -110,9 +110,9 @@ struct MFRC522 {
 		//ENABLE_CHIP();
 		constexpr uint8_t v1 = 0x7E, v2 = 0x80;
 		// sending 2 frames, the first is the addressof the register second the instruction	 ( <<1 )
-		spi0::spi_send(static_cast<typename UC::mem_width>(reg));	 //TODO find out what 0x7E & 0x80
-		spi0::spi_send(v1 | v2);
-		data = spi0::spi_send(static_cast<typename UC::mem_width>(Commands::Idle_CMD));
+		spi::spi_fast_shift(static_cast<typename UC::mem_width>(reg));	 //TODO find out what 0x7E & 0x80
+		spi::spi_fast_shift(v1 | v2);
+		data = spi::spi_fast_shift(static_cast<typename UC::mem_width>(Commands::Idle_CMD));
 		//DISABLE_CHIP();
 		return data;
 	}

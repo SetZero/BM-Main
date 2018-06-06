@@ -7,6 +7,7 @@
 #include "mega328.h"
 #include "AVR_concepts.h"
 #include "hal\port.h"
+#include "uart.h"
 
 using namespace BMCPP;
 using namespace AVR;
@@ -19,6 +20,8 @@ constexpr uint8_t MASTER_MASK = 0b00000001;
 constexpr uint8_t MODE_MASK = 0b00000011;
 constexpr uint8_t SPEED_MASK = 0b00000011;
 constexpr uint8_t DBLCLK_MASK = 0b00000001;
+
+static volatile uint8_t data = 0;
 
 //initialize the SPI bus
 //  uint8_t lsbfirst - if 0: most significant bit is transmitted first
@@ -56,7 +59,60 @@ namespace spi {
 		clkRateDiv128 = 3
 	};
 
+#define PORT_SPI    PORTB
+#define DDR_SPI     DDRB
+#define DD_MISO     DDB4
+#define DD_MOSI     DDB3
+#define DD_SS       DDB2
+#define DD_SCK      DDB5
 
+
+	void spi0_init()
+		// Initialize pins for spi communication
+	{
+		DDR_SPI &= ~((1 << DD_MOSI) | (1 << DD_MISO) | (1 << DD_SS) | (1 << DD_SCK));
+		// Define the following pins as output
+		DDR_SPI |= ((1 << DD_MOSI) | (1 << DD_SS) | (1 << DD_SCK));
+
+		SPCR = ((1 << SPE) |               // SPI Enable
+			(1 << SPIE) |              // SPI Interupt Enable
+			(0 << DORD) |              // Data Order (0:MSB first / 1:LSB first)
+			(1 << MSTR) |              // Master/Slave select   
+			(0 << SPR1) | (1 << SPR0) |    // SPI Clock Rate
+			(0 << CPOL) |              // Clock Polarity (0:SCK low / 1:SCK hi when idle)
+			(0 << CPHA));             // Clock Phase (0:leading / 1:trailing edge sampling)
+
+		SPSR = (1 << SPI2X);              // Double Clock Rate
+	}
+
+	void spi_transfer_sync(uint8_t * dataout, uint8_t * datain, uint8_t len)
+		// Shift full array through target device
+	{
+		uint8_t i;
+		for (i = 0; i < len; i++) {
+			SPDR = dataout[i];
+			while ((SPSR & (1 << SPIF)) == 0);
+			datain[i] = SPDR;
+		}
+	}
+
+	void spi_transmit_sync(uint8_t * dataout, uint8_t len)
+		// Shift full array to target device without receiving any byte
+	{
+		uint8_t i;
+		for (i = 0; i < len; i++) {
+			SPDR = dataout[i];
+			while ((SPSR & (1 << SPIF)) == 0);
+		}
+	}
+
+	uint8_t spi_fast_shift(uint8_t data)
+		// Clocks only one byte to target device and returns the received one
+	{
+		SPDR = data;
+		while ((SPSR & (1 << SPIF)) == 0);
+		return SPDR;
+	}
 	//
 	template<Mode mode, ClkRate clockRate, bool Master = true, bool lsbfirst = true, bool doubleSpeed = true, typename MicroController = __DEFAULT_MMCU__ >
 	//requires isUC<MicroController>()	-> moved to static assert (syntax highlighting)
@@ -85,33 +141,38 @@ namespace spi {
 		//constexpr port |= (1 << MISO); //turn on pull-up resistor
 							  //set SPI control register
 
-		template<typename Port>
+		template<typename Port, uint8_t spiNumber = 0>
 		static void init() {
 			static_assert(BMCPP::AVR::isPort<Port>(), "typename Port is not a Port!");
+			
 			Port::get() |= MISO;
 			Port::ddr() |= (MOSI | SCK) 	  // set outputs
 						& ~(MISO);			 //  set inputs
-
-			volatile typename UC::mem_width* spcr_adr = (typename UC::mem_width*)BMCPP::Hal::SPI<0>::spcr();
-			*spcr_adr = spcr;
+			using Spcr = BMCPP::Hal::SPI<spiNumber>;
+			volatile typename UC::mem_width* spcr_adr = 
+				(typename UC::mem_width*)BMCPP::Hal::SPI<0>::spcr();
+			Spcr::setSpcr(spcr);
 			volatile typename UC::mem_width* spsr_adr = (typename UC::mem_width*)BMCPP::Hal::SPI<0>::spsr();
 			//set double speed bit
-			*spsr_adr = clockspeed;
+			SPSR = clockspeed;
 		}
 
 		//shifts out 8 bits of data
 		//  uint8_t data - the data to be shifted out
 		//  returns uint8_t - the data received during sending
 		static typename UC::mem_width spi_send(typename UC::mem_width value) {
-			volatile typename UC::mem_width* spdr_adr = (typename UC::mem_width*)BMCPP::Hal::SPI<0>::spdr();
+			//volatile typename UC::mem_width& spdr_adr = (typename UC::mem_width*)/*BMCPP::Hal::SPI<0>::spdr()*/SPDR;
+			//uart_putc(static_cast<char>(value));
+			//uart_putc(static_cast<char>(value));
+			//uart_putc(spcr);
 			typename UC::mem_width result;
-			volatile typename UC::mem_width* spsr_adr = (typename UC::mem_width*)BMCPP::Hal::SPI<0>::spsr();
+			//volatile typename UC::mem_width* spsr_adr = (typename UC::mem_width*)/*BMCPP::Hal::SPI<0>::spsr()*/SPSR;
 			//shift the first byte of the value
-			*spdr_adr = value;
+			SPDR = value;
 			//wait for the SPI bus to finish
-			while (!(*spsr_adr | (static_cast<uint8_t>(UC::SPI::spsr::SPIF0))));
+			while (!(SPSR | (static_cast<uint8_t>(UC::SPI::spsr::SPIF0))));
 			//get the received data
-			result = *spdr_adr;
+			result = SPDR;
 			return result;
 		}
 	};

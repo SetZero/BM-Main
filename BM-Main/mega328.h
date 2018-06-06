@@ -53,9 +53,9 @@ namespace BMCPP
             struct Port final
             {
                 Port() = delete;
-				DataRegister<Port, ReadOnly, uint8_t> in;
-                DataRegister<Port, ReadWrite, uint8_t> ddr;
-                DataRegister<Port, ReadWrite, uint8_t> out;
+				DataRegister<Port, ReadOnly, mem_width> in;
+                DataRegister<Port, ReadWrite, mem_width> ddr;
+                DataRegister<Port, ReadWrite, mem_width> out;
                 template<typename L> 
 				struct address;
             };
@@ -63,7 +63,7 @@ namespace BMCPP
 			struct SPI
 			{
 				SPI() = delete;
-				enum class spcr : uint8_t {
+				enum class spcr : mem_width {
 					SPIE0 = (1 << SPIE), 
 					SPE0 = (1 << SPE),
 					DORD0 = (1 << DORD),
@@ -73,22 +73,24 @@ namespace BMCPP
 					SPR01 = (1 << SPR1),
 					SPR00 = (1 << SPR0)
 				};
-				enum class spsr : uint8_t {
+
+				enum class spsr : mem_width {
 					SPIF0  = (1 << SPIF),
 					WCOL0  = (1 << WCOL),
 					SPI2X0 = (1 << SPI2X)
 				};
-				ControlRegister<SPI, spcr, uintptr_t> Spcr;
-				ControlRegister<SPI, spsr, uintptr_t> Spsr;
-				DataRegister<SPI, ReadWrite, uintptr_t> Spdr;
-				template<uintptr_t N> struct address;
+
+				ControlRegister<SPI, spcr, mem_width> Spcr;
+				ControlRegister<SPI, spsr, mem_width> Spsr;
+				DataRegister<SPI, ReadWrite, mem_width> Spdr;
+				template<mem_width N> struct address;
 			};
 
 
             struct Timer8Bit {
-                static constexpr const uint8_t count = 2;
-                typedef uint8_t value_type;
-                enum class TCCRA : uint8_t {
+                static constexpr const mem_width count = 2;
+                typedef mem_width value_type;
+                enum class TCCRA : mem_width {
                     coma0 = (1 << COM0A0),
                     coma1 = (1 << COM0A1),
                     comb0 = (1 << COM0B0),
@@ -97,7 +99,7 @@ namespace BMCPP
                     wgm1 = (1 << WGM01)
                 };
                 ControlRegister<Timer8Bit, TCCRA> tccra;
-                enum class TCCRB : uint8_t {
+                enum class TCCRB : mem_width {
                     foca = (1 << FOC0A),
                     focb = (1 << FOC0B),
                     wgm2 = (1 << WGM02),
@@ -107,20 +109,20 @@ namespace BMCPP
                 };
                 
                 ControlRegister<Timer8Bit, TCCRB> tccrb;
-                DataRegister<Timer8Bit, ReadWrite, uint8_t> tcnt;
-                DataRegister<Timer8Bit, ReadWrite, uint8_t> ocra;
-				DataRegister<Timer8Bit, ReadWrite, uint8_t> ocrb;
+                DataRegister<Timer8Bit, ReadWrite, mem_width> tcnt;
+                DataRegister<Timer8Bit, ReadWrite, mem_width> ocra;
+				DataRegister<Timer8Bit, ReadWrite, mem_width> ocrb;
                 template<int N> struct address;
             };
 
 			struct ADConverter {
-				static constexpr const uint8_t count = 1;
-				typedef uint8_t value_type;
+				static constexpr const mem_width count = 1;
+				typedef mem_width value_type;
 
-				DataRegister<ADConverter, ReadOnly, uint8_t> adch;
-				DataRegister<ADConverter, ReadOnly, uint8_t> adcl;
+				DataRegister<ADConverter, ReadOnly, mem_width> adch;
+				DataRegister<ADConverter, ReadOnly, mem_width> adcl;
 
-				enum class ADCsra : uint8_t {
+				enum class ADCsra : mem_width {
 					aden = (1 << ADEN),
 					adsc = (1 << ADSC),
 					adfr = (1 << ADATE),
@@ -133,7 +135,7 @@ namespace BMCPP
 
 				ControlRegister<ADConverter, ADCsra> adcsra;
 
-				enum class ADCsrb : uint8_t {
+				enum class ADCsrb : mem_width {
 					acme = (1 << ACME),
 					adts2 = (1 << ADTS2),
 					adts1 = (1 << ADTS1),
@@ -142,7 +144,7 @@ namespace BMCPP
 
 				ControlRegister<ADConverter, ADCsrb> adcsrb;
 
-				enum class ADMux : uint8_t {
+				enum class ADMux : mem_width {
 					refs1 = (1 << REFS1),
 					refs0 = (1 << REFS0),
 					adlar = (1 << ADLAR),
@@ -153,9 +155,9 @@ namespace BMCPP
 				};
 				ControlRegister<ADConverter, ADMux> admux;
 
-				DataRegister<ADConverter, UnUsed, uint8_t> reserved;
+				DataRegister<ADConverter, UnUsed, mem_width> reserved;
 
-				enum class DigitalInputDisable : uint8_t {
+				enum class DigitalInputDisable : mem_width {
 					adc7d = (1 << 7),
 					adc6d = (1 << 6),
 					adc5d = (1 << 5),
@@ -171,7 +173,7 @@ namespace BMCPP
 				template<int N> struct address;
 			};
         
-        } __attribute__((packed));
+        } __attribute__((packed));	  // -> elemente bleiben geordnet
         
 
         template<>
@@ -195,6 +197,7 @@ namespace BMCPP
             static constexpr uint8_t value = 0x44;
         };
 
+		//SPI
 		template<>
 		struct ATMega328::SPI::address<0>
 		{

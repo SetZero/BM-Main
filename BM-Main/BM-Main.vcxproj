@@ -28,14 +28,12 @@
     <ClInclude Include="meta\meta.h" />
     <ClInclude Include="Mfrc522.h" />
     <ClInclude Include="register.h" />
-    <ClInclude Include="RFID_Cards.h" />
+    <ClInclude Include="RFID_Reader_Concepts.h" />
     <ClInclude Include="SPI.h" />
-    <ClInclude Include="uart.h" />
     <ClInclude Include="Utils\Utils.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cc" />
-    <ClCompile Include="uart.c" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>

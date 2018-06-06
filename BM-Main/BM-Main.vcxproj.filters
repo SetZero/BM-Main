@@ -13,15 +13,15 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Headerdateien\ADC">
-      <UniqueIdentifier>{a8fa64a9-2eb6-4f2b-8b89-76ccb751eecb}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="meta\meta.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="Utils\Utils.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="ADC.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="AVR_concepts.h">
@@ -45,24 +45,15 @@
     <ClInclude Include="Mfrc522.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="RFID_Cards.h">
+    <ClInclude Include="RFID_Reader_Concepts.h">
       <Filter>Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="uart.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="ADC.h">
-      <Filter>Headerdateien\ADC</Filter>
     </ClInclude>
     <ClInclude Include="adc_hall.h">
-      <Filter>Headerdateien\ADC</Filter>
+      <Filter>Headerdateien</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cc">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="uart.c">
       <Filter>Quelldateien</Filter>
     </ClCompile>
   </ItemGroup>
