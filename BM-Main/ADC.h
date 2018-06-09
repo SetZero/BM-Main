@@ -19,23 +19,23 @@ namespace BMCPP
 			static_assert((prescaler_value & (prescaler_value - 1)) == 0, "Prescaler value has to be a power of 2!");
 			static_assert(adc_number <= UC::ADConverter::count, "The ADC number is exceeding the amount of ADCs available!");
 
-			constexpr uint8_t get_prescaler_value() {
+			static constexpr uint8_t get_prescaler_value() {
 				switch (prescaler_value) {
 					case 2:		return 0;
-					case 4:		return (static_cast<uint8_t>(UC::ADConverter::adcsra::adps1));
-					case 8:		return (static_cast<uint8_t>(UC::ADConverter::adcsra::adps1) | static_cast<uint8_t>(UC::ADConverter::adcsra::adps0));
-					case 16:	return (static_cast<uint8_t>(UC::ADConverter::adcsra::adps2));
-					case 32:	return (static_cast<uint8_t>(UC::ADConverter::adcsra::adps2) | static_cast<uint8_t>(UC::ADConverter::adcsra::adps0));
-					case 64:	return (static_cast<uint8_t>(UC::ADConverter::adcsra::adps2) | static_cast<uint8_t>(UC::ADConverter::adcsra::adps1));
-					case 128:	return (static_cast<uint8_t>(UC::ADConverter::adcsra::adps2) | static_cast<uint8_t>(UC::ADConverter::adcsra::adps1) | static_cast<uint8_t>(UC::ADConverter::adcsra::adps0));
+					case 4:		return (static_cast<uint8_t>(UC::ADConverter::ADCsra::adps1));
+					case 8:		return (static_cast<uint8_t>(UC::ADConverter::ADCsra::adps1) | static_cast<uint8_t>(UC::ADConverter::ADCsra::adps0));
+					case 16:	return (static_cast<uint8_t>(UC::ADConverter::ADCsra::adps2));
+					case 32:	return (static_cast<uint8_t>(UC::ADConverter::ADCsra::adps2) | static_cast<uint8_t>(UC::ADConverter::ADCsra::adps0));
+					case 64:	return (static_cast<uint8_t>(UC::ADConverter::ADCsra::adps2) | static_cast<uint8_t>(UC::ADConverter::ADCsra::adps1));
+					case 128:	return (static_cast<uint8_t>(UC::ADConverter::ADCsra::adps2) | static_cast<uint8_t>(UC::ADConverter::ADCsra::adps1) | static_cast<uint8_t>(UC::ADConverter::ADCsra::adps0));
 				}
 			}
 
 			static constexpr uint8_t maximum_active_adcs = 0;
 			static constexpr uint8_t adcsra = (
-				(static_cast<uint8_t>(UC::ADConverter::adcsra::aden)) |
-				(static_cast<uint8_t>(UC::ADConverter::adcsra::adie)) |
-				(static_cast<uint8_t>(UC::ADConverter::adcsra::adsc)) |
+				(static_cast<uint8_t>(UC::ADConverter::ADCsra::aden)) |
+				(static_cast<uint8_t>(UC::ADConverter::ADCsra::adie)) |
+				(static_cast<uint8_t>(UC::ADConverter::ADCsra::adsc)) |
 				get_prescaler_value()
 			);
 
@@ -49,7 +49,7 @@ namespace BMCPP
 					maximum_active_adcs = sizeof...(ADCChannels);
 				}
 
-				volatile typename UC::Mem_Width* adcsra_adr = (typename UC::Mem_Width*)BMCPP::Hal::Hardware_Adc<adc_number>::adcsra();
+				volatile typename UC::mem_width* adcsra_adr = (typename UC::mem_width*)BMCPP::Hal::Hardware_Adc<adc_number>::adcsra();
 				*adcsra_adr = adcsra;
 			}
 			static void stop() {

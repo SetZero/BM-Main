@@ -1,20 +1,20 @@
 ﻿  avr-g++ -MM -MG -DF_CPU=16000000 -I./include -mmcu=atmega328p -Wall -Wextra -Wconversion -std=c++17 -Os -fconcepts  -fno-exceptions -fno-unwind-tables -fno-rtti -fno-threadsafe-statics  -funsigned-char -funsigned-bitfields -fshort-enums  main.cc | sed "s/main\.o/& main.d/g" > main.d
   avr-g++ -mmcu=atmega328p -Wall -Wextra -Wconversion -std=c++17 -Os -fconcepts  -fno-exceptions -fno-unwind-tables -fno-rtti -fno-threadsafe-statics  -funsigned-char -funsigned-bitfields -fshort-enums  -DF_CPU=16000000 -I./include  -c -o main.o main.cc
-  In file included from main.cc:13:0:
+  In file included from main.cc:13:
   SPI.h: In function 'void spi::spi0_init()':
-SPI.h(73,11): warning G63087B26: conversion to 'uint8_t {aka unsigned char}' from 'int' may alter its value [-Wconversion]
+SPI.h(73,11): warning G04C62F8D: conversion from 'int' to 'uint8_t' {aka 'unsigned char'} may change value [-Wconversion]
      DDR_SPI &= ~((1 << DD_MOSI) | (1 << DD_MISO) | (1 << DD_SS) | (1 << DD_SCK));
              ^
-  In file included from main.cc:15:0:
+  In file included from main.cc:15:
   uart.c: In function 'void __vector_19()':
-uart.c(422,23): warning G63087B26: conversion to 'uint8_t {aka unsigned char}' from 'int' may alter its value [-Wconversion]
+uart.c(422,23): warning G04C62F8D: conversion from 'int' to 'uint8_t' {aka 'unsigned char'} may change value [-Wconversion]
            UART0_CONTROL &= ~_BV(UART0_UDRIE);
                          ^
   main.cc: In function 'int main()':
 main.cc(45,10): warning G7C671A4C: unused variable 'tesst' [-Wunused-variable]
     uint8_t tesst = 'a';
             ^~~~~
-  In file included from main.cc:13:0:
+  In file included from main.cc:13:
   SPI.h: In instantiation of 'static void spi::SPI<mode, clockRate, Master, lsbfirst, doubleSpeed, MicroController>::init() [with Port = BMCPP::Hal::Port<BMCPP::AVR::B>; unsigned char spiNumber = 0; spi::Mode mode = (spi::Mode)3; spi::ClkRate clockRate = (spi::ClkRate)0; bool Master = true; bool lsbfirst = true; bool doubleSpeed = true; MicroController = BMCPP::AVR::ATMega328]':
   main.cc:46:19:   required from here
 SPI.h(153,5): warning GEDD9F3F9: cast to pointer from integer of different size [-Wint-to-pointer-cast]
@@ -29,17 +29,24 @@ SPI.h(152,37): warning G7C671A4C: unused variable 'spcr_adr' [-Wunused-variable]
 SPI.h(155,37): warning G7C671A4C: unused variable 'spsr_adr' [-Wunused-variable]
       volatile typename UC::mem_width* spsr_adr = (typename UC::mem_width*)BMCPP::Hal::SPI<0>::spsr();
                                        ^~~~~~~~
-  In file included from main.cc:14:0:
+  In file included from main.cc:16:
+  ADC.h: In instantiation of 'static void BMCPP::Hal::ADConverter<prescaler_value, adc_number, measurement_type, UC>::startChannels() [with unsigned char ...ADCChannels = {1, 2, 3}; unsigned char prescaler_value = 8; unsigned char adc_number = 0; BMCPP::Hal::ADCMeasurementType measurement_type = (BMCPP::Hal::ADCMeasurementType)0; UC = BMCPP::AVR::ATMega328]':
+  main.cc:53:53:   required from here
+ADC.h(49,26): error G681717D7: assignment of read-only variable 'BMCPP::Hal::ADConverter<>::maximum_active_adcs'
+        maximum_active_adcs = sizeof...(ADCChannels);
+        ~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~
+ADC.h(52,51): warning GEDD9F3F9: cast to pointer from integer of different size [-Wint-to-pointer-cast]
+       volatile typename UC::mem_width* adcsra_adr = (typename UC::mem_width*)BMCPP::Hal::Hardware_Adc<adc_number>::adcsra();
+                                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  In file included from main.cc:14:
   Mfrc522.h: In instantiation of 'static HardwareAddresses::ErrorType MFRC522<MicroController>::mfrc522_to_card(HardwareAddresses::Commands, uint8_t*, uint8_t, uint8_t*, uint32_t*) [with MicroController = BMCPP::AVR::ATMega328; uint8_t = unsigned char; uint32_t = long unsigned int]':
   Mfrc522.h:258:27:   required from 'static HardwareAddresses::ErrorType MFRC522<MicroController>::mfrc522_get_card_serial(uint8_t*) [with CardType = RFID::MifareOne; MicroController = BMCPP::AVR::ATMega328; uint8_t = unsigned char]'
   main.cc:55:68:   required from here
-Mfrc522.h(169,46): warning G63087B26: conversion to 'uint8_t {aka unsigned char}' from 'int' may alter its value [-Wconversion]
+Mfrc522.h(169,46): warning G04C62F8D: conversion from 'int' to 'uint8_t' {aka 'unsigned char'} may change value [-Wconversion]
      mfrc522_write(CommandRegister::ComIrqReg, n&(~0x80));//clear all interrupt bits
                                                ~^~~~~~~~
-Mfrc522.h(195,52): warning G63087B26: conversion to 'uint8_t {aka unsigned char}' from 'int' may alter its value [-Wconversion]
+Mfrc522.h(195,52): warning G04C62F8D: conversion from 'int' to 'uint8_t' {aka 'unsigned char'} may change value [-Wconversion]
      mfrc522_write(CommandRegister::BitFramingReg, tmp&(~0x80));
                                                    ~~~^~~~~~~~
-  avr-gcc -mmcu=atmega328p -Wall -Wextra -Wconversion -std=c11 -Os   -DF_CPU=16000000 -I./include  -Wl,-Map=main.map,--cref  "-Wl,--section-start=.mmcu=0x910000"  -o main.elf main.o
-  ECHO ist ausgeschaltet (OFF).
-  Creating load file for Flash: main.hex
-  avr-objcopy -O ihex -R .flash main.elf main.hex
+  make: *** [<builtin>: main.o] Error 1
+C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\VC\VCTargets\Microsoft.MakeFile.Targets(44,5): error MSB3073: Der Befehl "make" wurde mit dem Code 2 beendet.

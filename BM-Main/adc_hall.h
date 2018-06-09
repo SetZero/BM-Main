@@ -12,10 +12,10 @@ namespace BMCPP {
 			static inline constexpr auto adc = AVR::getAddress<typename MicroController::ADConverter, adc_number>;
 		public:
 			static volatile uint8_t& adch() {
-				return *adc()->adch;
+				return *adc()->adch.raw();
 			}
 			static volatile uint8_t& adcl() {
-				return *adc()->adcl;
+				return *adc()->adcl.raw();
 			}
 			static volatile uint8_t& adcsra() {
 				return *adc()->adcsra;

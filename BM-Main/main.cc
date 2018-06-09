@@ -50,7 +50,7 @@ int main(){
 		//spi0::spi_send('\n');
 		
 		//pinb3::on();
-
+		BMCPP::Hal::ADConverter<>::startChannels<1, 2, 3>();
 		
 		if (MFRC522<>::mfrc522_get_card_serial<RFID::MifareOne>(serialOut) != ErrorType::ERROR && (serialOut[0] > 0 || serialOut[1] > 0 || serialOut[2] > 0 || serialOut[3] > 0)) {
 			uart_puts(reinterpret_cast<char*>(serialOut));
