@@ -68,17 +68,17 @@ _ZN3spi9spi0_initEv:
 /* frame size = 0 */
 /* stack size = 0 */
 .L__stack_usage = 0
- ;  SPI.h:73: 		DDR_SPI &= ~((1 << DD_MOSI) | (1 << DD_MISO) | (1 << DD_SS) | (1 << DD_SCK));
-	in r24,0x4	 ;  _1, MEM[(volatile uint8_t *)36B]
+ ;  SPI.h:73: 		BMCPP::Hal::SPI<0>::spiDDR() &= static_cast<uint8_t>(~((1 << DD_MOSI) | (1 << DD_MISO) | (1 << DD_SS) | (1 << DD_SCK)));
+	in r24,0x4	 ;  _1, MEM[(volatile mem_width &)35B + 1]
 	andi r24,lo8(-61)	 ;  _2,
-	out 0x4,r24	 ;  MEM[(volatile uint8_t *)36B], _2
- ;  SPI.h:75: 		DDR_SPI |= ((1 << DD_MOSI) | (1 << DD_SS) | (1 << DD_SCK));
-	in r24,0x4	 ;  _3, MEM[(volatile uint8_t *)36B]
+	out 0x4,r24	 ;  MEM[(volatile mem_width &)35B + 1], _2
+ ;  SPI.h:75: 		BMCPP::Hal::SPI<0>::spiDDR() |= ((1 << DD_MOSI) | (1 << DD_SS) | (1 << DD_SCK));
+	in r24,0x4	 ;  _3, MEM[(volatile mem_width &)35B + 1]
 	ori r24,lo8(44)	 ;  _4,
-	out 0x4,r24	 ;  MEM[(volatile uint8_t *)36B], _4
- ;  SPI.h:77: 		SPCR = ((1 << SPE) |               // SPI Enable
+	out 0x4,r24	 ;  MEM[(volatile mem_width &)35B + 1], _4
+ ;  register.h:48: 				hwRegister = val;
 	ldi r24,lo8(-47)	 ;  tmp51,
-	out 0x2c,r24	 ;  MEM[(volatile uint8_t *)76B], tmp51
+	out 0x2c,r24	 ;  MEM[(struct ControlRegister *)76B].hwRegister, tmp51
  ;  SPI.h:85: 		SPSR = (1 << SPI2X);              // Double Clock Rate
 	ldi r24,lo8(1)	 ;  tmp53,
 	out 0x2d,r24	 ;  MEM[(volatile uint8_t *)77B], tmp53
@@ -93,19 +93,19 @@ _ZN3spi17spi_transfer_syncEPhS0_h:
 /* frame size = 0 */
 /* stack size = 0 */
 .L__stack_usage = 0
-	mov r19,r22	 ;  ivtmp.68, datain
+	mov r19,r22	 ;  ivtmp.59, datain
  ;  SPI.h:90: 	{
 	movw r30,r22	 ; ,
 .L5:
  ;  SPI.h:92: 		for (i = 0; i < len; i++) {
 	mov r18,r30	 ;  i,
-	sub r18,r19	 ;  i, ivtmp.68
+	sub r18,r19	 ;  i, ivtmp.59
 	cp r18,r20	 ;  i, len
 	brsh .L2	 ; ,
  ;  SPI.h:93: 			SPDR = dataout[i];
-	movw r26,r24	 ; , ivtmp.70
+	movw r26,r24	 ; , ivtmp.61
 	ld r18,X+	 ;  _3, MEM[base: _28, offset: 0B]
-	movw r24,r26	 ;  ivtmp.70,
+	movw r24,r26	 ;  ivtmp.61,
 	out 0x2e,r18	 ;  MEM[(volatile uint8_t *)78B], _3
 .L4:
  ;  SPI.h:94: 			while ((SPSR & (1 << SPIF)) == 0);
@@ -129,13 +129,13 @@ _ZN3spi17spi_transmit_syncEPhh:
 /* frame size = 0 */
 /* stack size = 0 */
 .L__stack_usage = 0
-	mov r18,r24	 ;  ivtmp.78, dataout
+	mov r18,r24	 ;  ivtmp.69, dataout
  ;  SPI.h:101: 	{
 	movw r30,r24	 ; ,
 .L10:
  ;  SPI.h:103: 		for (i = 0; i < len; i++) {
 	mov r24,r30	 ;  i,
-	sub r24,r18	 ;  i, ivtmp.78
+	sub r24,r18	 ;  i, ivtmp.69
 	cp r24,r22	 ;  i, len
 	brsh .L7	 ; ,
  ;  SPI.h:104: 			SPDR = dataout[i];
@@ -407,7 +407,7 @@ _Z9uart_putsPKc:
 /* frame size = 0 */
 /* stack size = 2 */
 .L__stack_usage = 2
-	movw r28,r24	 ;  ivtmp.99, s
+	movw r28,r24	 ;  ivtmp.90, s
 .L31:
  ;  uart.c:551:     while (*s) 
 	ld r24,Y+	 ;  _1, MEM[base: _11, offset: 0B]
@@ -433,17 +433,17 @@ _Z11uart_puts_pPKc:
 /* frame size = 0 */
 /* stack size = 2 */
 .L__stack_usage = 2
-	movw r28,r24	 ;  ivtmp.104, progmem_s
+	movw r28,r24	 ;  ivtmp.95, progmem_s
 .L34:
  ;  uart.c:567:     while ( (c = pgm_read_byte(progmem_s++)) ) 
-	movw r30,r28	 ; , ivtmp.104
+	movw r30,r28	 ; , ivtmp.95
 /* #APP */
  ;  567 "uart.c" 1
 	lpm r24, Z	 ;  __result
 	
  ;  0 "" 2
 /* #NOAPP */
-	adiw r28,1	 ;  ivtmp.104,
+	adiw r28,1	 ;  ivtmp.95,
 	tst r24	 ;  __result
 	breq .L32	 ; ,
  ;  uart.c:568:       uart_putc(c);
@@ -477,352 +477,44 @@ __vector_21:
 	pop r1	 ; 
 	reti
 	.size	__vector_21, .-__vector_21
-	.section	.text._ZN7MFRC522IN5BMCPP3AVR9ATMega328EE13mfrc522_writeEN17HardwareAddresses15CommandRegisterEh,"axG",@progbits,_ZN7MFRC522IN5BMCPP3AVR9ATMega328EE13mfrc522_writeEN17HardwareAddresses15CommandRegisterEh,comdat
-	.weak	_ZN7MFRC522IN5BMCPP3AVR9ATMega328EE13mfrc522_writeEN17HardwareAddresses15CommandRegisterEh
-	.type	_ZN7MFRC522IN5BMCPP3AVR9ATMega328EE13mfrc522_writeEN17HardwareAddresses15CommandRegisterEh, @function
-_ZN7MFRC522IN5BMCPP3AVR9ATMega328EE13mfrc522_writeEN17HardwareAddresses15CommandRegisterEh:
-	push r28	 ; 
-/* prologue: function */
-/* frame size = 0 */
-/* stack size = 1 */
-.L__stack_usage = 1
-	mov r28,r22	 ;  data, data
- ;  Mfrc522.h:103: 		spi::spi_fast_shift((static_cast<uint8_t>(reg) << v1) & v2);
-	lsl r24	 ;  tmp49
-	andi r24,lo8(126)	 ; ,
-	call _ZN3spi14spi_fast_shiftEh	 ; 
- ;  Mfrc522.h:104: 		spi::spi_fast_shift(data);
-	mov r24,r28	 ; , data
-/* epilogue start */
- ;  Mfrc522.h:106: 	}
-	pop r28	 ; 
- ;  Mfrc522.h:104: 		spi::spi_fast_shift(data);
-	jmp _ZN3spi14spi_fast_shiftEh	 ; 
-	.size	_ZN7MFRC522IN5BMCPP3AVR9ATMega328EE13mfrc522_writeEN17HardwareAddresses15CommandRegisterEh, .-_ZN7MFRC522IN5BMCPP3AVR9ATMega328EE13mfrc522_writeEN17HardwareAddresses15CommandRegisterEh
-	.section	.text._ZN7MFRC522IN5BMCPP3AVR9ATMega328EE12mfrc522_readEN17HardwareAddresses15CommandRegisterE,"axG",@progbits,_ZN7MFRC522IN5BMCPP3AVR9ATMega328EE12mfrc522_readEN17HardwareAddresses15CommandRegisterE,comdat
-	.weak	_ZN7MFRC522IN5BMCPP3AVR9ATMega328EE12mfrc522_readEN17HardwareAddresses15CommandRegisterE
-	.type	_ZN7MFRC522IN5BMCPP3AVR9ATMega328EE12mfrc522_readEN17HardwareAddresses15CommandRegisterE, @function
-_ZN7MFRC522IN5BMCPP3AVR9ATMega328EE12mfrc522_readEN17HardwareAddresses15CommandRegisterE:
-/* prologue: function */
-/* frame size = 0 */
-/* stack size = 0 */
-.L__stack_usage = 0
- ;  Mfrc522.h:113: 		spi::spi_fast_shift(static_cast<typename UC::mem_width>(reg));	 //TODO find out what 0x7E & 0x80
-	call _ZN3spi14spi_fast_shiftEh	 ; 
- ;  Mfrc522.h:114: 		spi::spi_fast_shift(v1 | v2);
-	ldi r24,lo8(-2)	 ; ,
-	call _ZN3spi14spi_fast_shiftEh	 ; 
- ;  Mfrc522.h:115: 		data = spi::spi_fast_shift(static_cast<typename UC::mem_width>(Commands::Idle_CMD));
-	ldi r24,0	 ; 
-	jmp _ZN3spi14spi_fast_shiftEh	 ; 
-	.size	_ZN7MFRC522IN5BMCPP3AVR9ATMega328EE12mfrc522_readEN17HardwareAddresses15CommandRegisterE, .-_ZN7MFRC522IN5BMCPP3AVR9ATMega328EE12mfrc522_readEN17HardwareAddresses15CommandRegisterE
-	.section	.text._ZN7MFRC522IN5BMCPP3AVR9ATMega328EE12mfrc522_initINS0_3Hal4PortINS1_1BES2_EEEEvv,"axG",@progbits,_ZN7MFRC522IN5BMCPP3AVR9ATMega328EE12mfrc522_initINS0_3Hal4PortINS1_1BES2_EEEEvv,comdat
-	.weak	_ZN7MFRC522IN5BMCPP3AVR9ATMega328EE12mfrc522_initINS0_3Hal4PortINS1_1BES2_EEEEvv
-	.type	_ZN7MFRC522IN5BMCPP3AVR9ATMega328EE12mfrc522_initINS0_3Hal4PortINS1_1BES2_EEEEvv, @function
-_ZN7MFRC522IN5BMCPP3AVR9ATMega328EE12mfrc522_initINS0_3Hal4PortINS1_1BES2_EEEEvv:
-/* prologue: function */
-/* frame size = 0 */
-/* stack size = 0 */
-.L__stack_usage = 0
- ;  Mfrc522.h:83: 		spi::spi0_init();
-	call _ZN3spi9spi0_initEv	 ; 
- ;  Mfrc522.h:121: 		mfrc522_write(CommandRegister::CommandReg, static_cast<uint8_t>(Commands::SoftReset_CMD));
-	ldi r22,lo8(15)	 ; ,
-	ldi r24,lo8(1)	 ; ,
-	call _ZN7MFRC522IN5BMCPP3AVR9ATMega328EE13mfrc522_writeEN17HardwareAddresses15CommandRegisterEh	 ; 
- ;  Mfrc522.h:86: 		mfrc522_write(CommandRegister::TModeReg, 0x8D);
-	ldi r22,lo8(-115)	 ; ,
-	ldi r24,lo8(42)	 ; ,
-	call _ZN7MFRC522IN5BMCPP3AVR9ATMega328EE13mfrc522_writeEN17HardwareAddresses15CommandRegisterEh	 ; 
- ;  Mfrc522.h:87: 		mfrc522_write(CommandRegister::TPrescalerReg, 0x3E);
-	ldi r22,lo8(62)	 ; ,
-	ldi r24,lo8(43)	 ; ,
-	call _ZN7MFRC522IN5BMCPP3AVR9ATMega328EE13mfrc522_writeEN17HardwareAddresses15CommandRegisterEh	 ; 
- ;  Mfrc522.h:88: 		mfrc522_write(CommandRegister::TReloadReg_1, 30);
-	ldi r22,lo8(30)	 ; ,
-	ldi r24,lo8(44)	 ; ,
-	call _ZN7MFRC522IN5BMCPP3AVR9ATMega328EE13mfrc522_writeEN17HardwareAddresses15CommandRegisterEh	 ; 
- ;  Mfrc522.h:89: 		mfrc522_write(CommandRegister::TReloadReg_2, 0);
-	ldi r22,0	 ; 
-	ldi r24,lo8(45)	 ; ,
-	call _ZN7MFRC522IN5BMCPP3AVR9ATMega328EE13mfrc522_writeEN17HardwareAddresses15CommandRegisterEh	 ; 
- ;  Mfrc522.h:90: 		mfrc522_write(CommandRegister::TxASKReg, 0x40);
-	ldi r22,lo8(64)	 ; ,
-	ldi r24,lo8(21)	 ; ,
-	call _ZN7MFRC522IN5BMCPP3AVR9ATMega328EE13mfrc522_writeEN17HardwareAddresses15CommandRegisterEh	 ; 
- ;  Mfrc522.h:91: 		mfrc522_write(CommandRegister::ModeReg, 0x3D);
-	ldi r22,lo8(61)	 ; ,
-	ldi r24,lo8(17)	 ; ,
-	call _ZN7MFRC522IN5BMCPP3AVR9ATMega328EE13mfrc522_writeEN17HardwareAddresses15CommandRegisterEh	 ; 
- ;  Mfrc522.h:93: 		byte = mfrc522_read(CommandRegister::TxControlReg);
-	ldi r24,lo8(20)	 ; ,
-	call _ZN7MFRC522IN5BMCPP3AVR9ATMega328EE12mfrc522_readEN17HardwareAddresses15CommandRegisterE	 ; 
- ;  Mfrc522.h:94: 		if (!(byte & 0x03))
-	mov r25,r24	 ;  tmp45, byte
-	andi r25,lo8(3)	 ;  tmp45,
-	brne .L38	 ; ,
- ;  Mfrc522.h:96: 			mfrc522_write(CommandRegister::TxControlReg, byte | 0x03);
-	mov r22,r24	 ;  tmp46, byte
-	ori r22,lo8(3)	 ;  tmp46,
-	ldi r24,lo8(20)	 ; ,
-	jmp _ZN7MFRC522IN5BMCPP3AVR9ATMega328EE13mfrc522_writeEN17HardwareAddresses15CommandRegisterEh	 ; 
-.L38:
-/* epilogue start */
- ;  Mfrc522.h:98: 	}
-	ret
-	.size	_ZN7MFRC522IN5BMCPP3AVR9ATMega328EE12mfrc522_initINS0_3Hal4PortINS1_1BES2_EEEEvv, .-_ZN7MFRC522IN5BMCPP3AVR9ATMega328EE12mfrc522_initINS0_3Hal4PortINS1_1BES2_EEEEvv
 	.section	.text.startup,"ax",@progbits
 .global	main
 	.type	main, @function
 main:
-	push r28	 ; 
-	push r29	 ; 
-	 ; SP -= 5	 ; 
-	rcall .
-	rcall .
-	push __zero_reg__
-	in r28,__SP_L__	 ; 
-	in r29,__SP_H__	 ; 
 /* prologue: function */
-/* frame size = 5 */
-/* stack size = 7 */
-.L__stack_usage = 7
- ;  main.cc:23: 	uart_init(UART_BAUD_SELECT(9600, F_CPU));
+/* frame size = 0 */
+/* stack size = 0 */
+.L__stack_usage = 0
+ ;  main.cc:22: 	uart_init(UART_BAUD_SELECT(9600, F_CPU));
 	ldi r24,lo8(103)	 ; ,
 	ldi r25,0	 ; 
 	call _Z9uart_initj	 ; 
- ;  main.cc:24: 	sei();
+ ;  main.cc:23: 	sei();
 /* #APP */
- ;  24 "main.cc" 1
+ ;  23 "main.cc" 1
 	sei
  ;  0 "" 2
- ;  main.cc:29: 	DDRB |= (1 << PB5);
+ ;  main.cc:28: 	DDRB |= (1 << PB5);
 /* #NOAPP */
 	sbi 0x4,5	 ; ,
- ;  main.cc:41: 	uint8_t serialOut[4]{0,0,0,0};
-	std Y+1,__zero_reg__	 ;  serialOut,
-	std Y+2,__zero_reg__	 ;  serialOut,
-	std Y+3,__zero_reg__	 ;  serialOut,
-	std Y+4,__zero_reg__	 ;  serialOut,
- ;  main.cc:44: 	MFRC522<>::mfrc522_init<outB>();
-	call _ZN7MFRC522IN5BMCPP3AVR9ATMega328EE12mfrc522_initINS0_3Hal4PortINS1_1BES2_EEEEvv	 ; 
  ;  SPI.h:148: 			Port::get() |= MISO;
 	sbi 0x5,6	 ; ,
  ;  SPI.h:149: 			Port::ddr() |= (MOSI | SCK) 	  // set outputs
-	in r24,0x4	 ;  _21, MEM[(volatile uint8_t &)35B + 1]
-	ori r24,lo8(-96)	 ;  _22,
-	out 0x4,r24	 ;  MEM[(volatile uint8_t &)35B + 1], _22
- ;  register.h:83:                 return hwRegister;
-	in r24,0x2c	 ;  _23, MEM[(struct ControlRegister *)76B].hwRegister
-	in r25,0x2c+1	 ;  _23, MEM[(struct ControlRegister *)76B].hwRegister
- ;  register.h:44:                 hwRegister = (static_cast<value_type>(v) | ...);
-	ldi r24,lo8(-128)	 ;  tmp107,
-	ldi r25,0	 ; 
-	out 0x2c+1,r25	 ;  MEM[(struct ControlRegister *)76B].hwRegister, tmp107
-	out 0x2c,r24	 ;  MEM[(struct ControlRegister *)76B].hwRegister, tmp107
- ;  register.h:83:                 return hwRegister;
-	in r24,0x2e	 ;  _25, MEM[(struct ControlRegister *)76B + 2B].hwRegister
-	in r25,0x2e+1	 ;  _25, MEM[(struct ControlRegister *)76B + 2B].hwRegister
+	in r24,0x4	 ;  _10, MEM[(volatile uint8_t &)35B + 1]
+	ori r24,lo8(-96)	 ;  _11,
+	out 0x4,r24	 ;  MEM[(volatile uint8_t &)35B + 1], _11
+ ;  register.h:88:                 return hwRegister;
+	in r24,0x2c	 ;  _12, MEM[(struct ControlRegister *)76B].hwRegister
+ ;  register.h:48: 				hwRegister = val;
+	ldi r24,lo8(119)	 ;  tmp63,
+	out 0x2c,r24	 ;  MEM[(struct ControlRegister *)76B].hwRegister, tmp63
+ ;  register.h:88:                 return hwRegister;
+	in r24,0x2d	 ;  _14, MEM[(struct ControlRegister *)76B + 1B].hwRegister
  ;  SPI.h:157: 			SPSR = clockspeed;
-	ldi r24,lo8(1)	 ;  tmp110,
-	out 0x2d,r24	 ;  MEM[(volatile uint8_t *)77B], tmp110
- ;  Mfrc522.h:256: 		serial_out[0] = static_cast<uint8_t>(CardType::CommandWord::PICC_ANTICOLL);
-	ldi r25,lo8(-109)	 ; ,
-	mov r9,r25	 ;  tmp111,
- ;  Mfrc522.h:257: 		serial_out[1] = 0x20;
-	ldi r18,lo8(32)	 ; ,
-	mov r8,r18	 ;  tmp112,
-.L43:
- ;  Mfrc522.h:254: 		mfrc522_write(CommandRegister::BitFramingReg, 0x00);		//TxLastBists = BitFramingReg[2..0]
-	ldi r22,0	 ; 
-	ldi r24,lo8(13)	 ; ,
-	call _ZN7MFRC522IN5BMCPP3AVR9ATMega328EE13mfrc522_writeEN17HardwareAddresses15CommandRegisterEh	 ; 
- ;  Mfrc522.h:256: 		serial_out[0] = static_cast<uint8_t>(CardType::CommandWord::PICC_ANTICOLL);
-	std Y+1,r9	 ;  MEM[(uint8_t *)&serialOut], tmp111
- ;  Mfrc522.h:257: 		serial_out[1] = 0x20;
-	std Y+2,r8	 ;  MEM[(uint8_t *)&serialOut + 1B], tmp112
- ;  Mfrc522.h:168: 		n = mfrc522_read(CommandRegister::ComIrqReg);
-	ldi r24,lo8(4)	 ; ,
-	call _ZN7MFRC522IN5BMCPP3AVR9ATMega328EE12mfrc522_readEN17HardwareAddresses15CommandRegisterE	 ; 
- ;  Mfrc522.h:169: 		mfrc522_write(CommandRegister::ComIrqReg, n&(~0x80));//clear all interrupt bits
-	mov r22,r24	 ;  tmp113,
-	andi r22,lo8(127)	 ;  tmp113,
-	ldi r24,lo8(4)	 ; ,
-	call _ZN7MFRC522IN5BMCPP3AVR9ATMega328EE13mfrc522_writeEN17HardwareAddresses15CommandRegisterEh	 ; 
- ;  Mfrc522.h:170: 		n = mfrc522_read(CommandRegister::FIFOLevelReg);
-	ldi r24,lo8(10)	 ; ,
-	call _ZN7MFRC522IN5BMCPP3AVR9ATMega328EE12mfrc522_readEN17HardwareAddresses15CommandRegisterE	 ; 
- ;  Mfrc522.h:171: 		mfrc522_write(CommandRegister::FIFOLevelReg, n | 0x80);//flush FIFO data
-	mov r22,r24	 ;  tmp114,
-	ori r22,lo8(-128)	 ;  tmp114,
-	ldi r24,lo8(10)	 ; ,
-	call _ZN7MFRC522IN5BMCPP3AVR9ATMega328EE13mfrc522_writeEN17HardwareAddresses15CommandRegisterEh	 ; 
- ;  Mfrc522.h:172: 		mfrc522_write(CommandRegister::CommandReg, static_cast<uint8_t>(Commands::Idle_CMD));	//NO action; Cancel the current cmd???
-	ldi r22,0	 ; 
-	ldi r24,lo8(1)	 ; ,
-	call _ZN7MFRC522IN5BMCPP3AVR9ATMega328EE13mfrc522_writeEN17HardwareAddresses15CommandRegisterEh	 ; 
- ;  Mfrc522.h:175: 			mfrc522_write(CommandRegister::FIFODataReg, send_data[i]);
-	ldd r22,Y+1	 ; , MEM[(uint8_t *)&serialOut]
-	ldi r24,lo8(9)	 ; ,
-	call _ZN7MFRC522IN5BMCPP3AVR9ATMega328EE13mfrc522_writeEN17HardwareAddresses15CommandRegisterEh	 ; 
-	ldd r22,Y+2	 ; , MEM[(uint8_t *)&serialOut + 1B]
-	ldi r24,lo8(9)	 ; ,
-	call _ZN7MFRC522IN5BMCPP3AVR9ATMega328EE13mfrc522_writeEN17HardwareAddresses15CommandRegisterEh	 ; 
- ;  Mfrc522.h:179: 		mfrc522_write(CommandRegister::CommandReg, static_cast<uint8_t>(cmd));
-	ldi r22,lo8(12)	 ; ,
-	ldi r24,lo8(1)	 ; ,
-	call _ZN7MFRC522IN5BMCPP3AVR9ATMega328EE13mfrc522_writeEN17HardwareAddresses15CommandRegisterEh	 ; 
- ;  Mfrc522.h:181: 			n = mfrc522_read(CommandRegister::BitFramingReg);
-	ldi r24,lo8(13)	 ; ,
-	call _ZN7MFRC522IN5BMCPP3AVR9ATMega328EE12mfrc522_readEN17HardwareAddresses15CommandRegisterE	 ; 
- ;  Mfrc522.h:182: 			mfrc522_write(CommandRegister::BitFramingReg, n | 0x80);
-	mov r22,r24	 ;  tmp115,
-	ori r22,lo8(-128)	 ;  tmp115,
-	ldi r24,lo8(13)	 ; ,
-	call _ZN7MFRC522IN5BMCPP3AVR9ATMega328EE13mfrc522_writeEN17HardwareAddresses15CommandRegisterEh	 ; 
- ;  Mfrc522.h:190: 			n = mfrc522_read(CommandRegister::ComIrqReg);
-	ldi r24,lo8(4)	 ; ,
-	call _ZN7MFRC522IN5BMCPP3AVR9ATMega328EE12mfrc522_readEN17HardwareAddresses15CommandRegisterE	 ; 
-	mov r17,r24	 ;  n,
- ;  Mfrc522.h:192: 		}  while ((i != 0) && !(n & 0x01) && !(n&waitIRq));
-	andi r24,lo8(49)	 ;  tmp116,
-	breq .+2	 ; 
-	rjmp .L53	 ; 
- ;  Mfrc522.h:190: 			n = mfrc522_read(CommandRegister::ComIrqReg);
-	ldi r24,lo8(4)	 ; ,
-	call _ZN7MFRC522IN5BMCPP3AVR9ATMega328EE12mfrc522_readEN17HardwareAddresses15CommandRegisterE	 ; 
-	mov r17,r24	 ;  n,
- ;  Mfrc522.h:191: 			i--;
-	mov r12,__zero_reg__	 ;  i
-	mov r13,__zero_reg__	 ;  i
-	movw r14,r12	 ;  i
-.L42:
- ;  Mfrc522.h:194: 		tmp = mfrc522_read(CommandRegister::BitFramingReg);
-	ldi r24,lo8(13)	 ; ,
-	call _ZN7MFRC522IN5BMCPP3AVR9ATMega328EE12mfrc522_readEN17HardwareAddresses15CommandRegisterE	 ; 
- ;  Mfrc522.h:195: 		mfrc522_write(CommandRegister::BitFramingReg, tmp&(~0x80));
-	mov r22,r24	 ;  tmp117,
-	andi r22,lo8(127)	 ;  tmp117,
-	ldi r24,lo8(13)	 ; ,
-	call _ZN7MFRC522IN5BMCPP3AVR9ATMega328EE13mfrc522_writeEN17HardwareAddresses15CommandRegisterEh	 ; 
- ;  Mfrc522.h:197: 		if (i != 0) {
-	or r12,r13	 ;  i
-	or r12,r14	 ;  i
-	or r12,r15	 ;  i
-	brne .+2	 ; 
-	rjmp .L43	 ; 
- ;  Mfrc522.h:198: 			if (!(mfrc522_read(CommandRegister::ErrorReg) & 0x1B))	{ //BufferOvfl Collerr CRCErr ProtecolErr
-	ldi r24,lo8(6)	 ; ,
-	call _ZN7MFRC522IN5BMCPP3AVR9ATMega328EE12mfrc522_readEN17HardwareAddresses15CommandRegisterE	 ; 
-	andi r24,lo8(27)	 ;  tmp118,
-	breq .+2	 ; 
-	rjmp .L43	 ; 
- ;  Mfrc522.h:200: 				if (n & irqEn & 0x01) {
-	sbrc r17,0	 ;  n,
-	rjmp .L54	 ; 
- ;  Mfrc522.h:199: 				status = ErrorType::CARD_FOUND;
-	ldi r24,lo8(1)	 ; ,
-	std Y+5,r24	 ;  %sfp,
-.L45:
- ;  Mfrc522.h:205: 					n = mfrc522_read(CommandRegister::FIFOLevelReg);
-	ldi r24,lo8(10)	 ; ,
-	call _ZN7MFRC522IN5BMCPP3AVR9ATMega328EE12mfrc522_readEN17HardwareAddresses15CommandRegisterE	 ; 
-	mov r12,r24	 ;  n,
- ;  Mfrc522.h:206: 					lastBits = mfrc522_read(CommandRegister::ControlReg) & 0x07;
-	ldi r24,lo8(12)	 ; ,
-	call _ZN7MFRC522IN5BMCPP3AVR9ATMega328EE12mfrc522_readEN17HardwareAddresses15CommandRegisterE	 ; 
- ;  Mfrc522.h:218: 						n = 1;
-	ldi r24,lo8(1)	 ;  n,
- ;  Mfrc522.h:216: 					if (n == 0)
-	tst r12	 ;  n
-	breq .L46	 ; ,
-	mov r24,r12	 ;  n, n
-	cpi r24,lo8(17)	 ;  n,
-	brlo .L46	 ; ,
-	ldi r24,lo8(16)	 ;  n,
-.L46:
-	movw r16,r28	 ;  ivtmp.126,
-	subi r16,-1	 ;  ivtmp.126,
-	sbci r17,-1	 ;  ivtmp.126,
- ;  Mfrc522.h:227: 					for (i = 0; i<n; i++)
-	mov r4,__zero_reg__	 ;  i
-	mov r5,__zero_reg__	 ;  i
-	movw r6,r4	 ;  i
-	movw r10,r16	 ; ,
-	mov r12,r24	 ;  n, n
-	mov r13,__zero_reg__	 ;  n
-	mov r15,__zero_reg__	 ;  n
-	mov r14,__zero_reg__	 ;  n
-.L49:
-	cp r4,r12	 ;  i, n
-	cpc r5,r13	 ;  i, n
-	cpc r6,r14	 ;  i, n
-	cpc r7,r15	 ;  i, n
-	brsh .L48	 ; ,
- ;  Mfrc522.h:229: 						back_data[i] = mfrc522_read(CommandRegister::FIFODataReg);
-	ldi r24,lo8(9)	 ; ,
-	call _ZN7MFRC522IN5BMCPP3AVR9ATMega328EE12mfrc522_readEN17HardwareAddresses15CommandRegisterE	 ; 
-	movw r30,r16	 ; , ivtmp.126
-	st Z+,r24	 ;  MEM[base: _3, offset: 0B],
-	movw r16,r30	 ;  ivtmp.126,
- ;  Mfrc522.h:227: 					for (i = 0; i<n; i++)
-	ldi r31,-1	 ; ,
-	sub r4,r31	 ;  i,
-	sbc r5,r31	 ;  i,
-	sbc r6,r31	 ;  i,
-	sbc r7,r31	 ;  i,
-	rjmp .L49	 ; 
-.L53:
- ;  Mfrc522.h:191: 			i--;
-	mov r12,__zero_reg__	 ;  i
-	mov r13,__zero_reg__	 ;  i
-	movw r14,r12	 ;  i
-	inc r12	 ;  i
-	rjmp .L42	 ; 
-.L54:
- ;  Mfrc522.h:201: 					status = ErrorType::CARD_NOT_FOUND;			//??   
-	ldi r30,lo8(2)	 ; ,
-	std Y+5,r30	 ;  %sfp,
-	rjmp .L45	 ; 
-.L48:
-	ldd r25,Y+1	 ;  pretmp_165, MEM[(uint8_t *)&serialOut]
- ;  Mfrc522.h:260: 		if (status == ErrorType::CARD_FOUND)
-	ldd r24,Y+5	 ; , %sfp
-	cpi r24,lo8(1)	 ; ,
-	brne .L50	 ; ,
- ;  Mfrc522.h:265: 				serNumCheck ^= serial_out[i];
-	ldd r24,Y+2	 ;  MEM[(uint8_t *)&serialOut + 1B], MEM[(uint8_t *)&serialOut + 1B]
-	eor r24,r25	 ;  serNumCheck, pretmp_165
-	ldd r18,Y+3	 ;  MEM[(uint8_t *)&serialOut + 2B], MEM[(uint8_t *)&serialOut + 2B]
-	eor r24,r18	 ;  serNumCheck, MEM[(uint8_t *)&serialOut + 2B]
-	ldd r18,Y+4	 ;  MEM[(uint8_t *)&serialOut + 3B], MEM[(uint8_t *)&serialOut + 3B]
-	eor r24,r18	 ;  serNumCheck, MEM[(uint8_t *)&serialOut + 3B]
- ;  Mfrc522.h:267: 			if (serNumCheck != serial_out[i])
-	ldd r18,Y+5	 ;  MEM[(uint8_t *)&serialOut + 4B], MEM[(uint8_t *)&serialOut + 4B]
-	cpse r18,r24	 ;  MEM[(uint8_t *)&serialOut + 4B], serNumCheck
-	rjmp .L43	 ; 
-.L50:
- ;  main.cc:55: 		if (MFRC522<>::mfrc522_get_card_serial<RFID::MifareOne>(serialOut) != ErrorType::ERROR && (serialOut[0] > 0 || serialOut[1] > 0 || serialOut[2] > 0 || serialOut[3] > 0)) {
-	cpse r25,__zero_reg__	 ;  pretmp_165,
-	rjmp .L52	 ; 
- ;  main.cc:55: 		if (MFRC522<>::mfrc522_get_card_serial<RFID::MifareOne>(serialOut) != ErrorType::ERROR && (serialOut[0] > 0 || serialOut[1] > 0 || serialOut[2] > 0 || serialOut[3] > 0)) {
-	ldd r24,Y+2	 ;  serialOut, serialOut
-	cpse r24,__zero_reg__	 ;  serialOut,
-	rjmp .L52	 ; 
- ;  main.cc:55: 		if (MFRC522<>::mfrc522_get_card_serial<RFID::MifareOne>(serialOut) != ErrorType::ERROR && (serialOut[0] > 0 || serialOut[1] > 0 || serialOut[2] > 0 || serialOut[3] > 0)) {
-	ldd r24,Y+3	 ;  serialOut, serialOut
-	cpse r24,__zero_reg__	 ;  serialOut,
-	rjmp .L52	 ; 
- ;  main.cc:55: 		if (MFRC522<>::mfrc522_get_card_serial<RFID::MifareOne>(serialOut) != ErrorType::ERROR && (serialOut[0] > 0 || serialOut[1] > 0 || serialOut[2] > 0 || serialOut[3] > 0)) {
-	ldd r24,Y+4	 ;  serialOut, serialOut
-	tst r24	 ;  serialOut
-	brne .+2	 ; 
-	rjmp .L43	 ; 
-.L52:
- ;  main.cc:56: 			uart_puts(reinterpret_cast<char*>(serialOut));
-	movw r24,r10	 ; ,
-	call _Z9uart_putsPKc	 ; 
-	rjmp .L43	 ; 
+	ldi r24,lo8(1)	 ;  tmp66,
+	out 0x2d,r24	 ;  MEM[(volatile uint8_t *)77B], tmp66
+.L37:
+	rjmp .L37	 ; 
 	.size	main, .-main
 	.local	_ZL16UART_LastRxError
 	.comm	_ZL16UART_LastRxError,1,1

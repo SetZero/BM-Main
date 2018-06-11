@@ -42,13 +42,16 @@
     <ClInclude Include="hal\port.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="Mfrc522.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
     <ClInclude Include="RFID_Reader_Concepts.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="adc_hall.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="spi_hal.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="uc_select.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
   </ItemGroup>

@@ -5,12 +5,6 @@ c:/users/keven/downloads/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/avr5\l
 c:/users/keven/downloads/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/avr5\libgcc.a(_clear_bss.o)
                               main.o (__do_clear_bss)
 
-Discarded input sections
-
- .group         0x0000000000000000        0xc main.o
- .group         0x0000000000000000        0xc main.o
- .group         0x0000000000000000        0xc main.o
-
 Memory Configuration
 
 Name             Origin             Length             Attributes
@@ -133,7 +127,7 @@ END GROUP
 .rela.plt
  *(.rela.plt)
 
-.text           0x0000000000000000      0x482
+.text           0x0000000000000000      0x29e
  *(.vectors)
  .vectors       0x0000000000000000       0x68 c:/users/keven/downloads/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5/crtatmega328p.o
                 0x0000000000000000                __vector_default
@@ -228,48 +222,39 @@ END GROUP
  .text          0x0000000000000280        0x0 c:/users/keven/downloads/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/avr5\libgcc.a(_clear_bss.o)
                 0x0000000000000280                . = ALIGN (0x2)
  *(.text.*)
- .text._ZN7MFRC522IN5BMCPP3AVR9ATMega328EE13mfrc522_writeEN17HardwareAddresses15CommandRegisterEh
-                0x0000000000000280       0x14 main.o
-                0x0000000000000280                _ZN7MFRC522IN5BMCPP3AVR9ATMega328EE13mfrc522_writeEN17HardwareAddresses15CommandRegisterEh
- .text._ZN7MFRC522IN5BMCPP3AVR9ATMega328EE12mfrc522_readEN17HardwareAddresses15CommandRegisterE
-                0x0000000000000294       0x10 main.o
-                0x0000000000000294                _ZN7MFRC522IN5BMCPP3AVR9ATMega328EE12mfrc522_readEN17HardwareAddresses15CommandRegisterE
- .text._ZN7MFRC522IN5BMCPP3AVR9ATMega328EE12mfrc522_initINS0_3Hal4PortINS1_1BES2_EEEEvv
-                0x00000000000002a4       0x54 main.o
-                0x00000000000002a4                _ZN7MFRC522IN5BMCPP3AVR9ATMega328EE12mfrc522_initINS0_3Hal4PortINS1_1BES2_EEEEvv
- .text.startup  0x00000000000002f8      0x186 main.o
-                0x00000000000002f8                main
+ .text.startup  0x0000000000000280       0x1a main.o
+                0x0000000000000280                main
  .text.libgcc.mul
-                0x000000000000047e        0x0 c:/users/keven/downloads/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/avr5\libgcc.a(_exit.o)
+                0x000000000000029a        0x0 c:/users/keven/downloads/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/avr5\libgcc.a(_exit.o)
  .text.libgcc.div
-                0x000000000000047e        0x0 c:/users/keven/downloads/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/avr5\libgcc.a(_exit.o)
- .text.libgcc   0x000000000000047e        0x0 c:/users/keven/downloads/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/avr5\libgcc.a(_exit.o)
+                0x000000000000029a        0x0 c:/users/keven/downloads/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/avr5\libgcc.a(_exit.o)
+ .text.libgcc   0x000000000000029a        0x0 c:/users/keven/downloads/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/avr5\libgcc.a(_exit.o)
  .text.libgcc.prologue
-                0x000000000000047e        0x0 c:/users/keven/downloads/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/avr5\libgcc.a(_exit.o)
+                0x000000000000029a        0x0 c:/users/keven/downloads/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/avr5\libgcc.a(_exit.o)
  .text.libgcc.builtins
-                0x000000000000047e        0x0 c:/users/keven/downloads/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/avr5\libgcc.a(_exit.o)
+                0x000000000000029a        0x0 c:/users/keven/downloads/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/avr5\libgcc.a(_exit.o)
  .text.libgcc.fmul
-                0x000000000000047e        0x0 c:/users/keven/downloads/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/avr5\libgcc.a(_exit.o)
+                0x000000000000029a        0x0 c:/users/keven/downloads/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/avr5\libgcc.a(_exit.o)
  .text.libgcc.fixed
-                0x000000000000047e        0x0 c:/users/keven/downloads/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/avr5\libgcc.a(_exit.o)
+                0x000000000000029a        0x0 c:/users/keven/downloads/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/avr5\libgcc.a(_exit.o)
  .text.libgcc.mul
-                0x000000000000047e        0x0 c:/users/keven/downloads/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/avr5\libgcc.a(_clear_bss.o)
+                0x000000000000029a        0x0 c:/users/keven/downloads/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/avr5\libgcc.a(_clear_bss.o)
  .text.libgcc.div
-                0x000000000000047e        0x0 c:/users/keven/downloads/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/avr5\libgcc.a(_clear_bss.o)
- .text.libgcc   0x000000000000047e        0x0 c:/users/keven/downloads/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/avr5\libgcc.a(_clear_bss.o)
+                0x000000000000029a        0x0 c:/users/keven/downloads/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/avr5\libgcc.a(_clear_bss.o)
+ .text.libgcc   0x000000000000029a        0x0 c:/users/keven/downloads/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/avr5\libgcc.a(_clear_bss.o)
  .text.libgcc.prologue
-                0x000000000000047e        0x0 c:/users/keven/downloads/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/avr5\libgcc.a(_clear_bss.o)
+                0x000000000000029a        0x0 c:/users/keven/downloads/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/avr5\libgcc.a(_clear_bss.o)
  .text.libgcc.builtins
-                0x000000000000047e        0x0 c:/users/keven/downloads/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/avr5\libgcc.a(_clear_bss.o)
+                0x000000000000029a        0x0 c:/users/keven/downloads/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/avr5\libgcc.a(_clear_bss.o)
  .text.libgcc.fmul
-                0x000000000000047e        0x0 c:/users/keven/downloads/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/avr5\libgcc.a(_clear_bss.o)
+                0x000000000000029a        0x0 c:/users/keven/downloads/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/avr5\libgcc.a(_clear_bss.o)
  .text.libgcc.fixed
-                0x000000000000047e        0x0 c:/users/keven/downloads/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/avr5\libgcc.a(_clear_bss.o)
-                0x000000000000047e                . = ALIGN (0x2)
+                0x000000000000029a        0x0 c:/users/keven/downloads/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/avr5\libgcc.a(_clear_bss.o)
+                0x000000000000029a                . = ALIGN (0x2)
  *(.fini9)
- .fini9         0x000000000000047e        0x0 c:/users/keven/downloads/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/avr5\libgcc.a(_exit.o)
-                0x000000000000047e                _exit
-                0x000000000000047e                exit
+ .fini9         0x000000000000029a        0x0 c:/users/keven/downloads/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/avr5\libgcc.a(_exit.o)
+                0x000000000000029a                _exit
+                0x000000000000029a                exit
  *(.fini9)
  *(.fini8)
  *(.fini8)
@@ -288,17 +273,17 @@ END GROUP
  *(.fini1)
  *(.fini1)
  *(.fini0)
- .fini0         0x000000000000047e        0x4 c:/users/keven/downloads/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/avr5\libgcc.a(_exit.o)
+ .fini0         0x000000000000029a        0x4 c:/users/keven/downloads/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/avr5\libgcc.a(_exit.o)
  *(.fini0)
  *(.hightext)
  *(.hightext*)
  *(.progmemx.*)
-                0x0000000000000482                . = ALIGN (0x2)
+                0x000000000000029e                . = ALIGN (0x2)
  *(.jumptables)
  *(.jumptables*)
-                0x0000000000000482                _etext = .
+                0x000000000000029e                _etext = .
 
-.data           0x0000000000800100        0x0 load address 0x0000000000000482
+.data           0x0000000000800100        0x0 load address 0x000000000000029e
                 [!provide]                        PROVIDE (__data_start = .)
  *(.data)
  .data          0x0000000000800100        0x0 c:/users/keven/downloads/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5/crtatmega328p.o
@@ -324,8 +309,8 @@ END GROUP
  *(.bss*)
  *(COMMON)
                 0x0000000000800146                PROVIDE (__bss_end = .)
-                0x0000000000000482                __data_load_start = LOADADDR (.data)
-                0x0000000000000482                __data_load_end = (__data_load_start + SIZEOF (.data))
+                0x000000000000029e                __data_load_start = LOADADDR (.data)
+                0x000000000000029e                __data_load_end = (__data_load_start + SIZEOF (.data))
 
 .noinit         0x0000000000800146        0x0
                 [!provide]                        PROVIDE (__noinit_start = .)
@@ -476,9 +461,6 @@ _ZN3spi14spi_fast_shiftEh                         main.o
 _ZN3spi17spi_transfer_syncEPhS0_h                 main.o
 _ZN3spi17spi_transmit_syncEPhh                    main.o
 _ZN3spi9spi0_initEv                               main.o
-_ZN7MFRC522IN5BMCPP3AVR9ATMega328EE12mfrc522_initINS0_3Hal4PortINS1_1BES2_EEEEvv main.o
-_ZN7MFRC522IN5BMCPP3AVR9ATMega328EE12mfrc522_readEN17HardwareAddresses15CommandRegisterE main.o
-_ZN7MFRC522IN5BMCPP3AVR9ATMega328EE13mfrc522_writeEN17HardwareAddresses15CommandRegisterEh main.o
 __bad_interrupt                                   c:/users/keven/downloads/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5/crtatmega328p.o
 __bss_end                                         c:/users/keven/downloads/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/avr5\libgcc.a(_clear_bss.o)
 __bss_start                                       c:/users/keven/downloads/avr-gcc-7.3.0-x64-mingw/bin/../lib/gcc/avr/7.3.0/avr5\libgcc.a(_clear_bss.o)

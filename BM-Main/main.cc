@@ -11,7 +11,6 @@
 #include "mega328.h"
 #include "hal\port.h"
 #include "SPI.h"
-#include "Mfrc522.h"
 #include "uart.c"
 #include "ADC.h"
 
@@ -38,23 +37,17 @@ int main(){
 	pinb3::dir<BMCPP::Hal::Output>();
 	//auto x = BMCPP::Hal::SPI<0>::spcr();
 	MFRC522<>::mfrc522_init<outB>();	*/
-	uint8_t serialOut[4]{0,0,0,0};
+	//uint8_t serialOut[4]{0,0,0,0};
 	
 	//spi0::init<outB>();
-	MFRC522<>::mfrc522_init<outB>();
-	uint8_t tesst = 'a';
+	//uint8_t tesst = 'a';
 	spi0::init<outB>();
 	while (true) {
 		//spi::spi_transmit_sync(&tesst, 1);
 		//spi0::spi_send('a');
 		//spi0::spi_send('\n');
 		
-		//pinb3::on();
-
-		
-		if (MFRC522<>::mfrc522_get_card_serial<RFID::MifareOne>(serialOut) != ErrorType::ERROR && (serialOut[0] > 0 || serialOut[1] > 0 || serialOut[2] > 0 || serialOut[3] > 0)) {
-			uart_puts(reinterpret_cast<char*>(serialOut));
-		}	  
+		//pinb3::on();  
 
 		//uart_puts(reinterpret_cast<char*>(serialOut));
 		//uart_puts("test");

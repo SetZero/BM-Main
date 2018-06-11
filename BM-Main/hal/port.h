@@ -22,6 +22,7 @@
 #include "../Utils/Utils.h"
 #include "../meta/meta.h"
 #include "../AVR_concepts.h"
+#include "../uc_select.h"
 
 
 namespace BMCPP {
@@ -29,42 +30,6 @@ namespace BMCPP {
 
         struct Output {};
         struct Input {};
-
-		//currently the only available MMCU in this great library
-	#ifdef __AVR_ATmega328P__
-		#define __DEFAULT_MMCU__ AVR::ATMega328
-	#else
-		#define	 __DEFAULT_MMCU__ void
-	#endif // __AVR_ATmega328P__
-
-
-		template<uint8_t number, typename MicroController = __DEFAULT_MMCU__>
-		class SPI {
-			static_assert(!utils::isEqual<void, __DEFAULT_MMCU__>::value, "no default MMCU defined");
-			static_assert(AVR::isUC<MicroController>(), "type MicroController does not match the requirements");
-			SPI() = delete;
-			static inline constexpr auto spi = AVR::getAddress<typename MicroController::SPI, number>;
-		public:
-			static inline constexpr auto Number = number;
-
-			static volatile uintptr_t& spdr() {
-				return *spi()->Spdr;
-			}
-			static volatile auto spcr() {
-				return spi()->Spcr.raw();
-			}
-
-			//template<typename... T>
-			static void setSpcr(typename MicroController::mem_width spcrVal) {
-				//constexpr bool same = utils::sameTypes<T...>();
-				//constexpr bool equal = utils::isEqual<typename utils::front<T...>::type, typename MicroController::mem_width>::value;
-				//static_assert(same," Parameters have to be the same Type");
-				spi()->Spcr.setRegister(spcrVal);
-			}
-			static volatile auto spsr() {
-				return spi()->Spsr.raw();
-			}
-		};
 
         template<typename PortName, typename MicroController = __DEFAULT_MMCU__>
         class Port {

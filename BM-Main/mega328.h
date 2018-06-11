@@ -60,9 +60,13 @@ namespace BMCPP
 				struct address;
             };
 
+			template<uint8_t number>
+			struct SPI_Port;
+
 			struct SPI
 			{
 				SPI() = delete;
+				//0 wegen define names 
 				enum class spcr : mem_width {
 					SPIE0 = (1 << SPIE), 
 					SPE0 = (1 << SPE),
@@ -78,6 +82,13 @@ namespace BMCPP
 					SPIF0  = (1 << SPIF),
 					WCOL0  = (1 << WCOL),
 					SPI2X0 = (1 << SPI2X)
+				};
+
+				enum class Pins : mem_width {
+					SS = ( 1 << 2),
+					Mosi = (1 << 3),
+					Miso = (1 << 4),
+					SCK = (1 << 5)
 				};
 
 				ControlRegister<SPI, spcr, mem_width> Spcr;
@@ -202,6 +213,11 @@ namespace BMCPP
 		struct ATMega328::SPI::address<0>
 		{
 			static constexpr uintptr_t value = 0x4C;
+		};
+
+		template<>
+		struct ATMega328::SPI_Port<0>{
+			using Port = B;
 		};
 
 		//ADC
