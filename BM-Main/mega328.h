@@ -85,10 +85,10 @@ namespace BMCPP
 				};
 
 				enum class Pins : mem_width {
-					SS = ( 1 << 2),
-					Mosi = (1 << 3),
-					Miso = (1 << 4),
-					SCK = (1 << 5)
+					SS = 2,
+					Mosi = 3,
+					Miso = 4,
+					SCK = 5
 				};
 
 				ControlRegister<SPI, spcr, mem_width> Spcr;

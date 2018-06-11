@@ -8,6 +8,7 @@
 #include "AVR_concepts.h"
 #include "spi_hal.h"
 #include "uart.h"
+#include "hal\port.h"
 
 using namespace BMCPP;
 using namespace AVR;
@@ -67,57 +68,97 @@ namespace spi {
 #define DD_SCK      DDB5
 
 
-	void spi0_init()
-		// Initialize pins for spi communication
-	{
-		BMCPP::Hal::SPI<0>::spiDDR() &= static_cast<uint8_t>(~((1 << DD_MOSI) | (1 << DD_MISO) | (1 << DD_SS) | (1 << DD_SCK)));
-		// Define the following pins as output
-		BMCPP::Hal::SPI<0>::spiDDR() |= ((1 << DD_MOSI) | (1 << DD_SS) | (1 << DD_SCK));
-		BMCPP::Hal::SPI<0>::setSpcr(
-		/*SPCR = */((1 << SPE) |               // SPI Enable
-			(1 << SPIE) |              // SPI Interupt Enable
-			(0 << DORD) |              // Data Order (0:MSB first / 1:LSB first)
-			(1 << MSTR) |              // Master/Slave select   
-			(0 << SPR1) | (1 << SPR0) |    // SPI Clock Rate
-			(0 << CPOL) |              // Clock Polarity (0:SCK low / 1:SCK hi when idle)
-			(0 << CPHA)));             // Clock Phase (0:leading / 1:trailing edge sampling)
 
-		SPSR = (1 << SPI2X);              // Double Clock Rate
-	}
-
-	void spi_transfer_sync(uint8_t * dataout, uint8_t * datain, uint8_t len)
-		// Shift full array through target device
-	{
-		uint8_t i;
-		for (i = 0; i < len; i++) {
-			SPDR = dataout[i];
-			while ((SPSR & (1 << SPIF)) == 0);
-			datain[i] = SPDR;
-		}
-	}
-
-	void spi_transmit_sync(uint8_t * dataout, uint8_t len)
-		// Shift full array to target device without receiving any byte
-	{
-		uint8_t i;
-		for (i = 0; i < len; i++) {
-			SPDR = dataout[i];
-			while ((SPSR & (1 << SPIF)) == 0);
-		}
-	}
-
-	uint8_t spi_fast_shift(uint8_t data)
-		// Clocks only one byte to target device and returns the received one
-	{
-		SPDR = data;
-		while ((SPSR & (1 << SPIF)) == 0);
-		return SPDR;
-	}
 	//
-	template<Mode mode, ClkRate clockRate, bool Master = true, bool lsbfirst = true, bool doubleSpeed = true, typename MicroController = __DEFAULT_MMCU__ >
+	template<Mode mode, ClkRate clockRate,uint8_t number = 0, bool Master = true, bool lsbfirst = true, bool doubleSpeed = true, typename MicroController = __DEFAULT_MMCU__ >
 	//requires isUC<MicroController>()	-> moved to static assert (syntax highlighting)
 	struct SPI {
-		using UC = MicroController;
+		using  UC = ATMega328;
+		using spi_hal = BMCPP::Hal::SPI<number, MicroController>;
+		using spi_port = BMCPP::Hal::Port<typename spi_hal::Port, MicroController>;
+		using Mosi = BMCPP::Hal::Pin<spi_port, static_cast<UC::mem_width>(UC::SPI::Pins::Mosi)>;
+		using Miso = BMCPP::Hal::Pin<spi_port, static_cast<UC::mem_width>(UC::SPI::Pins::Miso)>;
+		using SS = BMCPP::Hal::Pin<spi_port, static_cast<UC::mem_width>(UC::SPI::Pins::SS)>;
+		using SCK = BMCPP::Hal::Pin<spi_port, static_cast<UC::mem_width>(UC::SPI::Pins::SCK)>;
+		static void spi0_init()
+			// Initialize pins for spi communication
+		{
+			//required Pins
+			Mosi::on();
+			Miso::off();
+			SS::on();
+			SCK::on();
+			//BMCPP::Hal::SPI<0>::spiDDR() &= static_cast<uint8_t>(UC::SPI::Pins::Mosi, UC::SPI::Pins::Miso, UC::SPI::Pins::SS ,(1 << DD_SCK)));
+			// Define the following pins as output
+			//BMCPP::Hal::SPI<0>::spiDDR() |= ((1 << DD_MOSI) | (1 << DD_SS) | (1 << DD_SCK));
+			spi_hal::clearSpcr();
+			spi_hal::setSpcr(UC::SPI::spcr::SPE0, UC::SPI::spcr::SPIE0, UC::SPI::spcr::MSTR0);
+			//set Clockrate
+			switch (clockRate)
+			{
+				case spi::ClkRate::clkRateDiv4:
+					break;
+				case spi::ClkRate::clkRateDiv16:
+					spi_hal::setSpcr(UC::SPI::spcr::SPR00);
+					break;
+				case spi::ClkRate::clkRateDiv64:
+					spi_hal::setSpcr(UC::SPI::spcr::SPR01);
+					break;
+				case spi::ClkRate::clkRateDiv128:
+					spi_hal::setSpcr(UC::SPI::spcr::SPR00, UC::SPI::spcr::SPR01);
+					break;
+				default:
+					break;
+			}
+			//set doubleSpeed
+			BMCPP::Hal::SPI<0>::setDoubleSpeed();
+				/*
+				//SPCR = /((1 << SPE) |               // SPI Enable
+				(1 << SPIE) |              // SPI Interupt Enable
+					(0 << DORD) |              // Data Order (0:MSB first / 1:LSB first)
+					(1 << MSTR) |              // Master/Slave select   
+					(0 << SPR1) | (1 << SPR0) |    // SPI Clock Rate
+					(0 << CPOL) |              // Clock Polarity (0:SCK low / 1:SCK hi when idle)
+					(0 << CPHA)));             // Clock Phase (0:leading / 1:trailing edge sampling)
+
+			SPSR = (1 << SPI2X);              // Double Clock Rate	   */
+
+		}
+
+		void spi_transfer_sync(uint8_t * dataout, uint8_t * datain, uint8_t len)
+			// Shift full array through target device
+		{
+			uint8_t i;
+			for (i = 0; i < len; i++) {
+				SPDR = dataout[i];
+				while ((SPSR & (1 << SPIF)) == 0);
+				datain[i] = SPDR;
+			}
+		}
+
+		void spi_transmit_sync(uint8_t * dataout, uint8_t len)
+			// Shift full array to target device without receiving any byte
+		{
+			uint8_t i;
+			for (i = 0; i < len; i++) {
+				SPDR = dataout[i];
+				while ((SPSR & (1 << SPIF)) == 0);
+			}
+		}
+
+		static UC::mem_width spi_fast_shift(UC::mem_width data)
+			// Clocks only one byte to target device and returns the received one
+		{
+			spi_hal::setSPDR(data);
+			while ((spi_hal::readSPSR() & static_cast<UC::mem_width>(UC::SPI::spsr::SPIF0)) == 0);
+			return spi_hal::readSPDR();
+		}
+	};
+}
+
+
+
+/*		using UC = MicroController;
 		static_assert(isUC<UC>(),"typename MicroController is not a Microcontroller");
 		static constexpr volatile uint8_t& scr_adr = Hal::Port<B>::get();
 		static constexpr uint8_t master = Master ? 1 : 0;
@@ -149,26 +190,26 @@ namespace spi {
 			Port::ddr() |= (MOSI | SCK) 	  // set outputs
 						& ~(MISO);			 //  set inputs
 			//using Spcr = BMCPP::Hal::SPI<spiNumber>;
-			/*
+			
 			volatile typename UC::mem_width* spcr_adr = 
 				reinterpret_cast<typename UC::mem_width*>(BMCPP::Hal::SPI<0>::spcr());
 			Spcr::setSpcr(spcr);
 			volatile typename UC::mem_width* spsr_adr = 
-				reinterpret_cast<typename UC::mem_width*>(BMCPP::Hal::SPI<0>::spsr());	 */
-			//set double speed bit
-			SPSR = clockspeed;
+				reinterpret_cast<typename UC::mem_width*>(BMCPP::Hal::SPI<0>::spsr());	
+				//set double speed bit
+SPSR = clockspeed;
 		}
 
 		//shifts out 8 bits of data
 		//  uint8_t data - the data to be shifted out
 		//  returns uint8_t - the data received during sending
 		static typename UC::mem_width spi_send(typename UC::mem_width value) {
-			//volatile typename UC::mem_width& spdr_adr = (typename UC::mem_width*)/*BMCPP::Hal::SPI<0>::spdr()*/SPDR;
+			//volatile typename UC::mem_width& spdr_adr = (typename UC::mem_width*)BMCPP::Hal::SPI<0>::spdr()SPDR;
 			//uart_putc(static_cast<char>(value));
 			//uart_putc(static_cast<char>(value));
 			//uart_putc(spcr);
 			typename UC::mem_width result;
-			//volatile typename UC::mem_width* spsr_adr = (typename UC::mem_width*)/*BMCPP::Hal::SPI<0>::spsr()*/SPSR;
+			//volatile typename UC::mem_width* spsr_adr = (typename UC::mem_width*)BMCPP::Hal::SPI<0>::spsr()SPSR;
 			//shift the first byte of the value
 			SPDR = value;
 			//wait for the SPI bus to finish
@@ -176,6 +217,4 @@ namespace spi {
 			//get the received data
 			result = SPDR;
 			return result;
-		}
-	};
-}
+		}*/

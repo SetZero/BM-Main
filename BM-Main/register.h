@@ -68,6 +68,10 @@ namespace BMCPP {
             {
                 hwRegister &= ~static_cast<value_type>(F);
             }
+			void inline clear()
+			{
+				hwRegister &= static_cast<value_type>(0);
+			}
             template<BitType Mask>
             [[nodiscard]] inline BitType get()
             {

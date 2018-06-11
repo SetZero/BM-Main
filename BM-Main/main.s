@@ -9,7 +9,7 @@ __zero_reg__ = 1
 
  ;  GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072
  ;  options passed:  -I ./include -imultilib avr5
- ;  -iprefix c:\users\keven\downloads\avr-gcc-7.3.0-x64-mingw\bin\../lib/gcc/avr/7.3.0/
+ ;  -iprefix f:\users\keven\downloads\avr-gcc-7.3.0-x64-mingw\bin\../lib/gcc/avr/7.3.0/
  ;  -D__AVR_ATmega328P__ -D__AVR_DEVICE_NAME__=atmega328p -D F_CPU=16000000
  ;  main.cc -mn-flash=1 -mmcu=avr5 -auxbase-strip main.s -Os -Wall -Wextra
  ;  -Wconversion -std=c++1z -fconcepts -fno-unwind-tables
@@ -61,117 +61,6 @@ __zero_reg__ = 1
  ;  -fzero-initialized-in-bss
 
 	.text
-.global	_ZN3spi9spi0_initEv
-	.type	_ZN3spi9spi0_initEv, @function
-_ZN3spi9spi0_initEv:
-/* prologue: function */
-/* frame size = 0 */
-/* stack size = 0 */
-.L__stack_usage = 0
- ;  SPI.h:73: 		BMCPP::Hal::SPI<0>::spiDDR() &= static_cast<uint8_t>(~((1 << DD_MOSI) | (1 << DD_MISO) | (1 << DD_SS) | (1 << DD_SCK)));
-	in r24,0x4	 ;  _1, MEM[(volatile mem_width &)35B + 1]
-	andi r24,lo8(-61)	 ;  _2,
-	out 0x4,r24	 ;  MEM[(volatile mem_width &)35B + 1], _2
- ;  SPI.h:75: 		BMCPP::Hal::SPI<0>::spiDDR() |= ((1 << DD_MOSI) | (1 << DD_SS) | (1 << DD_SCK));
-	in r24,0x4	 ;  _3, MEM[(volatile mem_width &)35B + 1]
-	ori r24,lo8(44)	 ;  _4,
-	out 0x4,r24	 ;  MEM[(volatile mem_width &)35B + 1], _4
- ;  register.h:48: 				hwRegister = val;
-	ldi r24,lo8(-47)	 ;  tmp51,
-	out 0x2c,r24	 ;  MEM[(struct ControlRegister *)76B].hwRegister, tmp51
- ;  SPI.h:85: 		SPSR = (1 << SPI2X);              // Double Clock Rate
-	ldi r24,lo8(1)	 ;  tmp53,
-	out 0x2d,r24	 ;  MEM[(volatile uint8_t *)77B], tmp53
-/* epilogue start */
- ;  SPI.h:86: 	}
-	ret
-	.size	_ZN3spi9spi0_initEv, .-_ZN3spi9spi0_initEv
-.global	_ZN3spi17spi_transfer_syncEPhS0_h
-	.type	_ZN3spi17spi_transfer_syncEPhS0_h, @function
-_ZN3spi17spi_transfer_syncEPhS0_h:
-/* prologue: function */
-/* frame size = 0 */
-/* stack size = 0 */
-.L__stack_usage = 0
-	mov r19,r22	 ;  ivtmp.59, datain
- ;  SPI.h:90: 	{
-	movw r30,r22	 ; ,
-.L5:
- ;  SPI.h:92: 		for (i = 0; i < len; i++) {
-	mov r18,r30	 ;  i,
-	sub r18,r19	 ;  i, ivtmp.59
-	cp r18,r20	 ;  i, len
-	brsh .L2	 ; ,
- ;  SPI.h:93: 			SPDR = dataout[i];
-	movw r26,r24	 ; , ivtmp.61
-	ld r18,X+	 ;  _3, MEM[base: _28, offset: 0B]
-	movw r24,r26	 ;  ivtmp.61,
-	out 0x2e,r18	 ;  MEM[(volatile uint8_t *)78B], _3
-.L4:
- ;  SPI.h:94: 			while ((SPSR & (1 << SPIF)) == 0);
-	in __tmp_reg__,0x2d	 ; 
-	sbrs __tmp_reg__,7	 ; 
-	rjmp .L4	 ; 
- ;  SPI.h:95: 			datain[i] = SPDR;
-	in r18,0x2e	 ;  _7, MEM[(volatile uint8_t *)78B]
-	st Z+,r18	 ;  MEM[base: _27, offset: 0B], _7
- ;  SPI.h:92: 		for (i = 0; i < len; i++) {
-	rjmp .L5	 ; 
-.L2:
-/* epilogue start */
- ;  SPI.h:97: 	}
-	ret
-	.size	_ZN3spi17spi_transfer_syncEPhS0_h, .-_ZN3spi17spi_transfer_syncEPhS0_h
-.global	_ZN3spi17spi_transmit_syncEPhh
-	.type	_ZN3spi17spi_transmit_syncEPhh, @function
-_ZN3spi17spi_transmit_syncEPhh:
-/* prologue: function */
-/* frame size = 0 */
-/* stack size = 0 */
-.L__stack_usage = 0
-	mov r18,r24	 ;  ivtmp.69, dataout
- ;  SPI.h:101: 	{
-	movw r30,r24	 ; ,
-.L10:
- ;  SPI.h:103: 		for (i = 0; i < len; i++) {
-	mov r24,r30	 ;  i,
-	sub r24,r18	 ;  i, ivtmp.69
-	cp r24,r22	 ;  i, len
-	brsh .L7	 ; ,
- ;  SPI.h:104: 			SPDR = dataout[i];
-	ld r24,Z+	 ;  _3, MEM[base: _20, offset: 0B]
-	out 0x2e,r24	 ;  MEM[(volatile uint8_t *)78B], _3
-.L9:
- ;  SPI.h:105: 			while ((SPSR & (1 << SPIF)) == 0);
-	in __tmp_reg__,0x2d	 ; 
-	sbrs __tmp_reg__,7	 ; 
-	rjmp .L9	 ; 
-	rjmp .L10	 ; 
-.L7:
-/* epilogue start */
- ;  SPI.h:107: 	}
-	ret
-	.size	_ZN3spi17spi_transmit_syncEPhh, .-_ZN3spi17spi_transmit_syncEPhh
-.global	_ZN3spi14spi_fast_shiftEh
-	.type	_ZN3spi14spi_fast_shiftEh, @function
-_ZN3spi14spi_fast_shiftEh:
-/* prologue: function */
-/* frame size = 0 */
-/* stack size = 0 */
-.L__stack_usage = 0
- ;  SPI.h:112: 		SPDR = data;
-	out 0x2e,r24	 ;  MEM[(volatile uint8_t *)78B], data
-.L13:
- ;  SPI.h:113: 		while ((SPSR & (1 << SPIF)) == 0);
-	in __tmp_reg__,0x2d	 ; 
-	sbrs __tmp_reg__,7	 ; 
-	rjmp .L13	 ; 
- ;  SPI.h:114: 		return SPDR;
-	in r24,0x2e	 ;  <retval>, MEM[(volatile uint8_t *)78B]
-/* epilogue start */
- ;  SPI.h:115: 	}
-	ret
-	.size	_ZN3spi14spi_fast_shiftEh, .-_ZN3spi14spi_fast_shiftEh
 .global	__vector_18
 	.type	__vector_18, @function
 __vector_18:
@@ -194,13 +83,13 @@ __vector_18:
  ;  uart.c:376:     data = UART0_DATA;
 	lds r25,198	 ;  data, MEM[(volatile uint8_t *)198B]
  ;  uart.c:390:     tmphead = ( UART_RxHead + 1) & UART_RX_BUFFER_MASK;
-	lds r30,_ZL11UART_RxHead	 ;  UART_RxHead.5_1, UART_RxHead
+	lds r30,_ZL11UART_RxHead	 ;  UART_RxHead.0_1, UART_RxHead
 	subi r30,lo8(-(1))	 ;  tmp54,
 	andi r30,lo8(31)	 ;  tmphead,
  ;  uart.c:392:     if ( tmphead == UART_RxTail ) {
-	lds r18,_ZL11UART_RxTail	 ;  UART_RxTail.7_3, UART_RxTail
-	cp r18,r30	 ;  UART_RxTail.7_3, tmphead
-	breq .L17	 ; ,
+	lds r18,_ZL11UART_RxTail	 ;  UART_RxTail.2_3, UART_RxTail
+	cp r18,r30	 ;  UART_RxTail.2_3, tmphead
+	breq .L3	 ; ,
  ;  uart.c:382:     lastRxError = usr & (_BV(FE0)|_BV(DOR0)|_BV(UPE0) );
 	andi r24,lo8(28)	 ;  lastRxError,
  ;  uart.c:397:         UART_RxHead = tmphead;
@@ -210,10 +99,10 @@ __vector_18:
 	subi r30,lo8(-(_ZL10UART_RxBuf))	 ;  tmp56,
 	sbci r31,hi8(-(_ZL10UART_RxBuf))	 ;  tmp56,
 	st Z,r25	 ;  UART_RxBuf, data
-.L16:
+.L2:
  ;  uart.c:401:     UART_LastRxError |= lastRxError;   
-	lds r25,_ZL16UART_LastRxError	 ;  UART_LastRxError.8_5, UART_LastRxError
-	or r24,r25	 ;  _6, UART_LastRxError.8_5
+	lds r25,_ZL16UART_LastRxError	 ;  UART_LastRxError.3_5, UART_LastRxError
+	or r24,r25	 ;  _6, UART_LastRxError.3_5
 	sts _ZL16UART_LastRxError,r24	 ;  UART_LastRxError, _6
 /* epilogue start */
  ;  uart.c:402: }
@@ -227,10 +116,10 @@ __vector_18:
 	pop r0	 ; 
 	pop r1	 ; 
 	reti
-.L17:
+.L3:
  ;  uart.c:394:         lastRxError = UART_BUFFER_OVERFLOW >> 8;
 	ldi r24,lo8(2)	 ;  lastRxError,
-	rjmp .L16	 ; 
+	rjmp .L2	 ; 
 	.size	__vector_18, .-__vector_18
 .global	__vector_19
 	.type	__vector_19, @function
@@ -249,12 +138,12 @@ __vector_19:
 /* stack size = 7 */
 .L__stack_usage = 7
  ;  uart.c:414:     if ( UART_TxHead != UART_TxTail) {
-	lds r25,_ZL11UART_TxHead	 ;  UART_TxHead.10_1, UART_TxHead
-	lds r24,_ZL11UART_TxTail	 ;  UART_TxTail.11_2, UART_TxTail
-	cp r25,r24	 ;  UART_TxHead.10_1, UART_TxTail.11_2
-	breq .L19	 ; ,
+	lds r25,_ZL11UART_TxHead	 ;  UART_TxHead.5_1, UART_TxHead
+	lds r24,_ZL11UART_TxTail	 ;  UART_TxTail.6_2, UART_TxTail
+	cp r25,r24	 ;  UART_TxHead.5_1, UART_TxTail.6_2
+	breq .L5	 ; ,
  ;  uart.c:416:         tmptail = (UART_TxTail + 1) & UART_TX_BUFFER_MASK;
-	lds r30,_ZL11UART_TxTail	 ;  UART_TxTail.12_3, UART_TxTail
+	lds r30,_ZL11UART_TxTail	 ;  UART_TxTail.7_3, UART_TxTail
 	subi r30,lo8(-(1))	 ;  tmp51,
 	andi r30,lo8(31)	 ;  tmptail,
  ;  uart.c:417:         UART_TxTail = tmptail;
@@ -265,7 +154,7 @@ __vector_19:
 	sbci r31,hi8(-(_ZL10UART_TxBuf))	 ;  tmp53,
 	ld r24,Z	 ;  _6, UART_TxBuf
 	sts 198,r24	 ;  MEM[(volatile uint8_t *)198B], _6
-.L18:
+.L4:
 /* epilogue start */
  ;  uart.c:424: }
 	pop r31	 ; 
@@ -277,13 +166,13 @@ __vector_19:
 	pop r0	 ; 
 	pop r1	 ; 
 	reti
-.L19:
+.L5:
  ;  uart.c:422:         UART0_CONTROL &= ~_BV(UART0_UDRIE);
 	lds r24,193	 ;  _7, MEM[(volatile uint8_t *)193B]
 	andi r24,lo8(-33)	 ;  _8,
 	sts 193,r24	 ;  MEM[(volatile uint8_t *)193B], _8
  ;  uart.c:424: }
-	rjmp .L18	 ; 
+	rjmp .L4	 ; 
 	.size	__vector_19, .-__vector_19
 .global	_Z9uart_initj
 	.type	_Z9uart_initj, @function
@@ -302,11 +191,11 @@ _Z9uart_initj:
 	sts _ZL11UART_RxTail,__zero_reg__	 ;  UART_RxTail,
  ;  uart.c:458:     if ( baudrate & 0x8000 )
 	sbrs r25,7	 ;  baudrate,
-	rjmp .L22	 ; 
+	rjmp .L8	 ; 
  ;  uart.c:461:         UART0_STATUS = (1<<UART0_BIT_U2X);  //Enable 2x speed 
 	ldi r18,lo8(2)	 ;  tmp49,
 	sts 192,r18	 ;  MEM[(volatile uint8_t *)192B], tmp49
-.L22:
+.L8:
  ;  uart.c:465:     UART0_UBRRH = (unsigned char)((baudrate>>8)&0x80) ;
 	andi r25,lo8(-128)	 ;  _4,
 	sts 197,r25	 ;  MEM[(volatile uint8_t *)197B], _4
@@ -330,12 +219,12 @@ _Z9uart_getcv:
 /* stack size = 0 */
 .L__stack_usage = 0
  ;  uart.c:497:     if ( UART_RxHead == UART_RxTail ) {
-	lds r25,_ZL11UART_RxHead	 ;  UART_RxHead.15_1, UART_RxHead
-	lds r24,_ZL11UART_RxTail	 ;  UART_RxTail.16_2, UART_RxTail
-	cp r25,r24	 ;  UART_RxHead.15_1, UART_RxTail.16_2
-	breq .L25	 ; ,
+	lds r25,_ZL11UART_RxHead	 ;  UART_RxHead.10_1, UART_RxHead
+	lds r24,_ZL11UART_RxTail	 ;  UART_RxTail.11_2, UART_RxTail
+	cp r25,r24	 ;  UART_RxHead.10_1, UART_RxTail.11_2
+	breq .L11	 ; ,
  ;  uart.c:502:     tmptail = (UART_RxTail + 1) & UART_RX_BUFFER_MASK;
-	lds r25,_ZL11UART_RxTail	 ;  UART_RxTail.17_3, UART_RxTail
+	lds r25,_ZL11UART_RxTail	 ;  UART_RxTail.12_3, UART_RxTail
 	subi r25,lo8(-(1))	 ;  tmp55,
 	andi r25,lo8(31)	 ;  tmptail,
  ;  uart.c:505:     data = UART_RxBuf[tmptail];
@@ -358,7 +247,7 @@ _Z9uart_getcv:
 	add r24,r19	 ;  <retval>, data
 	adc r25,__zero_reg__	 ;  <retval>
 	ret
-.L25:
+.L11:
  ;  uart.c:498:         return UART_NO_DATA;   /* no data available */
 	ldi r24,0	 ;  <retval>
 	ldi r25,lo8(1)	 ;  <retval>,
@@ -374,14 +263,14 @@ _Z9uart_putch:
 /* stack size = 0 */
 .L__stack_usage = 0
  ;  uart.c:528:     tmphead  = (UART_TxHead + 1) & UART_TX_BUFFER_MASK;
-	lds r25,_ZL11UART_TxHead	 ;  UART_TxHead.18_1, UART_TxHead
+	lds r25,_ZL11UART_TxHead	 ;  UART_TxHead.13_1, UART_TxHead
 	subi r25,lo8(-(1))	 ;  tmp50,
 	andi r25,lo8(31)	 ;  tmphead,
-.L27:
+.L13:
  ;  uart.c:530:     while ( tmphead == UART_TxTail ){
-	lds r18,_ZL11UART_TxTail	 ;  UART_TxTail.20_3, UART_TxTail
-	cp r18,r25	 ;  UART_TxTail.20_3, tmphead
-	breq .L27	 ; ,
+	lds r18,_ZL11UART_TxTail	 ;  UART_TxTail.15_3, UART_TxTail
+	cp r18,r25	 ;  UART_TxTail.15_3, tmphead
+	breq .L13	 ; ,
  ;  uart.c:534:     UART_TxBuf[tmphead] = data;
 	mov r30,r25	 ;  _4, tmphead
 	ldi r31,0	 ;  _4
@@ -407,17 +296,17 @@ _Z9uart_putsPKc:
 /* frame size = 0 */
 /* stack size = 2 */
 .L__stack_usage = 2
-	movw r28,r24	 ;  ivtmp.90, s
-.L31:
+	movw r28,r24	 ;  ivtmp.69, s
+.L17:
  ;  uart.c:551:     while (*s) 
 	ld r24,Y+	 ;  _1, MEM[base: _11, offset: 0B]
 	tst r24	 ;  _1
-	breq .L29	 ; ,
+	breq .L15	 ; ,
  ;  uart.c:552:       uart_putc(*s++);
 	call _Z9uart_putch	 ; 
  ;  uart.c:551:     while (*s) 
-	rjmp .L31	 ; 
-.L29:
+	rjmp .L17	 ; 
+.L15:
 /* epilogue start */
  ;  uart.c:554: }/* uart_puts */
 	pop r29	 ; 
@@ -433,24 +322,24 @@ _Z11uart_puts_pPKc:
 /* frame size = 0 */
 /* stack size = 2 */
 .L__stack_usage = 2
-	movw r28,r24	 ;  ivtmp.95, progmem_s
-.L34:
+	movw r28,r24	 ;  ivtmp.75, progmem_s
+.L20:
  ;  uart.c:567:     while ( (c = pgm_read_byte(progmem_s++)) ) 
-	movw r30,r28	 ; , ivtmp.95
+	movw r30,r28	 ; , ivtmp.75
 /* #APP */
  ;  567 "uart.c" 1
 	lpm r24, Z	 ;  __result
 	
  ;  0 "" 2
 /* #NOAPP */
-	adiw r28,1	 ;  ivtmp.95,
+	adiw r28,1	 ;  ivtmp.75,
 	tst r24	 ;  __result
-	breq .L32	 ; ,
+	breq .L18	 ; ,
  ;  uart.c:568:       uart_putc(c);
 	call _Z9uart_putch	 ; 
  ;  uart.c:567:     while ( (c = pgm_read_byte(progmem_s++)) ) 
-	rjmp .L34	 ; 
-.L32:
+	rjmp .L20	 ; 
+.L18:
 /* epilogue start */
  ;  uart.c:570: }/* uart_puts_p */
 	pop r29	 ; 
@@ -497,24 +386,35 @@ main:
  ;  main.cc:28: 	DDRB |= (1 << PB5);
 /* #NOAPP */
 	sbi 0x4,5	 ; ,
- ;  SPI.h:148: 			Port::get() |= MISO;
-	sbi 0x5,6	 ; ,
- ;  SPI.h:149: 			Port::ddr() |= (MOSI | SCK) 	  // set outputs
-	in r24,0x4	 ;  _10, MEM[(volatile uint8_t &)35B + 1]
-	ori r24,lo8(-96)	 ;  _11,
-	out 0x4,r24	 ;  MEM[(volatile uint8_t &)35B + 1], _11
- ;  register.h:88:                 return hwRegister;
-	in r24,0x2c	 ;  _12, MEM[(struct ControlRegister *)76B].hwRegister
- ;  register.h:48: 				hwRegister = val;
-	ldi r24,lo8(119)	 ;  tmp63,
-	out 0x2c,r24	 ;  MEM[(struct ControlRegister *)76B].hwRegister, tmp63
- ;  register.h:88:                 return hwRegister;
-	in r24,0x2d	 ;  _14, MEM[(struct ControlRegister *)76B + 1B].hwRegister
- ;  SPI.h:157: 			SPSR = clockspeed;
-	ldi r24,lo8(1)	 ;  tmp66,
-	out 0x2d,r24	 ;  MEM[(volatile uint8_t *)77B], tmp66
-.L37:
-	rjmp .L37	 ; 
+ ;  register.h:44:                 hwRegister = (static_cast<value_type>(v) | ...);
+	ldi r24,lo8(64)	 ;  tmp70,
+	ldi r25,lo8(1)	 ;  tmp72,
+ ;  spi_hal.h:51: 				*spi()->Spdr = value;
+	ldi r18,lo8(22)	 ;  tmp74,
+.L24:
+ ;  hal\port.h:75:                 Port::get() |= mask;
+	sbi 0x5,3	 ; ,
+ ;  hal\port.h:78:                 Port::get() &= ~mask;
+	cbi 0x5,4	 ; ,
+ ;  hal\port.h:75:                 Port::get() |= mask;
+	sbi 0x5,2	 ; ,
+	sbi 0x5,5	 ; ,
+ ;  register.h:73: 				hwRegister &= static_cast<value_type>(0);
+	in r19,0x2c	 ;  vol.20_13, MEM[(struct ControlRegister *)76B].hwRegister
+	out 0x2c,__zero_reg__	 ;  MEM[(struct ControlRegister *)76B].hwRegister,
+ ;  register.h:44:                 hwRegister = (static_cast<value_type>(v) | ...);
+	out 0x2c,r24	 ;  MEM[(struct ControlRegister *)76B].hwRegister, tmp70
+	out 0x2d,r25	 ;  MEM[(struct ControlRegister *)76B + 1B].hwRegister, tmp72
+ ;  spi_hal.h:51: 				*spi()->Spdr = value;
+	out 0x2e,r18	 ;  MEM[(volatile value_type &)76B + 2], tmp74
+.L23:
+ ;  SPI.h:153: 			while ((SPSR & (1 << SPIF)) == 0);
+	in __tmp_reg__,0x2d	 ; 
+	sbrs __tmp_reg__,7	 ; 
+	rjmp .L23	 ; 
+ ;  SPI.h:154: 			return spi_hal::readSPDR();
+	in r19,0x2e	 ;  _12, MEM[(volatile mem_width &)76B + 2]
+	rjmp .L24	 ; 
 	.size	main, .-main
 	.local	_ZL16UART_LastRxError
 	.comm	_ZL16UART_LastRxError,1,1
