@@ -42,8 +42,8 @@ int main(){
 	//spi0::init<outB>();
 	//uint8_t tesst = 'a';
 	//spi0::init<outB>();
+	spi0::spi0_init();
 	while (true) {
-		spi0::spi0_init();
 		spi0::spi_fast_shift(22);
 		//spi::spi_transmit_sync(&tesst, 1);
 		//spi0::spi_send('a');
