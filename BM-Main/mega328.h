@@ -218,6 +218,13 @@ namespace BMCPP
 		template<>
 		struct ATMega328::SPI::SPI_Port<0>{
 			using Port = B;
+
+			enum class Pins : mem_width {
+				SS = 2,
+				Mosi = 3,
+				Miso = 4,
+				SCK = 5
+			};
 		};
 
 		//ADC

@@ -22,7 +22,7 @@ int main(){
 	uart_init(UART_BAUD_SELECT(9600, F_CPU));
 	sei();
 	// END DEBUG
-	using spi0 = spi::SPI<spi::Mode::m3, spi::ClkRate::clkRateDiv4>;
+	using spi0 = spi::SPI<spi::ClkRate::clkRateDiv4>;
 	//spi0::init<BMCPP::Hal::Port<BMCPP::AVR::B>>();
 	//MFRC522<>::mfrc522_init<BMCPP::Hal::Port<BMCPP::AVR::B>>();
 	DDRB |= (1 << PB5);

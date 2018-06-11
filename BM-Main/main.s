@@ -296,7 +296,7 @@ _Z9uart_putsPKc:
 /* frame size = 0 */
 /* stack size = 2 */
 .L__stack_usage = 2
-	movw r28,r24	 ;  ivtmp.69, s
+	movw r28,r24	 ;  ivtmp.71, s
 .L17:
  ;  uart.c:551:     while (*s) 
 	ld r24,Y+	 ;  _1, MEM[base: _11, offset: 0B]
@@ -322,17 +322,17 @@ _Z11uart_puts_pPKc:
 /* frame size = 0 */
 /* stack size = 2 */
 .L__stack_usage = 2
-	movw r28,r24	 ;  ivtmp.75, progmem_s
+	movw r28,r24	 ;  ivtmp.77, progmem_s
 .L20:
  ;  uart.c:567:     while ( (c = pgm_read_byte(progmem_s++)) ) 
-	movw r30,r28	 ; , ivtmp.75
+	movw r30,r28	 ; , ivtmp.77
 /* #APP */
  ;  567 "uart.c" 1
 	lpm r24, Z	 ;  __result
 	
  ;  0 "" 2
 /* #NOAPP */
-	adiw r28,1	 ;  ivtmp.75,
+	adiw r28,1	 ;  ivtmp.77,
 	tst r24	 ;  __result
 	breq .L18	 ; ,
  ;  uart.c:568:       uart_putc(c);
@@ -387,10 +387,10 @@ main:
 /* #NOAPP */
 	sbi 0x4,5	 ; ,
  ;  register.h:44:                 hwRegister = (static_cast<value_type>(v) | ...);
-	ldi r24,lo8(64)	 ;  tmp70,
-	ldi r25,lo8(1)	 ;  tmp72,
- ;  spi_hal.h:51: 				*spi()->Spdr = value;
-	ldi r18,lo8(22)	 ;  tmp74,
+	ldi r24,lo8(64)	 ;  tmp72,
+	ldi r25,lo8(1)	 ;  tmp74,
+ ;  spi_hal.h:52: 				*spi()->Spdr = value;
+	ldi r18,lo8(22)	 ;  tmp76,
 .L24:
  ;  hal\port.h:75:                 Port::get() |= mask;
 	sbi 0x5,3	 ; ,
@@ -400,20 +400,20 @@ main:
 	sbi 0x5,2	 ; ,
 	sbi 0x5,5	 ; ,
  ;  register.h:73: 				hwRegister &= static_cast<value_type>(0);
-	in r19,0x2c	 ;  vol.20_13, MEM[(struct ControlRegister *)76B].hwRegister
+	in r19,0x2c	 ;  vol.20_14, MEM[(struct ControlRegister *)76B].hwRegister
 	out 0x2c,__zero_reg__	 ;  MEM[(struct ControlRegister *)76B].hwRegister,
  ;  register.h:44:                 hwRegister = (static_cast<value_type>(v) | ...);
-	out 0x2c,r24	 ;  MEM[(struct ControlRegister *)76B].hwRegister, tmp70
-	out 0x2d,r25	 ;  MEM[(struct ControlRegister *)76B + 1B].hwRegister, tmp72
- ;  spi_hal.h:51: 				*spi()->Spdr = value;
-	out 0x2e,r18	 ;  MEM[(volatile value_type &)76B + 2], tmp74
+	out 0x2c,r24	 ;  MEM[(struct ControlRegister *)76B].hwRegister, tmp72
+	out 0x2d,r25	 ;  MEM[(struct ControlRegister *)76B + 1B].hwRegister, tmp74
+ ;  spi_hal.h:52: 				*spi()->Spdr = value;
+	out 0x2e,r18	 ;  MEM[(volatile value_type &)76B + 2], tmp76
 .L23:
- ;  SPI.h:153: 			while ((SPSR & (1 << SPIF)) == 0);
+ ;  SPI.h:159: 			while ((spi_hal::readSPSR() & static_cast<UC::mem_width>(UC::SPI::spsr::SPIF0)) == 0);
 	in __tmp_reg__,0x2d	 ; 
 	sbrs __tmp_reg__,7	 ; 
 	rjmp .L23	 ; 
- ;  SPI.h:154: 			return spi_hal::readSPDR();
-	in r19,0x2e	 ;  _12, MEM[(volatile mem_width &)76B + 2]
+ ;  SPI.h:160: 			return spi_hal::readSPDR();
+	in r19,0x2e	 ;  _13, MEM[(volatile mem_width &)76B + 2]
 	rjmp .L24	 ; 
 	.size	main, .-main
 	.local	_ZL16UART_LastRxError

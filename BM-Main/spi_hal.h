@@ -15,7 +15,14 @@ namespace BMCPP {
 			static inline constexpr auto spi = AVR::getAddress<typename MicroController::SPI, number>;
 
 		public:
-			using Port = typename MicroController::SPI::template SPI_Port<0>::Port;
+			
+			using port_name = typename MicroController::SPI::template SPI_Port<0>::Port;
+			using spi_port = BMCPP::Hal::Port<port_name, MicroController>;
+			using Mosi = BMCPP::Hal::Pin<spi_port, static_cast<typename MicroController::mem_width>(MicroController::SPI::template SPI_Port<0>::Pins::Mosi)>;
+			using Miso = BMCPP::Hal::Pin<spi_port, static_cast<typename MicroController::mem_width>(MicroController::SPI::template SPI_Port<0>::Pins::Miso)>;
+			using SS = BMCPP::Hal::Pin<spi_port, static_cast<typename MicroController::mem_width>(MicroController::SPI::template SPI_Port<0>::Pins::SS)>;
+			using SCK = BMCPP::Hal::Pin<spi_port, static_cast<typename MicroController::mem_width>(MicroController::SPI::template SPI_Port<0>::Pins::SCK)>;
+
 			static inline constexpr auto Number = number;
 
 			static volatile typename MicroController::mem_width& spdr() {
@@ -25,12 +32,6 @@ namespace BMCPP {
 			static typename MicroController::mem_width spcr() {
 				return spi()->Spcr.raw();
 			}
-
-			//template<typename... T>
-			//static void setSpcr(typename MicroController::mem_width spcrVal) {
-				//spi()->Spcr.setRegister(spcrVal);
-			//}
-
 			
 			static void setSpcr(typename MicroController::SPI::spcr value...) {
 				spi()->Spcr.set(value);
@@ -40,7 +41,7 @@ namespace BMCPP {
 			}
 
 			static void setDoubleSpeed() {
-				return spi()->Spsr.set(MicroController::SPI::spsr::SPI2X0);
+				spi()->Spsr.set(MicroController::SPI::spsr::SPI2X0);
 			}
 
 			static volatile typename MicroController::mem_width& readSPDR() {
@@ -51,8 +52,8 @@ namespace BMCPP {
 				*spi()->Spdr = value;
 			}
 
-			static volatile typename MicroController::mem_width& readSPSR() {
-				spi()->Spsr.raw();
+			static volatile auto readSPSR() {
+				return spi()->Spsr.raw();
 			}
 		};
 	}

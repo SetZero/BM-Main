@@ -70,16 +70,16 @@ namespace spi {
 
 
 	//
-	template<Mode mode, ClkRate clockRate,uint8_t number = 0, bool Master = true, bool lsbfirst = true, bool doubleSpeed = true, typename MicroController = __DEFAULT_MMCU__ >
+	template<ClkRate clockRate,uint8_t number = 0, bool Master = true, typename MicroController = __DEFAULT_MMCU__ >
 	//requires isUC<MicroController>()	-> moved to static assert (syntax highlighting)
 	struct SPI {
 		using  UC = ATMega328;
 		using spi_hal = BMCPP::Hal::SPI<number, MicroController>;
-		using spi_port = BMCPP::Hal::Port<typename spi_hal::Port, MicroController>;
-		using Mosi = BMCPP::Hal::Pin<spi_port, static_cast<UC::mem_width>(UC::SPI::Pins::Mosi)>;
-		using Miso = BMCPP::Hal::Pin<spi_port, static_cast<UC::mem_width>(UC::SPI::Pins::Miso)>;
-		using SS = BMCPP::Hal::Pin<spi_port, static_cast<UC::mem_width>(UC::SPI::Pins::SS)>;
-		using SCK = BMCPP::Hal::Pin<spi_port, static_cast<UC::mem_width>(UC::SPI::Pins::SCK)>;
+		using spi_port = BMCPP::Hal::Port<typename spi_hal::port_name, MicroController>;
+		using Mosi = typename spi_hal::Mosi;
+		using Miso = typename spi_hal::Miso;
+		using SS = typename spi_hal::SS;
+		using SCK = typename spi_hal::SCK;
 		static void spi0_init()
 			// Initialize pins for spi communication
 		{
@@ -91,8 +91,14 @@ namespace spi {
 			//BMCPP::Hal::SPI<0>::spiDDR() &= static_cast<uint8_t>(UC::SPI::Pins::Mosi, UC::SPI::Pins::Miso, UC::SPI::Pins::SS ,(1 << DD_SCK)));
 			// Define the following pins as output
 			//BMCPP::Hal::SPI<0>::spiDDR() |= ((1 << DD_MOSI) | (1 << DD_SS) | (1 << DD_SCK));
+
+			//set Spcr to zero
 			spi_hal::clearSpcr();
-			spi_hal::setSpcr(UC::SPI::spcr::SPE0, UC::SPI::spcr::SPIE0, UC::SPI::spcr::MSTR0);
+			//enable SPI - - - - set SPI Interrupt enable - - - - set Device to 
+			if (Master)
+				spi_hal::setSpcr(UC::SPI::spcr::SPE0, UC::SPI::spcr::SPIE0, UC::SPI::spcr::MSTR0);
+			else
+				spi_hal::setSpcr(UC::SPI::spcr::SPE0, UC::SPI::spcr::SPIE0);
 			//set Clockrate
 			switch (clockRate)
 			{
