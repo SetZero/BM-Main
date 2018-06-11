@@ -15,7 +15,7 @@ namespace BMCPP {
 			static inline constexpr auto spi = AVR::getAddress<typename MicroController::SPI, number>;
 
 		public:
-			using Port = typename MicroController::template SPI_Port<0>::Port;
+			using Port = typename MicroController::SPI::template SPI_Port<0>::Port;
 			static inline constexpr auto Number = number;
 
 			static volatile typename MicroController::mem_width& spdr() {

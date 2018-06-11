@@ -60,9 +60,6 @@ namespace BMCPP
 				struct address;
             };
 
-			template<uint8_t number>
-			struct SPI_Port;
-
 			struct SPI
 			{
 				SPI() = delete;
@@ -90,6 +87,9 @@ namespace BMCPP
 					Miso = 4,
 					SCK = 5
 				};
+
+				template<uint8_t number>
+				struct SPI_Port;
 
 				ControlRegister<SPI, spcr, mem_width> Spcr;
 				ControlRegister<SPI, spsr, mem_width> Spsr;
@@ -216,7 +216,7 @@ namespace BMCPP
 		};
 
 		template<>
-		struct ATMega328::SPI_Port<0>{
+		struct ATMega328::SPI::SPI_Port<0>{
 			using Port = B;
 		};
 
