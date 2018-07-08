@@ -10,7 +10,7 @@
 #include "Utils\Utils.h"
 #include "mega328.h"
 #include "hal\port.h"
-#include "SPI.h"
+#include "spi_hal.h"
 #include "uart.c"
 #include "ADC.h"
 
@@ -18,15 +18,15 @@ using namespace BMCPP;
 using namespace AVR;
 
 int main(){
+	//constexpr int x = static_cast<uint8_t>(~16) & 16;
 	// START DEBUG
 	uart_init(UART_BAUD_SELECT(9600, F_CPU));
 	sei();
 	// END DEBUG
-	using spi0 = spi::SPI<spi::ClkRate::clkRateDiv4>;
+	using spi0 = Hal::SPI<0,Hal::spi::ClkRate::clkRateDiv4>;
 	//spi0::init<BMCPP::Hal::Port<BMCPP::AVR::B>>();
 	//MFRC522<>::mfrc522_init<BMCPP::Hal::Port<BMCPP::AVR::B>>();
 	DDRB |= (1 << PB5);
-	using outB = BMCPP::Hal::Port<AVR::B>;
 	//volatile uint8_t& test = outB::get();
 	/*
 	using pinb5 = BMCPP::Hal::Pin<outB, 5>;
@@ -44,7 +44,7 @@ int main(){
 	//spi0::init<outB>();
 	spi0::spi0_init();
 	while (true) {
-		spi0::spi_fast_shift(22);
+		spi0::readWriteSingle(22);
 		//spi::spi_transmit_sync(&tesst, 1);
 		//spi0::spi_send('a');
 		//spi0::spi_send('\n');

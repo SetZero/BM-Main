@@ -75,7 +75,7 @@ namespace BMCPP {
                 Port::get() |= mask;
             }
             static void off() {
-                Port::get() &= ~mask;
+                Port::get() &= static_cast<uint8_t>(~mask);
             }
         };
         

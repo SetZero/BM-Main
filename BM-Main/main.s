@@ -9,7 +9,7 @@ __zero_reg__ = 1
 
  ;  GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072
  ;  options passed:  -I ./include -imultilib avr5
- ;  -iprefix f:\users\keven\downloads\avr-gcc-7.3.0-x64-mingw\bin\../lib/gcc/avr/7.3.0/
+ ;  -iprefix c:\users\keven\downloads\avr-gcc-7.3.0-x64-mingw\bin\../lib/gcc/avr/7.3.0/
  ;  -D__AVR_ATmega328P__ -D__AVR_DEVICE_NAME__=atmega328p -D F_CPU=16000000
  ;  main.cc -mn-flash=1 -mmcu=avr5 -auxbase-strip main.s -Os -Wall -Wextra
  ;  -Wconversion -std=c++1z -fconcepts -fno-unwind-tables
@@ -296,7 +296,7 @@ _Z9uart_putsPKc:
 /* frame size = 0 */
 /* stack size = 2 */
 .L__stack_usage = 2
-	movw r28,r24	 ;  ivtmp.71, s
+	movw r28,r24	 ;  ivtmp.70, s
 .L17:
  ;  uart.c:551:     while (*s) 
 	ld r24,Y+	 ;  _1, MEM[base: _11, offset: 0B]
@@ -322,17 +322,17 @@ _Z11uart_puts_pPKc:
 /* frame size = 0 */
 /* stack size = 2 */
 .L__stack_usage = 2
-	movw r28,r24	 ;  ivtmp.77, progmem_s
+	movw r28,r24	 ;  ivtmp.76, progmem_s
 .L20:
  ;  uart.c:567:     while ( (c = pgm_read_byte(progmem_s++)) ) 
-	movw r30,r28	 ; , ivtmp.77
+	movw r30,r28	 ; , ivtmp.76
 /* #APP */
  ;  567 "uart.c" 1
 	lpm r24, Z	 ;  __result
 	
  ;  0 "" 2
 /* #NOAPP */
-	adiw r28,1	 ;  ivtmp.77,
+	adiw r28,1	 ;  ivtmp.76,
 	tst r24	 ;  __result
 	breq .L18	 ; ,
  ;  uart.c:568:       uart_putc(c);
@@ -386,34 +386,33 @@ main:
  ;  main.cc:28: 	DDRB |= (1 << PB5);
 /* #NOAPP */
 	sbi 0x4,5	 ; ,
- ;  register.h:44:                 hwRegister = (static_cast<value_type>(v) | ...);
-	ldi r24,lo8(64)	 ;  tmp72,
-	ldi r25,lo8(1)	 ;  tmp74,
- ;  spi_hal.h:52: 				*spi()->Spdr = value;
-	ldi r18,lo8(22)	 ;  tmp76,
-.L24:
  ;  hal\port.h:75:                 Port::get() |= mask;
 	sbi 0x5,3	 ; ,
- ;  hal\port.h:78:                 Port::get() &= ~mask;
+ ;  hal\port.h:78:                 Port::get() &= static_cast<uint8_t>(~mask);
 	cbi 0x5,4	 ; ,
  ;  hal\port.h:75:                 Port::get() |= mask;
 	sbi 0x5,2	 ; ,
 	sbi 0x5,5	 ; ,
- ;  register.h:73: 				hwRegister &= static_cast<value_type>(0);
-	in r19,0x2c	 ;  vol.20_14, MEM[(struct ControlRegister *)76B].hwRegister
-	out 0x2c,__zero_reg__	 ;  MEM[(struct ControlRegister *)76B].hwRegister,
+ ;  register.h:74: 				hwRegister &= ~static_cast<value_type>(0);
+	in r24,0x2c	 ;  _10, MEM[(struct ControlRegister *)76B].hwRegister
+	out 0x2c,r24	 ;  MEM[(struct ControlRegister *)76B].hwRegister, _10
  ;  register.h:44:                 hwRegister = (static_cast<value_type>(v) | ...);
+	ldi r24,lo8(64)	 ;  tmp72,
 	out 0x2c,r24	 ;  MEM[(struct ControlRegister *)76B].hwRegister, tmp72
-	out 0x2d,r25	 ;  MEM[(struct ControlRegister *)76B + 1B].hwRegister, tmp74
- ;  spi_hal.h:52: 				*spi()->Spdr = value;
-	out 0x2e,r18	 ;  MEM[(volatile value_type &)76B + 2], tmp76
+	ldi r24,lo8(1)	 ;  tmp74,
+	out 0x2d,r24	 ;  MEM[(struct ControlRegister *)76B + 1B].hwRegister, tmp74
+ ;  spi_hal.h:70: 				*spi()->Spdr = value;
+	ldi r24,lo8(22)	 ;  tmp76,
+.L24:
+ ;  spi_hal.h:70: 				*spi()->Spdr = value;
+	out 0x2e,r24	 ;  MEM[(volatile value_type &)76B + 2], tmp76
 .L23:
- ;  SPI.h:159: 			while ((spi_hal::readSPSR() & static_cast<UC::mem_width>(UC::SPI::spsr::SPIF0)) == 0);
+ ;  spi_hal.h:153: 				while ((readSPSR() & static_cast<typename MicroController::mem_width>(MicroController::SPI::spsr::SPIF0)) == 0);
 	in __tmp_reg__,0x2d	 ; 
 	sbrs __tmp_reg__,7	 ; 
 	rjmp .L23	 ; 
- ;  SPI.h:160: 			return spi_hal::readSPDR();
-	in r19,0x2e	 ;  _13, MEM[(volatile mem_width &)76B + 2]
+ ;  spi_hal.h:154: 				return readSPDR();
+	in r25,0x2e	 ;  _22, MEM[(volatile mem_width &)76B + 2]
 	rjmp .L24	 ; 
 	.size	main, .-main
 	.local	_ZL16UART_LastRxError
@@ -430,7 +429,5 @@ main:
 	.comm	_ZL10UART_RxBuf,32,1
 	.local	_ZL10UART_TxBuf
 	.comm	_ZL10UART_TxBuf,32,1
-	.local	_ZL4data
-	.comm	_ZL4data,1,1
 	.ident	"GCC: (GNU) 7.3.0"
 .global __do_clear_bss
