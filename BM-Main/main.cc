@@ -42,13 +42,19 @@ int main(){
 	//uint8_t tesst = 'a';
 	//spi0::init<outB>();
 
-	LcdChr(LcdFontSize::FONT_2X, 'A');
-	LcdUpdate();
-	LcdChr(LcdFontSize::FONT_2X, 'B');
+
 	LcdClear();
-	loop();
+	//printChar(2);
+	//printStr("FAM");
+	printStr("scheiss Lyroit");
+	newLine();
+	printStr("Neises Nokia");
+	newLine();
+	newLine();
+	printStr("101010");
+
 	while (true) {
-		
+
 		//spi0::readWriteSingle(22);
 		//spi::spi_transmit_sync(&tesst, 1);
 		//spi0::spi_send('a');

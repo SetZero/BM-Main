@@ -2,123 +2,250 @@
   avr-g++ -mmcu=atmega328p -Wall -Wextra -Wconversion -std=c++17 -Os -fconcepts  -fno-exceptions -fno-unwind-tables -fno-rtti -fno-threadsafe-statics  -funsigned-char -funsigned-bitfields -fshort-enums  -DF_CPU=16000000 -I./include  -c -o main.o main.cc
   In file included from main.cc:14:0:
   pcd8544.h: In function 'void LcdInit()':
-pcd8544.h(328,11): warning G63087B26: conversion to 'uint8_t {aka unsigned char}' from 'int' may alter its value [-Wconversion]
+pcd8544.h(330,11): warning G63087B26: conversion to 'uint8_t {aka unsigned char}' from 'int' may alter its value [-Wconversion]
     LCD_PORT &= ~(_BV(LCD_RST_PIN));
              ^
-  In file included from pcd8544.h:112:0,
+  pcd8544.h: In function 'void printChar(char)':
+pcd8544.h(381,34): warning G63087B26: conversion to 'char' from 'int' may alter its value [-Wconversion]
+     LcdSend(c, LcdCmdData::LCD_DATA);
+                                    ^
+  In file included from pcd8544.h:113:0,
                    from main.cc:14:
   pcd8544.h: In function 'char LcdChr(LcdFontSize, char)':
-pcd8544.h(471,67): warning G83E83D9B: array subscript has type 'char' [-Wchar-subscripts]
+pcd8544.h(497,67): warning G83E83D9B: array subscript has type 'char' [-Wchar-subscripts]
       LcdCache[LcdCacheIdx++] = pgm_read_byte(&(FontLookup[ch - 32][i])) << 1;
                                                                      ^
   In file included from main.cc:14:0:
-pcd8544.h(471,71): warning G63087B26: conversion to 'char' from 'int' may alter its value [-Wconversion]
+pcd8544.h(497,71): warning G63087B26: conversion to 'char' from 'int' may alter its value [-Wconversion]
       LcdCache[LcdCacheIdx++] = pgm_read_byte(&(FontLookup[ch - 32][i])) << 1;
                                                                          ^
-  In file included from pcd8544.h:112:0,
+  In file included from pcd8544.h:113:0,
                    from main.cc:14:
-pcd8544.h(488,45): warning G83E83D9B: array subscript has type 'char' [-Wchar-subscripts]
+pcd8544.h(514,45): warning G83E83D9B: array subscript has type 'char' [-Wchar-subscripts]
       c = pgm_read_byte(&(FontLookup[ch - 32][i])) << 1;
                                                ^
   In file included from main.cc:14:0:
-pcd8544.h(488,49): warning G63087B26: conversion to 'char' from 'int' may alter its value [-Wconversion]
+pcd8544.h(514,49): warning G63087B26: conversion to 'char' from 'int' may alter its value [-Wconversion]
       c = pgm_read_byte(&(FontLookup[ch - 32][i])) << 1;
                                                    ^
-pcd8544.h(491,20): warning G63087B26: conversion to 'char' from 'int' may alter its value [-Wconversion]
+pcd8544.h(517,20): warning G63087B26: conversion to 'char' from 'int' may alter its value [-Wconversion]
       b1 = (c & 0x01) * 3;
            ~~~~~~~~~~~^~~
-pcd8544.h(492,7): warning G63087B26: conversion to 'char' from 'int' may alter its value [-Wconversion]
+pcd8544.h(518,7): warning G63087B26: conversion to 'char' from 'int' may alter its value [-Wconversion]
       b1 |= (c & 0x02) * 6;
       ~~~^~~~~~~~~~~~~~~~~
-pcd8544.h(493,7): warning G63087B26: conversion to 'char' from 'int' may alter its value [-Wconversion]
+pcd8544.h(519,7): warning G63087B26: conversion to 'char' from 'int' may alter its value [-Wconversion]
       b1 |= (c & 0x04) * 12;
       ~~~^~~~~~~~~~~~~~~~~~
-pcd8544.h(494,7): warning G63087B26: conversion to 'char' from 'int' may alter its value [-Wconversion]
+pcd8544.h(520,7): warning G63087B26: conversion to 'char' from 'int' may alter its value [-Wconversion]
       b1 |= (c & 0x08) * 24;
       ~~~^~~~~~~~~~~~~~~~~~
-pcd8544.h(496,6): warning G63087B26: conversion to 'char' from 'int' may alter its value [-Wconversion]
+pcd8544.h(522,6): warning G63087B26: conversion to 'char' from 'int' may alter its value [-Wconversion]
       c >>= 4;
       ~~^~~~~
-pcd8544.h(498,20): warning G63087B26: conversion to 'char' from 'int' may alter its value [-Wconversion]
+pcd8544.h(524,20): warning G63087B26: conversion to 'char' from 'int' may alter its value [-Wconversion]
       b2 = (c & 0x01) * 3;
            ~~~~~~~~~~~^~~
-pcd8544.h(499,7): warning G63087B26: conversion to 'char' from 'int' may alter its value [-Wconversion]
+pcd8544.h(525,7): warning G63087B26: conversion to 'char' from 'int' may alter its value [-Wconversion]
       b2 |= (c & 0x02) * 6;
       ~~~^~~~~~~~~~~~~~~~~
-pcd8544.h(500,7): warning G63087B26: conversion to 'char' from 'int' may alter its value [-Wconversion]
+pcd8544.h(526,7): warning G63087B26: conversion to 'char' from 'int' may alter its value [-Wconversion]
       b2 |= (c & 0x04) * 12;
       ~~~^~~~~~~~~~~~~~~~~~
-pcd8544.h(501,7): warning G63087B26: conversion to 'char' from 'int' may alter its value [-Wconversion]
+pcd8544.h(527,7): warning G63087B26: conversion to 'char' from 'int' may alter its value [-Wconversion]
       b2 |= (c & 0x08) * 24;
       ~~~^~~~~~~~~~~~~~~~~~
   pcd8544.h: In function 'char LcdStr(LcdFontSize, char*)':
-pcd8544.h(549,25): warning G83E83D9B: array subscript has type 'char' [-Wchar-subscripts]
+pcd8544.h(576,25): warning G83E83D9B: array subscript has type 'char' [-Wchar-subscripts]
     while (dataArray[tmpIdx] != '\0')
                            ^
-pcd8544.h(552,43): warning G83E83D9B: array subscript has type 'char' [-Wchar-subscripts]
+pcd8544.h(579,43): warning G83E83D9B: array subscript has type 'char' [-Wchar-subscripts]
      response = LcdChr(size, dataArray[tmpIdx]);
                                              ^
   pcd8544.h: In function 'char LcdPixel(char, char, LcdPixelMode)':
-pcd8544.h(611,13): warning G63087B26: conversion to 'char' from 'int' may alter its value [-Wconversion]
+pcd8544.h(638,13): warning G63087B26: conversion to 'char' from 'int' may alter its value [-Wconversion]
     offset = y - ((y / 8) * 8);
              ~~^~~~~~~~~~~~~~~
-pcd8544.h(620,8): warning G63087B26: conversion to 'char' from 'int' may alter its value [-Wconversion]
+pcd8544.h(647,8): warning G63087B26: conversion to 'char' from 'int' may alter its value [-Wconversion]
      data &= (~(0x01 << offset));
      ~~~~~^~~~~~~~~~~~~~~~~~~~~~
-pcd8544.h(626,8): warning G63087B26: conversion to 'char' from 'int' may alter its value [-Wconversion]
+pcd8544.h(653,8): warning G63087B26: conversion to 'char' from 'int' may alter its value [-Wconversion]
      data |= (0x01 << offset);
      ~~~~~^~~~~~~~~~~~~~~~~~~
-pcd8544.h(632,8): warning G63087B26: conversion to 'char' from 'int' may alter its value [-Wconversion]
+pcd8544.h(659,8): warning G63087B26: conversion to 'char' from 'int' may alter its value [-Wconversion]
      data ^= (0x01 << offset);
      ~~~~~^~~~~~~~~~~~~~~~~~~
-pcd8544.h(638,12): warning G2A2880C6: comparison between signed and unsigned integer expressions [-Wsign-compare]
+pcd8544.h(665,12): warning G2A2880C6: comparison between signed and unsigned integer expressions [-Wsign-compare]
     if (index < LoWaterMark)
         ~~~~~~^~~~~~~~~~~~~
-pcd8544.h(644,12): warning G2A2880C6: comparison between signed and unsigned integer expressions [-Wsign-compare]
+pcd8544.h(671,12): warning G2A2880C6: comparison between signed and unsigned integer expressions [-Wsign-compare]
     if (index > HiWaterMark)
         ~~~~~~^~~~~~~~~~~~~
   pcd8544.h: In function 'char LcdLine(char, char, char, char, LcdPixelMode)':
-pcd8544.h(713,8): warning G63087B26: conversion to 'char' from 'int' may alter its value [-Wconversion]
+pcd8544.h(740,8): warning G63087B26: conversion to 'char' from 'int' may alter its value [-Wconversion]
        y1 += stepy;
        ~~~^~~~~~~~
-pcd8544.h(716,7): warning G63087B26: conversion to 'char' from 'int' may alter its value [-Wconversion]
+pcd8544.h(743,7): warning G63087B26: conversion to 'char' from 'int' may alter its value [-Wconversion]
       x1 += stepx;
       ~~~^~~~~~~~
-pcd8544.h(734,8): warning G63087B26: conversion to 'char' from 'int' may alter its value [-Wconversion]
+pcd8544.h(761,8): warning G63087B26: conversion to 'char' from 'int' may alter its value [-Wconversion]
        x1 += stepx;
        ~~~^~~~~~~~
-pcd8544.h(737,7): warning G63087B26: conversion to 'char' from 'int' may alter its value [-Wconversion]
+pcd8544.h(764,7): warning G63087B26: conversion to 'char' from 'int' may alter its value [-Wconversion]
       y1 += stepy;
       ~~~^~~~~~~~
   pcd8544.h: In function 'char LcdSingleBar(char, char, char, char, LcdPixelMode)':
-pcd8544.h(774,15): warning G63087B26: conversion to 'char' from 'int' may alter its value [-Wconversion]
+pcd8544.h(801,15): warning G63087B26: conversion to 'char' from 'int' may alter its value [-Wconversion]
      tmp = baseY - height;
            ~~~~~~^~~~~~~~
   pcd8544.h: In function 'char LcdBars(char*, char, char, char)':
-pcd8544.h(814,45): warning G63087B26: conversion to 'char' from 'int' may alter its value [-Wconversion]
+pcd8544.h(841,45): warning G63087B26: conversion to 'char' from 'int' may alter its value [-Wconversion]
      tmpIdx = ((width + EMPTY_SPACE_BARS) * b) + BAR_X;
                                                ^
-pcd8544.h(817,48): warning G83E83D9B: array subscript has type 'char' [-Wchar-subscripts]
+pcd8544.h(844,48): warning G83E83D9B: array subscript has type 'char' [-Wchar-subscripts]
      response = LcdSingleBar(tmpIdx, BAR_Y, data[b] * multiplier, width, PIXEL_ON);
                                                   ^
-pcd8544.h(817,50): warning G63087B26: conversion to 'char' from 'int' may alter its value [-Wconversion]
+pcd8544.h(844,50): warning G63087B26: conversion to 'char' from 'int' may alter its value [-Wconversion]
      response = LcdSingleBar(tmpIdx, BAR_Y, data[b] * multiplier, width, PIXEL_ON);
                                             ~~~~~~~~^~~~~~~~~~~~
   pcd8544.h: In function 'void LcdUpdate()':
-pcd8544.h(914,15): warning G63087B26: conversion to 'char' from 'int' may alter its value [-Wconversion]
+pcd8544.h(941,15): warning G63087B26: conversion to 'char' from 'int' may alter its value [-Wconversion]
     LcdSend(0x80 | (LoWaterMark % LCD_X_RES), LCD_CMD);
             ~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~
-pcd8544.h(915,15): warning G63087B26: conversion to 'char' from 'int' may alter its value [-Wconversion]
+pcd8544.h(942,15): warning G63087B26: conversion to 'char' from 'int' may alter its value [-Wconversion]
     LcdSend(0x40 | (LoWaterMark / LCD_X_RES), LCD_CMD);
             ~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~
   pcd8544.h: In function 'void LcdSend(char, LcdCmdData)':
-pcd8544.h(941,11): warning G63087B26: conversion to 'uint8_t {aka unsigned char}' from 'int' may alter its value [-Wconversion]
+pcd8544.h(968,11): warning G63087B26: conversion to 'uint8_t {aka unsigned char}' from 'int' may alter its value [-Wconversion]
     LCD_PORT &= ~(_BV(LCD_CE_PIN));
              ^
-pcd8544.h(949,12): warning G63087B26: conversion to 'uint8_t {aka unsigned char}' from 'int' may alter its value [-Wconversion]
+pcd8544.h(976,12): warning G63087B26: conversion to 'uint8_t {aka unsigned char}' from 'int' may alter its value [-Wconversion]
      LCD_PORT &= ~(_BV(LCD_DC_PIN));
               ^
   avr-gcc -mmcu=atmega328p -Wall -Wextra -Wconversion -std=c11 -Os   -DF_CPU=16000000 -I./include  -Wl,-Map=main.map,--cref  "-Wl,--section-start=.mmcu=0x910000"  -o main.elf main.o
   ECHO ist ausgeschaltet (OFF).
   Creating load file for Flash: main.hex
   avr-objcopy -O ihex -R .flash main.elf main.hex
+  avr-g++ -DF_CPU=16000000 -I./include -mmcu=atmega328p -Wall -Wextra -Wconversion -std=c++17 -Os -fconcepts  -fno-exceptions -fno-unwind-tables -fno-rtti -fno-threadsafe-statics  -funsigned-char -funsigned-bitfields -fshort-enums  -fverbose-asm -Wa,-adhln -S -o main.s main.cc
+  In file included from main.cc:14:0:
+  pcd8544.h: In function 'void LcdInit()':
+pcd8544.h(330,11): warning G63087B26: conversion to 'uint8_t {aka unsigned char}' from 'int' may alter its value [-Wconversion]
+    LCD_PORT &= ~(_BV(LCD_RST_PIN));
+             ^
+  pcd8544.h: In function 'void printChar(char)':
+pcd8544.h(381,34): warning G63087B26: conversion to 'char' from 'int' may alter its value [-Wconversion]
+     LcdSend(c, LcdCmdData::LCD_DATA);
+                                    ^
+  In file included from pcd8544.h:113:0,
+                   from main.cc:14:
+  pcd8544.h: In function 'char LcdChr(LcdFontSize, char)':
+pcd8544.h(497,67): warning G83E83D9B: array subscript has type 'char' [-Wchar-subscripts]
+      LcdCache[LcdCacheIdx++] = pgm_read_byte(&(FontLookup[ch - 32][i])) << 1;
+                                                                     ^
+  In file included from main.cc:14:0:
+pcd8544.h(497,71): warning G63087B26: conversion to 'char' from 'int' may alter its value [-Wconversion]
+      LcdCache[LcdCacheIdx++] = pgm_read_byte(&(FontLookup[ch - 32][i])) << 1;
+                                                                         ^
+  In file included from pcd8544.h:113:0,
+                   from main.cc:14:
+pcd8544.h(514,45): warning G83E83D9B: array subscript has type 'char' [-Wchar-subscripts]
+      c = pgm_read_byte(&(FontLookup[ch - 32][i])) << 1;
+                                               ^
+  In file included from main.cc:14:0:
+pcd8544.h(514,49): warning G63087B26: conversion to 'char' from 'int' may alter its value [-Wconversion]
+      c = pgm_read_byte(&(FontLookup[ch - 32][i])) << 1;
+                                                   ^
+pcd8544.h(517,20): warning G63087B26: conversion to 'char' from 'int' may alter its value [-Wconversion]
+      b1 = (c & 0x01) * 3;
+           ~~~~~~~~~~~^~~
+pcd8544.h(518,7): warning G63087B26: conversion to 'char' from 'int' may alter its value [-Wconversion]
+      b1 |= (c & 0x02) * 6;
+      ~~~^~~~~~~~~~~~~~~~~
+pcd8544.h(519,7): warning G63087B26: conversion to 'char' from 'int' may alter its value [-Wconversion]
+      b1 |= (c & 0x04) * 12;
+      ~~~^~~~~~~~~~~~~~~~~~
+pcd8544.h(520,7): warning G63087B26: conversion to 'char' from 'int' may alter its value [-Wconversion]
+      b1 |= (c & 0x08) * 24;
+      ~~~^~~~~~~~~~~~~~~~~~
+pcd8544.h(522,6): warning G63087B26: conversion to 'char' from 'int' may alter its value [-Wconversion]
+      c >>= 4;
+      ~~^~~~~
+pcd8544.h(524,20): warning G63087B26: conversion to 'char' from 'int' may alter its value [-Wconversion]
+      b2 = (c & 0x01) * 3;
+           ~~~~~~~~~~~^~~
+pcd8544.h(525,7): warning G63087B26: conversion to 'char' from 'int' may alter its value [-Wconversion]
+      b2 |= (c & 0x02) * 6;
+      ~~~^~~~~~~~~~~~~~~~~
+pcd8544.h(526,7): warning G63087B26: conversion to 'char' from 'int' may alter its value [-Wconversion]
+      b2 |= (c & 0x04) * 12;
+      ~~~^~~~~~~~~~~~~~~~~~
+pcd8544.h(527,7): warning G63087B26: conversion to 'char' from 'int' may alter its value [-Wconversion]
+      b2 |= (c & 0x08) * 24;
+      ~~~^~~~~~~~~~~~~~~~~~
+  pcd8544.h: In function 'char LcdStr(LcdFontSize, char*)':
+pcd8544.h(576,25): warning G83E83D9B: array subscript has type 'char' [-Wchar-subscripts]
+    while (dataArray[tmpIdx] != '\0')
+                           ^
+pcd8544.h(579,43): warning G83E83D9B: array subscript has type 'char' [-Wchar-subscripts]
+     response = LcdChr(size, dataArray[tmpIdx]);
+                                             ^
+  pcd8544.h: In function 'char LcdPixel(char, char, LcdPixelMode)':
+pcd8544.h(638,13): warning G63087B26: conversion to 'char' from 'int' may alter its value [-Wconversion]
+    offset = y - ((y / 8) * 8);
+             ~~^~~~~~~~~~~~~~~
+pcd8544.h(647,8): warning G63087B26: conversion to 'char' from 'int' may alter its value [-Wconversion]
+     data &= (~(0x01 << offset));
+     ~~~~~^~~~~~~~~~~~~~~~~~~~~~
+pcd8544.h(653,8): warning G63087B26: conversion to 'char' from 'int' may alter its value [-Wconversion]
+     data |= (0x01 << offset);
+     ~~~~~^~~~~~~~~~~~~~~~~~~
+pcd8544.h(659,8): warning G63087B26: conversion to 'char' from 'int' may alter its value [-Wconversion]
+     data ^= (0x01 << offset);
+     ~~~~~^~~~~~~~~~~~~~~~~~~
+pcd8544.h(665,12): warning G2A2880C6: comparison between signed and unsigned integer expressions [-Wsign-compare]
+    if (index < LoWaterMark)
+        ~~~~~~^~~~~~~~~~~~~
+pcd8544.h(671,12): warning G2A2880C6: comparison between signed and unsigned integer expressions [-Wsign-compare]
+    if (index > HiWaterMark)
+        ~~~~~~^~~~~~~~~~~~~
+  pcd8544.h: In function 'char LcdLine(char, char, char, char, LcdPixelMode)':
+pcd8544.h(740,8): warning G63087B26: conversion to 'char' from 'int' may alter its value [-Wconversion]
+       y1 += stepy;
+       ~~~^~~~~~~~
+pcd8544.h(743,7): warning G63087B26: conversion to 'char' from 'int' may alter its value [-Wconversion]
+      x1 += stepx;
+      ~~~^~~~~~~~
+pcd8544.h(761,8): warning G63087B26: conversion to 'char' from 'int' may alter its value [-Wconversion]
+       x1 += stepx;
+       ~~~^~~~~~~~
+pcd8544.h(764,7): warning G63087B26: conversion to 'char' from 'int' may alter its value [-Wconversion]
+      y1 += stepy;
+      ~~~^~~~~~~~
+  pcd8544.h: In function 'char LcdSingleBar(char, char, char, char, LcdPixelMode)':
+pcd8544.h(801,15): warning G63087B26: conversion to 'char' from 'int' may alter its value [-Wconversion]
+     tmp = baseY - height;
+           ~~~~~~^~~~~~~~
+  pcd8544.h: In function 'char LcdBars(char*, char, char, char)':
+pcd8544.h(841,45): warning G63087B26: conversion to 'char' from 'int' may alter its value [-Wconversion]
+     tmpIdx = ((width + EMPTY_SPACE_BARS) * b) + BAR_X;
+                                               ^
+pcd8544.h(844,48): warning G83E83D9B: array subscript has type 'char' [-Wchar-subscripts]
+     response = LcdSingleBar(tmpIdx, BAR_Y, data[b] * multiplier, width, PIXEL_ON);
+                                                  ^
+pcd8544.h(844,50): warning G63087B26: conversion to 'char' from 'int' may alter its value [-Wconversion]
+     response = LcdSingleBar(tmpIdx, BAR_Y, data[b] * multiplier, width, PIXEL_ON);
+                                            ~~~~~~~~^~~~~~~~~~~~
+  pcd8544.h: In function 'void LcdUpdate()':
+pcd8544.h(941,15): warning G63087B26: conversion to 'char' from 'int' may alter its value [-Wconversion]
+    LcdSend(0x80 | (LoWaterMark % LCD_X_RES), LCD_CMD);
+            ~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~
+pcd8544.h(942,15): warning G63087B26: conversion to 'char' from 'int' may alter its value [-Wconversion]
+    LcdSend(0x40 | (LoWaterMark / LCD_X_RES), LCD_CMD);
+            ~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~
+  pcd8544.h: In function 'void LcdSend(char, LcdCmdData)':
+pcd8544.h(968,11): warning G63087B26: conversion to 'uint8_t {aka unsigned char}' from 'int' may alter its value [-Wconversion]
+    LCD_PORT &= ~(_BV(LCD_CE_PIN));
+             ^
+pcd8544.h(976,12): warning G63087B26: conversion to 'uint8_t {aka unsigned char}' from 'int' may alter its value [-Wconversion]
+     LCD_PORT &= ~(_BV(LCD_DC_PIN));
+              ^

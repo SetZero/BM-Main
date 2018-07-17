@@ -102,6 +102,7 @@ char LcdRect       (char x1, char x2, char y1, char y2, LcdPixelMode mode );
 char LcdSingleBar  (char baseX, char baseY, char height, char width, LcdPixelMode mode );
 char LcdBars       (char data[], char numbBars, char width, char multiplier );
 
+using spi = typename BMCPP::Hal::SPI<0, BMCPP::Hal::spi::ClkRate::clkRateDiv4>;
 
 
 
@@ -114,6 +115,7 @@ char LcdBars       (char data[], char numbBars, char width, char multiplier );
 #include <string.h>
 #include <avr/interrupt.h>
 #include "spi_hal.h"
+
 
 static const byte FontLookup [][5] PROGMEM=
 {
@@ -334,7 +336,6 @@ void LcdInit()
 	*/
 
 	//SPCR = 0x50;
-	using spi = typename BMCPP::Hal::SPI<0, BMCPP::Hal::spi::ClkRate::clkRateDiv4>;
 	spi::spi0_init();
 	/* Disable LCD controller */
 	LCD_PORT |= _BV(LCD_CE_PIN);
@@ -355,18 +356,44 @@ void LcdInit()
 	LcdUpdate();
 }
 
-void loop(void)
-{
-	using spi = typename BMCPP::Hal::SPI<0, BMCPP::Hal::spi::ClkRate::clkRateDiv4>;
+
+unsigned char pixelsInLine = 0;
+unsigned const char WIDTH = 84;
+
+void printChar(char ch) {
+
+	if (ch < 32) {
+		LcdClear();
+		printChar('4');
+		printChar('2');
+	}
 
 	spi::readWriteSingle(1);
-	for (auto index = 0; index < (84 * 48) / 8; index++)
+
+	for (uint8_t i = 0; i < 5; i++)
 	{
-		LcdSend(0x3E, LcdCmdData::LCD_DATA);
-		LcdSend(0x51, LcdCmdData::LCD_DATA);
-		LcdSend(0x49, LcdCmdData::LCD_DATA);
-		LcdSend(0x45, LcdCmdData::LCD_DATA);
-		LcdSend(0x3E, LcdCmdData::LCD_DATA);
+
+		/* Copy lookup table from Flash ROM to temporary c */
+		auto c = pgm_read_byte(&(FontLookup[ch - 32][i])) << 1;
+
+
+		//LcdSend(b1, LcdCmdData::LCD_DATA);
+		LcdSend(c, LcdCmdData::LCD_DATA);
+		pixelsInLine < WIDTH ? pixelsInLine++ : pixelsInLine = 0;
+	}
+}
+
+void newLine() {
+	for (int i = 0; i < (WIDTH - pixelsInLine); i++) {
+		LcdSend(0, LcdCmdData::LCD_DATA);
+	}
+	pixelsInLine = 0;
+}
+
+void printStr(const char* str) {
+	while (*str) {
+		printChar(*str);
+		str++;
 	}
 }
 
@@ -423,8 +450,7 @@ void LcdClear(void)
 * Return value :  see return value in pcd8544.h
 * Note         :  Based on Sylvain Bissonette's code
 */
-char LcdGotoXYFont(char x, char y)
-{
+char LcdGotoXYFont(char x, char y) {
 	/* Boundary check, slow down the speed but will guarantee this code wont fail */
 	/* Version 0.2.5 - Fixed on Dec 25, 2008 (XMAS) */
 	if (x > 14)
@@ -529,6 +555,7 @@ char LcdChr(LcdFontSize size, char ch)
 	}
 	/* Otherwise just increment the index */
 	LcdCacheIdx++;
+	UpdateLcd = TRUE;
 	return OK;
 }
 
