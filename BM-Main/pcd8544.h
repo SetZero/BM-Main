@@ -104,6 +104,7 @@ char LcdBars       (char data[], char numbBars, char width, char multiplier );
 
 
 
+
 /*
  * Character lookup table code was taken from the work of Sylvain Bissonette
  * This table defines the standard ASCII characters in a 5x7 dot format.
@@ -352,6 +353,21 @@ void LcdInit()
 	/* Clear display on first time use */
 	LcdClear();
 	LcdUpdate();
+}
+
+void loop(void)
+{
+	using spi = typename BMCPP::Hal::SPI<0, BMCPP::Hal::spi::ClkRate::clkRateDiv4>;
+
+	spi::readWriteSingle(1);
+	for (auto index = 0; index < (84 * 48) / 8; index++)
+	{
+		LcdSend(0x3E, LcdCmdData::LCD_DATA);
+		LcdSend(0x51, LcdCmdData::LCD_DATA);
+		LcdSend(0x49, LcdCmdData::LCD_DATA);
+		LcdSend(0x45, LcdCmdData::LCD_DATA);
+		LcdSend(0x3E, LcdCmdData::LCD_DATA);
+	}
 }
 
 /*

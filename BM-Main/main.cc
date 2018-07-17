@@ -45,6 +45,8 @@ int main(){
 	LcdChr(LcdFontSize::FONT_2X, 'A');
 	LcdUpdate();
 	LcdChr(LcdFontSize::FONT_2X, 'B');
+	LcdClear();
+	loop();
 	while (true) {
 		
 		//spi0::readWriteSingle(22);
