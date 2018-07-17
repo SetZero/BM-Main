@@ -11,22 +11,22 @@
 #include "mega328.h"
 #include "hal\port.h"
 #include "spi_hal.h"
-#include "uart.c"
-#include "ADC.h"
+#include "pcd8544.h"
 
 using namespace BMCPP;
 using namespace AVR;
 
 int main(){
+	
 	//constexpr int x = static_cast<uint8_t>(~16) & 16;
 	// START DEBUG
-	uart_init(UART_BAUD_SELECT(9600, F_CPU));
-	sei();
+	LcdInit();
+	//LcdContrast(0x3A);
 	// END DEBUG
-	using spi0 = Hal::SPI<0,Hal::spi::ClkRate::clkRateDiv4>;
+	//using spi0 = Hal::SPI<0,Hal::spi::ClkRate::clkRateDiv4>;
 	//spi0::init<BMCPP::Hal::Port<BMCPP::AVR::B>>();
 	//MFRC522<>::mfrc522_init<BMCPP::Hal::Port<BMCPP::AVR::B>>();
-	DDRB |= (1 << PB5);
+	//DDRB |= (1 << PB5);
 	//volatile uint8_t& test = outB::get();
 	/*
 	using pinb5 = BMCPP::Hal::Pin<outB, 5>;
@@ -37,14 +37,17 @@ int main(){
 	pinb3::dir<BMCPP::Hal::Output>();
 	//auto x = BMCPP::Hal::SPI<0>::spcr();
 	MFRC522<>::mfrc522_init<outB>();	*/
-	//uint8_t serialOut[4]{0,0,0,0};
 	
 	//spi0::init<outB>();
 	//uint8_t tesst = 'a';
 	//spi0::init<outB>();
-	spi0::spi0_init();
+
+	LcdChr(LcdFontSize::FONT_2X, 'A');
+	LcdUpdate();
+	LcdChr(LcdFontSize::FONT_2X, 'B');
 	while (true) {
-		spi0::readWriteSingle(22);
+		
+		//spi0::readWriteSingle(22);
 		//spi::spi_transmit_sync(&tesst, 1);
 		//spi0::spi_send('a');
 		//spi0::spi_send('\n');

@@ -51,6 +51,7 @@ namespace BMCPP {
             template<BitType... F>
             void inline set()
             {
+
                 hwRegister = (static_cast<value_type>(F) | ...);
             }
             template<BitType F>

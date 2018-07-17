@@ -54,9 +54,15 @@
     <ClInclude Include="uc_select.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
+    <ClInclude Include="pcd8544.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cc">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="pcd8544.c">
       <Filter>Quelldateien</Filter>
     </ClCompile>
   </ItemGroup>

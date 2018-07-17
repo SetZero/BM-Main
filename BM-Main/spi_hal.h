@@ -50,12 +50,13 @@ namespace BMCPP {
 				return spi()->Spcr.raw();
 			}
 			
-			static void setSpcr(typename MicroController::SPI::spcr value...) {
-				spi()->Spcr.set(value);
+			template<typename... T>
+			static void setSpcr(T... value) {
+				spi()->Spcr.set(value...);
 			}
 
 			static void clearSpcr() {
-				spi()->Spcr.clear();
+				spi()->Spcr.setRegister(0x00);
 			}
 
 			static void setDoubleSpeed() {
@@ -79,7 +80,7 @@ namespace BMCPP {
 			static void spi0_init()
 				// Initialize pins for spi communication
 			{
-				//required Pins
+				//required Pins	 
 				Mosi::on();
 				Miso::off();
 				SS::on();
@@ -90,11 +91,13 @@ namespace BMCPP {
 
 				//set Spcr to zero
 				clearSpcr();
+
 				//enable SPI - - - - set SPI Interrupt enable - - - - set Device to 
 				if (Master)
-					setSpcr(MicroController::SPI::spcr::SPE0, MicroController::SPI::spcr::SPIE0, MicroController::SPI::spcr::MSTR0);
+					setSpcr(MicroController::SPI::spcr::SPE0, /*MicroController::SPI::spcr::SPIE0,*/ MicroController::SPI::spcr::MSTR0);
 				else
 					setSpcr(MicroController::SPI::spcr::SPE0, MicroController::SPI::spcr::SPIE0);
+
 				//set Clockrate
 				switch (clockRate)
 				{
