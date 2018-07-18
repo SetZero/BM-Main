@@ -15,12 +15,18 @@
 
 using namespace BMCPP;
 using namespace AVR;
+using namespace Hal;
+
+using rst_pin = typename BMCPP::Hal::Pin<typename BMCPP::Hal::Port<typename BMCPP::AVR::B>, 2>;
+using ce_pin = typename BMCPP::Hal::Pin<typename BMCPP::Hal::Port<typename BMCPP::AVR::B>, 1>;
+using dc_pin = typename BMCPP::Hal::Pin<typename BMCPP::Hal::Port<typename BMCPP::AVR::B>, 0>;
 
 int main(){
 	
 	//constexpr int x = static_cast<uint8_t>(~16) & 16;
 	// START DEBUG
-	LcdInit();
+	using display = PCD_8544<0,rst_pin,ce_pin,dc_pin, BMCPP::Hal::SPI, BMCPP::Hal::Port, BMCPP::Hal::Pin>;
+	display::init();
 	//LcdContrast(0x3A);
 	// END DEBUG
 	//using spi0 = Hal::SPI<0,Hal::spi::ClkRate::clkRateDiv4>;
@@ -42,16 +48,13 @@ int main(){
 	//uint8_t tesst = 'a';
 	//spi0::init<outB>();
 
-
-	LcdClear();
 	//printChar(2);
 	//printStr("FAM");
-	printStr("scheiss Lyroit");
-	newLine();
-	printStr("Neises Nokia");
-	newLine();
-	newLine();
-	printStr("101010");
+	display::printStr("Display");
+	display::newLine();
+	display::printStr("Working");
+	//LcdClear();
+
 
 	while (true) {
 
