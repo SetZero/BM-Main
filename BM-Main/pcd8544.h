@@ -214,6 +214,12 @@ static const byte FontLookup [][5] PROGMEM=
 
 #endif  /*  _PCD8544_H_ */
 
+			template<uint8_t SPI_number,typename rst_pin, typename ce_pin, typename dc_pin,
+			template<uint8_t, typename clockRate, template<typename, typename> typename, template<typename, uint8_t> typename, bool, typename> typename spi_template,
+			template<typename, typename> typename port_template,
+			template<typename, uint8_t> typename pin_template,
+			typename MicroController = __DEFAULT_MMCU__>
+			struct PCD_8544 {
 
 
 /*
@@ -285,10 +291,28 @@ static const byte FontLookup [][5] PROGMEM=
 * + Jakub Lasinski
 */
 
-//#include <stdio.h>
+			static void inline setYPtr() {
+				yPtr < (HEIGHT-CHAR_HEIGHT) ?
+					yPtr = static_cast<unsigned char>(yPtr + CHAR_HEIGHT) :
+					yPtr = 0;
+			}
 
+			/*
+			* Description  :   delay for LCD init routine, no interrupt necessary.
+			*/
+			static void Delay() {
+				for (typename utils::minRequiredUnsigned<MicroController::ClkRate / 1000>::type i = 0; i < MicroController::ClkRate / 1000; i++)
+					__asm("nop");
+			}
 
-/* Function prototypes */
+			/*
+			* Description  :  Sends data to display controller.
+			* Argument(s)  :  data -> Data to be sent
+			*                 cd   -> Command or data (see enum in pcd8544.h)
+			*/
+			static void send(char data, bool isData) {
+				/*  Enable display controller (active low). */
+				ce_pin::off();
 
 static void LcdSend(char data, LcdCmdData cd);
 static void Delay(void);
@@ -298,14 +322,41 @@ static void Delay(void);
 /* Cache buffer in SRAM 84*48 bits or 504 bytes */
 static char  LcdCache[LCD_CACHE_SIZE];
 
-/* Cache index */
-static int   LcdCacheIdx;
 
-/* Lower part of water mark */
-static int   LoWaterMark;
 
-/* Higher part of water mark */
-static int   HiWaterMark;
+			public:
+
+
+				/*
+				* Name         :  LcdRect
+				* Description  :  Display a rectangle in char size.
+				* Argument(s)  :  x1   -> absolute first x axis coordinate
+				*                 y1   -> absolute first y axis coordinate
+				*				   x2   -> absolute second x axis coordinate
+				*				   y2   -> absolute second y axis coordinate
+				*				   mode -> Off, On or Xor. See enum in pcd8544.h.
+				* Return value :  see return value on pcd8544.h.
+				*/
+				static void LcdRect()
+				{
+					send(0xff, true);
+					send(0xff, true);
+					send(0xff, true);
+					send(0xff, true);
+					send(0xff, true);
+				}
+
+				/*
+				* Description  :  Performs LCD controller initialization.
+				*/
+				static void init()
+				{
+					/* Pull-up on reset pin. */
+					rst_pin::on();
+
+					/* Set output bits on LCD Port. */
+					dc_pin::template dir<typename dc_pin::Output>();
+					ce_pin::template dir<typename ce_pin::Output>();
 
 /* Variable to decide whether update Lcd Cache is active/nonactive */
 static bool  UpdateLcd;
@@ -360,7 +411,15 @@ void LcdInit()
 unsigned char pixelsInLine = 0;
 unsigned const char WIDTH = 84;
 
-void printChar(char ch) {
+						send(c, true);
+						if (xPtr < WIDTH)
+							xPtr++;
+						else {
+							xPtr = 0;  // new line
+							setYPtr();
+						}
+					}
+				}
 
 	if (ch < 32) {
 		LcdClear();
@@ -370,16 +429,22 @@ void printChar(char ch) {
 
 	spi::readWriteSingle(1);
 
-	for (uint8_t i = 0; i < 5; i++)
-	{
+				/*
+				* Description  :  Clears the whole screen.
+				*/
+				static void clear()
+				{
+					for (typename utils::minRequiredUnsigned<WIDTH*HEIGHT>::type i = 0; i < (WIDTH*HEIGHT); i++) {
+						send(0, true);
+					}
+					newLine();
+					while (yPtr != 0)
+					{
+						newLine();
+					}
 
-		/* Copy lookup table from Flash ROM to temporary c */
-		char c = static_cast<char>(pgm_read_byte(&(FontLookup[ch - 32][i])) << 1);
-
-
-		//LcdSend(b1, LcdCmdData::LCD_DATA);
-		LcdSend(c, LcdCmdData::LCD_DATA);
-		pixelsInLine < WIDTH ? pixelsInLine++ : pixelsInLine = 0;
+				}
+		};
 	}
 }
 
