@@ -36,14 +36,6 @@
 namespace BMCPP {
 	namespace Hal {
 
-		/* Enumeration */
-		typedef enum
-		{
-			LCD_CMD = 0,
-			LCD_DATA = 1
-
-		} LcdCmdData;
-
 		static const uint8_t FontLookup[][5] PROGMEM =
 		{
 			{ 0x00, 0x00, 0x00, 0x00, 0x00 },   /* space */
@@ -149,10 +141,10 @@ namespace BMCPP {
 			typename MicroController = __DEFAULT_MMCU__>
 			class PCD_8544 {
 
-				static unsigned const char WIDTH = 84;
-				static unsigned const char HEIGHT = 48;
-				static unsigned const char CHAR_WIDTH = 5;
-				static unsigned const char CHAR_HEIGHT = 8;
+			static unsigned const char WIDTH = 84;
+			static unsigned const char HEIGHT = 48;
+			static unsigned const char CHAR_WIDTH = 5;
+			static unsigned const char CHAR_HEIGHT = 8;
 
 			using spi = spi_template<SPI_number, clkRateDiv4, port_template, pin_template, true, MicroController>;
 
@@ -161,7 +153,6 @@ namespace BMCPP {
 					yPtr = static_cast<unsigned char>(yPtr + CHAR_HEIGHT) :
 					yPtr = 0;
 			}
-
 
 			/*
 			* Name         :  Delay
@@ -172,6 +163,26 @@ namespace BMCPP {
 				for (typename utils::minRequiredUnsigned<MicroController::ClkRate / 1000>::type i = 0; i < MicroController::ClkRate / 1000; i++)
 					__asm("nop");
 			}
+
+			/*
+			* Description  :  Sends data to display controller.
+			* Argument(s)  :  data -> Data to be sent
+			*                 cd   -> Command or data (see enum in pcd8544.h)
+			*/
+			static void send(char data, bool isData)
+			{
+				/*  Enable display controller (active low). */
+				ce_pin::off();
+
+				isData ?
+					dc_pin::on() :
+					dc_pin::off();
+
+				spi::readWriteSingle(data);
+
+				ce_pin::on();
+			}
+
 			public:
 
 				/*
@@ -201,12 +212,12 @@ namespace BMCPP {
 					/* Disable LCD controller */
 					ce_pin::on();
 
-					send(0x21, LCD_CMD); /* LCD Extended Commands. */
-					send(0xC8, LCD_CMD); /* Set LCD Vop (Contrast).*/
-					send(0x06, LCD_CMD); /* Set Temp coefficent. */
-					send(0x13, LCD_CMD); /* LCD bias mode 1:48. */
-					send(0x20, LCD_CMD); /* LCD Standard Commands,Horizontal addressing mode */
-					send(0x0C, LCD_CMD); /* LCD in normal mode. */
+					send(0x21, false); /* LCD Extended Commands. */
+					send(0xC8, false); /* Set LCD Vop (Contrast).*/
+					send(0x06, false); /* Set Temp coefficent. */
+					send(0x13, false); /* LCD bias mode 1:48. */
+					send(0x20, false); /* LCD Standard Commands,Horizontal addressing mode */
+					send(0x0C, false); /* LCD in normal mode. */
 
 					/* Clear display on first time use */
 					clear();
@@ -233,7 +244,7 @@ namespace BMCPP {
 						/* Copy lookup table from Flash ROM to temporary c */
 						uint8_t c = static_cast<uint8_t>(pgm_read_byte(&(FontLookup[ch - 32][i])) << 1);
 
-						send(c, LcdCmdData::LCD_DATA);
+						send(c, true);
 						if (xPtr < WIDTH)
 							xPtr++;
 						else {
@@ -248,7 +259,7 @@ namespace BMCPP {
 				*/
 				static void newLine() {
 					for (int i = 0; i < (WIDTH - xPtr); i++) {
-						send(0, LcdCmdData::LCD_DATA);
+						send(0, true);
 					}
 					xPtr = 0;
 					setYPtr();
@@ -271,31 +282,8 @@ namespace BMCPP {
 				{
 					for (auto i = 0; i < HEIGHT*WIDTH + 1; i++)
 					{
-						send(0, LCD_DATA);
+						send(0, true);
 					}
-				}
-
-
-
-
-				/*
-				* Description  :  Sends data to display controller.
-				* Argument(s)  :  data -> Data to be sent
-				*                 cd   -> Command or data (see enum in pcd8544.h)
-				*/
-				static void send(char data, LcdCmdData cd)
-				{
-					/*  Enable display controller (active low). */
-					//LCD_PORT &= ~(_BV(LCD_CE_PIN));
-					ce_pin::off();
-
-					cd == LCD_DATA ?
-						dc_pin::on():
-						dc_pin::off();
-
-					spi::readWriteSingle(data);
-
-					ce_pin::on();
 				}
 		};
 	}
