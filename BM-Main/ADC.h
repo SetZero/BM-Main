@@ -7,7 +7,6 @@
 
 namespace BMCPP
 {
-	//	
 	namespace Hal
 	{
 		enum ADCMeasurementType {
