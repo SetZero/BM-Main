@@ -11,7 +11,7 @@
 #include "mega328.h"
 #include "hal\port.h"
 #include "spi_hal.h"
-//#include "pcd8544.h"
+#include "pcd8544.h"
 #include "ADC.h"
 #include "uart.c"
 #include <stdlib.h>
@@ -73,6 +73,17 @@ int main(){
 
 	//c.startChannels<1>();
 	BMCPP::Hal::ADConverter t;
+
+	LcdClear();
+	//printChar(2);
+	//printStr("FAM");
+	printStr("scheiss Lyroit");
+	newLine();
+	printStr("Neises Nokia");
+	newLine();
+	newLine();
+	printStr("101010");
+
 	while (true) {
 		//a = c.getValue<1>();
 		a = t.getValue<0>();
