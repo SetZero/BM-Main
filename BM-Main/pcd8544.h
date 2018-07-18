@@ -1,29 +1,71 @@
 /*
- *
- * Name         :  pcd8544.h
- *
- * Description  :  This is header file for the PCD8544 graphic LCD driver.
- *                 Based on the code written by Sylvain Bissonette
- *
- * Author       :  Fandi Gunawan <fandigunawan@gmail.com>
- * Website      :  http://fandigunawan.wordpress.com
- *
- * Credit       :  Sylvain Bissonette (2003)
- *                 Louis Frigon (2003)
- *
- * License      :  GPL v. 3
- *
- * Compiler     :  WinAVR, GCC for AVR platform
- *                 Tested version :
- *                 - 20070525
- *                 - 20071221
- *                 - 20081225
- * Compiler note:  Please be aware of using older/newer version since WinAVR
- *                 is in extensive development. Please compile with parameter -O1
- *
- * History      :
- * Please refer to pcd8544.c
- */
+*
+* Name         :  pcd8544.c
+*
+* Description  :  This is a driver for the PCD8544 graphic LCD.
+*                 Based on the code written by Sylvain Bissonette
+*                 This driver is buffered in 504 bytes memory be sure
+*                 that your MCU having bigger memory
+*
+* Author       :  Fandi Gunawan <fandigunawan@gmail.com>
+* Website      :  http://fandigunawan.wordpress.com
+*
+* Credit       :  Sylvain Bissonette (2003)
+*
+* License      :  GPL v. 3
+*
+* Compiler     :  WinAVR, GCC for AVR platform
+*                 Tested version :
+*                 - 20070525 (avr-libc 1.4)
+*                 - 20071221 (avr-libc 1.6)
+*                 - 20081225 tested by Jakub Lasinski
+*                 - other version please contact me if you find out it is working
+* Compiler note:  Please be aware of using older/newer version since WinAVR
+*                 is under extensive development. Please compile with parameter -O1
+*
+* History      :
+* Version 0.2.6 (March 14, 2009) additional optimization by Jakub Lasinski
+* + Optimization using Memset and Memcpy
+* + Bug fix and sample program reviewed
+* + Commented <stdio.h>
+* Version 0.2.5 (December 25, 2008) x-mas version :)
+* + Boundary check is added (reported by starlino on Dec 20, 2008)
+* + Return value is added, it will definitely useful for error checking
+* Version 0.2.4 (March 5, 2008)
+* + Multiplier was added to LcdBars to scale the bars
+* Version 0.2.3 (February 29, 2008)
+* + Rolled back LcdFStr function because of serious bug
+* + Stable release
+* Version 0.2.2 (February 27, 2008)
+* + Optimizing LcdFStr function
+* Version 0.2.1 (January 2, 2008)
+* + Clean up codes
+* + All settings were migrated to pcd8544.h
+* + Using _BV() instead of << to make a better readable code
+* Version 0.2 (December 11-14, 2007)
+* + Bug fixed in LcdLine() and LcdStr()
+* + Adding new routine
+*    - LcdFStr()
+*    - LcdSingleBar()
+*    - LcdBars()
+*    - LcdRect()
+*    - LcdImage()
+* + PROGMEM used instead of using.data section
+* Version 0.1 (December 3, 2007)
+* + First stable driver
+*
+* Note         :
+* Font will be displayed this way (16x6)
+* 1 2 3 4 5 6 7 8 9 0 1 2 3 4
+* 2
+* 3
+* 4
+* 5
+* 6
+*
+* Contributor :
+* + Jakub Lasinski
+*/
 
 #include <avr\pgmspace.h>
 #include <avr/io.h>
@@ -32,6 +74,7 @@
 #include "spi_hal.h"
 #include "uc_select.h"
 #include "Utils\Utils.h"
+#include "AVR_concepts.h"
 
 namespace BMCPP {
 	namespace Hal {
@@ -131,15 +174,18 @@ namespace BMCPP {
 		{ 0x44, 0x64, 0x54, 0x4C, 0x44 }    /* z */
 		};
 
-		static unsigned char xPtr = 0;
-		static unsigned char yPtr = 0;
+
 
 			template<uint8_t SPI_number,typename rst_pin, typename ce_pin, typename dc_pin,
 			template<uint8_t, typename clockRate, template<typename, typename> typename, template<typename, uint8_t> typename, bool, typename> typename spi_template,
 			template<typename, typename> typename port_template,
 			template<typename, uint8_t> typename pin_template,
 			typename MicroController = __DEFAULT_MMCU__>
-			struct PCD_8544 {
+			class PCD_8544 {
+			inline static unsigned char xPtr = 0;
+			inline static unsigned char yPtr = 0;
+
+			static_assert(BMCPP::AVR::isUC<MicroController>(), " template parameter MicroController is not a MicroController");
 
 			static unsigned const char WIDTH = 84;
 			static unsigned const char HEIGHT = 48;
@@ -180,22 +226,14 @@ namespace BMCPP {
 				ce_pin::on();
 			}
 
-
-
 			public:
 
 
 				/*
 				* Name         :  LcdRect
 				* Description  :  Display a rectangle in char size.
-				* Argument(s)  :  x1   -> absolute first x axis coordinate
-				*                 y1   -> absolute first y axis coordinate
-				*				   x2   -> absolute second x axis coordinate
-				*				   y2   -> absolute second y axis coordinate
-				*				   mode -> Off, On or Xor. See enum in pcd8544.h.
-				* Return value :  see return value on pcd8544.h.
 				*/
-				static void LcdRect()
+				static void rect()
 				{
 					send(0xff, true);
 					send(0xff, true);
@@ -223,11 +261,7 @@ namespace BMCPP {
 					Delay();
 					rst_pin::on();
 
-					/* Enable SPI port:
-					* No interrupt, MSBit first, Master mode, CPOL->0, CPHA->0, Clk/4
-					*/
-
-					spi::spi0_init();
+					spi::init();
 					/* Disable LCD controller */
 					ce_pin::on();
 

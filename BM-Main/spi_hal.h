@@ -20,25 +20,31 @@ namespace BMCPP {
 			};
 		}
 
-		template<uint8_t number, typename clockRate,template<typename, typename> typename PORT, template<typename , uint8_t> typename PIN, bool Master = true, typename MicroController = __DEFAULT_MMCU__>
+		template<
+			uint8_t number, 
+			typename clockRate,
+			template<typename, typename> typename PORT, 
+			template<typename , uint8_t> typename PIN, 
+			bool Master = true, 
+			typename MicroController = __DEFAULT_MMCU__>
 		class SPI {
 
 			static_assert(!utils::isEqual<void, __DEFAULT_MMCU__>::value, "no default MMCU defined");
+			//concept definition moved to external header and concept moved to static assert for syntax highlighting 
 			static_assert(AVR::isUC<MicroController>(), "type MicroController does not match the requirements");
 
 			SPI() = delete;
 
 			static inline constexpr auto spi = AVR::getAddress<typename MicroController::SPI, number>;
-
-		private:
 			
 			using port_name = typename MicroController::SPI::template SPI_Port<number>::Port;
 			using spi_port = PORT<port_name, MicroController>;
+			static_assert(AVR::isPort<spi_port>(), " template parameter PORT was not e port template");
 			using Mosi = PIN<spi_port, static_cast<typename MicroController::mem_width>(MicroController::SPI::template SPI_Port<number>::Pins::Mosi)>;
+			static_assert(AVR::isPin<Mosi>(), " template parameter PIN was not e pin template");
 			using Miso = PIN<spi_port, static_cast<typename MicroController::mem_width>(MicroController::SPI::template SPI_Port<number>::Pins::Miso)>;
 			using SS = PIN<spi_port, static_cast<typename MicroController::mem_width>(MicroController::SPI::template SPI_Port<number>::Pins::SS)>;
 			using SCK = PIN<spi_port, static_cast<typename MicroController::mem_width>(MicroController::SPI::template SPI_Port<number>::Pins::SCK)>;
-
 
 			static inline constexpr auto Number = number;
 
@@ -77,7 +83,7 @@ namespace BMCPP {
 			
 		public:
 
-			static void spi0_init()
+			static void init()
 				// Initialize pins for spi communication
 			{
 				//required Pins	 
@@ -90,7 +96,8 @@ namespace BMCPP {
 
 				//enable SPI - - - - set SPI Interrupt enable - - - - set Device to 
 				if (Master) {
-					setSpcr(MicroController::SPI::spcr::SPE0, MicroController::SPI::spcr::SPIE0, MicroController::SPI::spcr::MSTR0);
+					setSpcr(MicroController::SPI::spcr::SPE0, MicroController::SPI::spcr::SPIE0,
+						MicroController::SPI::spcr::MSTR0);
 					Mosi::template dir<typename Mosi::Output>();
 					Miso::template dir<typename Miso::Input>();
 					SS::template dir<typename SS::Output>();
@@ -112,14 +119,12 @@ namespace BMCPP {
 						setSpcr(MicroController::SPI::spcr::SPR01);
 					else if constexpr(utils::isEqual<clockRate, clkRateDiv128>::value)
 						setSpcr(MicroController::SPI::spcr::SPR00, MicroController::SPI::spcr::SPR01);
-					//else
-						//static_assert(false, "use a valid parameter for the clk rate");
 
 				//set doubleSpeed
 				setDoubleSpeed();
 			}
 
-			void writeRead(uint8_t * dataout, uint8_t * datain, uint8_t len)
+			void writeRead(typename MicroController::mem_width * dataout, typename MicroController::mem_width * datain, typename MicroController::mem_width len)
 				// Shift full array through target device
 			{
 				for (uint8_t i = 0; i < len; i++) {
@@ -129,7 +134,7 @@ namespace BMCPP {
 				}
 			}
 
-			void write(uint8_t * dataout, uint8_t len)
+			void write(typename MicroController::mem_width * dataout, typename MicroController::mem_width len)
 				// Shift full array to target device without receiving any byte
 			{
 				for (uint8_t i = 0; i < len; i++) {

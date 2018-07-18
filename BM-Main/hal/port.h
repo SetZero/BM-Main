@@ -44,7 +44,7 @@ namespace BMCPP {
             static volatile uint8_t& get() {
                 return *port()->out;
             }
-            static volatile uint8_t read() {
+            static uint8_t read() {
                 return *port()->in;
             }
         };

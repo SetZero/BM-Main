@@ -57,8 +57,14 @@
     <ClInclude Include="pcd8544.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="4X4_KeyPad.h">
+    <ClInclude Include="Interrupts.h">
       <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="adc_hal.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\BM-Code-Snippets\LCD\pcd8544.h">
+      <Filter>Quelldateien</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -66,6 +72,9 @@
       <Filter>Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="pcd8544.c">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\BM-Code-Snippets\LCD\pcd8544.c">
       <Filter>Quelldateien</Filter>
     </ClCompile>
   </ItemGroup>

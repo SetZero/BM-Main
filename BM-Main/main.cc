@@ -45,28 +45,24 @@ uint16_t getAdcValue(void) {
 
 int main(){
 	using keypadPort = BMCPP::Hal::Port<D>;
-	using keypad = KeyPad<keypadPort>;
+	using keypad = Hal::KeyPad<keypadPort>;
 	//constexpr int x = static_cast<uint8_t>(~16) & 16;
 	// START DEBUG
 	keypad::init();
 	using display = PCD_8544<0,rst_pin,ce_pin,dc_pin, BMCPP::Hal::SPI, BMCPP::Hal::Port, BMCPP::Hal::Pin>;
 	display::init();
-	display::printChar(yPtr+32);
+	display::printStr("B");
 	display::newLine();
-	display::printChar(yPtr+32);
+	display::printStr("M");
 	display::newLine();
-	display::printChar(yPtr + 32);
+	display::printStr("C");
 	display::newLine();
-	display::printChar(yPtr + 32);
+	display::printStr("P");
 	display::newLine();
-	display::printChar(yPtr + 32);
+	display::printStr("P");
 	display::newLine();
-	display::printChar(yPtr + 32);
+	display::printStr(":)");
 	display::newLine();
-	display::printChar(yPtr + 32);
-	display::clear();
-	display::LcdRect();
-	constexpr int zzzz = 'P';
 
 	//uart_init(UART_BAUD_SELECT(9600, F_CPU));
 	//initADC();

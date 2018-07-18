@@ -19,12 +19,14 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="4X4_KeyPad.h" />
+    <ClInclude Include="..\..\BM-Code-Snippets\LCD\pcd8544.h" />
     <ClInclude Include="ADC.h" />
+    <ClInclude Include="adc_hal.h" />
     <ClInclude Include="adc_hall.h" />
     <ClInclude Include="avr\register.h" />
     <ClInclude Include="AVR_concepts.h" />
     <ClInclude Include="hal\port.h" />
+    <ClInclude Include="Interrupts.h" />
     <ClInclude Include="mega328.h" />
     <ClInclude Include="meta\meta.h" />
     <ClInclude Include="pcd8544.h" />
@@ -36,6 +38,7 @@
     <ClInclude Include="Utils\Utils.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\BM-Code-Snippets\LCD\pcd8544.c" />
     <ClCompile Include="main.cc" />
     <ClCompile Include="pcd8544.c" />
   </ItemGroup>
