@@ -57,6 +57,9 @@
     <ClInclude Include="pcd8544.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
+    <ClInclude Include="Interrupts.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cc">
