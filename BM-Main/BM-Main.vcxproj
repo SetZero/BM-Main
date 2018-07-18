@@ -24,7 +24,6 @@
     <ClInclude Include="avr\register.h" />
     <ClInclude Include="AVR_concepts.h" />
     <ClInclude Include="hal\port.h" />
-    <ClInclude Include="Interrupts.h" />
     <ClInclude Include="mega328.h" />
     <ClInclude Include="meta\meta.h" />
     <ClInclude Include="pcd8544.h" />
