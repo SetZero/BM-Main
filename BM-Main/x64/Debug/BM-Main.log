@@ -1,4 +1,5 @@
-﻿  del *.elf
+﻿  avr-g++ -MM -MG -DF_CPU=16000000 -I./include -mmcu=atmega328p -Wall -Wextra -Wconversion -std=c++17 -Os -fconcepts  -fno-exceptions -fno-unwind-tables -fno-rtti -fno-threadsafe-statics  -funsigned-char -funsigned-bitfields -fshort-enums  main.cc | sed "s/main\.o/& main.d/g" > main.d
+  del *.elf
   del *.o
   del *.s
   del *.d

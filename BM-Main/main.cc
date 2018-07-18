@@ -49,37 +49,12 @@ int main(){
 	// START DEBUG
 	using display = PCD_8544<0,rst_pin,ce_pin,dc_pin, BMCPP::Hal::SPI, BMCPP::Hal::Port, BMCPP::Hal::Pin>;
 	display::init();
+	display::printStr("Display");
+	display::newLine();
+	display::printStr("Working");
 
-	//LcdInit();
-
-	//LcdContrast(0x3A);
-	// END DEBUG
-	//using spi0 = Hal::SPI<0,Hal::spi::ClkRate::clkRateDiv4>;
-	//spi0::init<BMCPP::Hal::Port<BMCPP::AVR::B>>();
-	//MFRC522<>::mfrc522_init<BMCPP::Hal::Port<BMCPP::AVR::B>>();
-	//DDRB |= (1 << PB5);
-	//volatile uint8_t& test = outB::get();
-	/*
-	using pinb5 = BMCPP::Hal::Pin<outB, 5>;
-	pinb5::dir<BMCPP::Hal::Input>();
-	using pinb4 = BMCPP::Hal::Pin<outB, 4>;
-	pinb4::dir<BMCPP::Hal::Output>();
-	using pinb3 = BMCPP::Hal::Pin<outB, 3>;
-	pinb3::dir<BMCPP::Hal::Output>();
-	//auto x = BMCPP::Hal::SPI<0>::spcr();
-	MFRC522<>::mfrc522_init<outB>();	*/
-	//using adc = BMCPP::Hal::ADConverter<>;
-	
-	//spi0::init<outB>();
-	//uint8_t tesst = 'a';
-	//spi0::init<outB>();
-
-
-	/*LcdChr(LcdFontSize::FONT_2X, 'A');
-	LcdUpdate();
-	LcdChr(LcdFontSize::FONT_2X, 'B');*/
 	uart_init(UART_BAUD_SELECT(9600, F_CPU));
-	initADC();
+	//initADC();
 	//adc c;
 	//BMCPP::Hal::ADConverter* t = BMCPP::Hal::ADConverter::create<>();
 	int a;
@@ -87,13 +62,6 @@ int main(){
 
 	//c.startChannels<1>();
 	BMCPP::Hal::ADConverter t;
-
-	//printChar(2);
-	//printStr("FAM");
-	display::printStr("Display");
-	display::newLine();
-	display::printStr("Working");
-	//LcdClear();
 
 
 	while (true) {
@@ -113,14 +81,11 @@ int main(){
 		//uart_puts("\n\r");
 		//_delay_ms(500);
 
-		//uart_puts("TEST");
 		//volatile uintptr_t* pbadr = ((uintptr_t*)getAddress<ATMega328::Port,B>());
 		//test ^= (1 << 5);
 		//*pbadr ^= (1 << 5);
 
 		//_delay_ms(500);
-		//spi0::spi_send(0);
-		//pinb3::off();
 	}
 	return 0;
 }				
