@@ -213,8 +213,8 @@ namespace BMCPP {
 					rst_pin::on();
 
 					/* Set output bits on LCD Port. */
-					dc_pin::template dir<typename BMCPP::Hal::Output>();
-					ce_pin::template dir<typename BMCPP::Hal::Output>();
+					dc_pin::template dir<typename dc_pin::Output>();
+					ce_pin::template dir<typename ce_pin::Output>();
 
 					Delay();
 

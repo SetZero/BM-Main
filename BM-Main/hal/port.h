@@ -28,8 +28,7 @@
 namespace BMCPP {
     namespace Hal {
 
-        struct Output {};
-        struct Input {};
+
 
         template<typename PortName, typename MicroController = __DEFAULT_MMCU__>
         class Port {
@@ -45,7 +44,7 @@ namespace BMCPP {
             static volatile uint8_t& get() {
                 return *port()->out;
             }
-            static volatile uint8_t& read() {
+            static volatile uint8_t read() {
                 return *port()->in;
             }
         };
@@ -55,6 +54,8 @@ namespace BMCPP {
             Pin() = delete;
             static_assert(Number < 8);
         public:
+			struct Output {};
+			struct Input {};
             static inline constexpr uint8_t mask = 1 << Number;
             static inline constexpr uint8_t number = Number;
             typedef Port port_type;
@@ -86,7 +87,7 @@ namespace BMCPP {
 				T::on();
 				T::off();
 				T::number;
-				T::template dir<Output>();
+				T::template dir<T::Output>();
 			};
 		}
 

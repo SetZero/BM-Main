@@ -20,8 +20,6 @@ namespace BMCPP {
 			};
 		}
 
-
-
 		template<uint8_t number, typename clockRate,template<typename, typename> typename PORT, template<typename , uint8_t> typename PIN, bool Master = true, typename MicroController = __DEFAULT_MMCU__>
 		class SPI {
 
@@ -93,17 +91,17 @@ namespace BMCPP {
 				//enable SPI - - - - set SPI Interrupt enable - - - - set Device to 
 				if (Master) {
 					setSpcr(MicroController::SPI::spcr::SPE0, MicroController::SPI::spcr::SPIE0, MicroController::SPI::spcr::MSTR0);
-					Mosi::template dir<typename BMCPP::Hal::Output>();
-					Miso::template dir<typename BMCPP::Hal::Input>();
-					SS::template dir<typename BMCPP::Hal::Output>();
-					SCK::template dir<typename BMCPP::Hal::Output>();
+					Mosi::template dir<typename Mosi::Output>();
+					Miso::template dir<typename Miso::Input>();
+					SS::template dir<typename SS::Output>();
+					SCK::template dir<typename SCK::Output>();
 				}
 				else {
 					setSpcr(MicroController::SPI::spcr::SPE0, MicroController::SPI::spcr::SPIE0);
-					Mosi::template dir<typename BMCPP::Hal::Input>();
-					Miso::template dir<typename BMCPP::Hal::Output>();
-					SS::template dir<typename BMCPP::Hal::Input>();
-					SCK::template dir<typename BMCPP::Hal::Input>();
+					Mosi::template dir<typename Mosi::Input>();
+					Miso::template dir<typename Miso::Output>();
+					SS::template dir<typename SS::Input>();
+					SCK::template dir<typename SCK::Input>();
 				}
 
 				//set Clockrate

@@ -12,6 +12,7 @@
 #include "hal\port.h"
 #include "spi_hal.h"
 #include "pcd8544.h"
+#include "4X4_KeyPad.h"
 //#include "ADC.h"
 //#include "uart.c"
 #include <stdlib.h>
@@ -42,16 +43,16 @@ uint16_t getAdcValue(void) {
 	return adc_result[currentChannel];
 }
 
-#define RowColDirection DDRD//Data Direction Configuration for keypad
-#define ROW PORTD            //Lower four bits of PORTC are used as ROWs
-#define COL PIND            //Higher four bits of PORTC are used as COLs
+
 char getkey();
 unsigned char KEYPAD_ScanKey();
 
 int main(){
-	RowColDirection = 0xf0;
+	using keypadPort = BMCPP::Hal::Port<D>;
+	using keypad = KeyPad<keypadPort>;
 	//constexpr int x = static_cast<uint8_t>(~16) & 16;
 	// START DEBUG
+	keypad::init();
 	using display = PCD_8544<0,rst_pin,ce_pin,dc_pin, BMCPP::Hal::SPI, BMCPP::Hal::Port, BMCPP::Hal::Pin>;
 	display::init();
 	display::printChar(yPtr+32);
@@ -82,15 +83,16 @@ int main(){
 	//BMCPP::Hal::ADConverter t;
 
 	char xy,prevkey = -1;
+	bool firstKey = true; //awkward things happening -> 1 is always pressed when first entered
 	while (true) {
-			/*
-		xy = KEYPAD_ScanKey();
-		if ( xy != 'z' && xy != prevkey) {
+			
+		xy = keypad::getKey();
+		if ( xy != 'z' && xy != prevkey && !firstKey) {
 			prevkey = xy;
 			display::clear();
 			display::printChar(xy);
-		}		*/
-
+		}		
+		firstKey = false;
 		//a = c.getValue<1>();
 		//a = t.getValue<0>();
 		//itoa(a, str, 10);
@@ -117,50 +119,6 @@ int main(){
 }				
 
 
-
-
-
-unsigned char KEYPAD_ScanKey()
-{
-
-	unsigned char ScanKey = 0xe0, i, key;
-
-	for (i = 0; i<0x04; i++)           // Scan All the 4-Rows for key press
-	{
-		ROW = ScanKey + 0x0F;         // Select 1-Row at a time for Scanning the Key
-		key = COL & 0x0F;             // Read the Column, for key press
-
-		if (key != 0x0F)             // If the KEY press is detected for the selected
-			break;                   // ROW then stop Scanning,
-
-		ScanKey = (ScanKey << 1) + 0x10; // Rotate the ScanKey to SCAN the remaining Rows
-	}
-
-	key = key + (ScanKey & 0xf0);  // Return the row and COL status to decode the key
-
-	switch (key)                       // Decode the key
-	{
-	case 0xe7: key = '1'; break;	//
-	case 0xeb: key = '2'; break;  //
-	case 0xed: key = 'A'; break;//
-	case 0xee: key = '3'; break; //
-	case 0xd7: key = '*'; break; //
-	case 0xdb: key = '1'; break; //
-	case 0xdd: key = 'D'; break; //
-	case 0xde: key = '#'; break;// 
-	case 0xb7: key = '7'; break;//
-	case 0xbb: key = '8'; break;//
-	case 0xbd: key = 'C'; break;//
-	case 0xbe: key = '9'; break; //
-	case 0x77: key = '4'; break;//
-	case 0x7b: key = '5'; break; //
-	case 0x7d: key = 'B'; break; //
-	case 0x7e: key = '6'; break; //
-	default: key = 'z';
-	}
-
-	return key;
-}
 
 /*ISR(ADC_vect) {
 	// Save conversion result.

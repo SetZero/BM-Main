@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="4X4_KeyPad.h" />
     <ClInclude Include="ADC.h" />
     <ClInclude Include="adc_hall.h" />
     <ClInclude Include="avr\register.h" />
