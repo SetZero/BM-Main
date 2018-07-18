@@ -43,10 +43,6 @@ uint16_t getAdcValue(void) {
 	return adc_result[currentChannel];
 }
 
-
-char getkey();
-unsigned char KEYPAD_ScanKey();
-
 int main(){
 	using keypadPort = BMCPP::Hal::Port<D>;
 	using keypad = KeyPad<keypadPort>;
@@ -83,16 +79,16 @@ int main(){
 	//BMCPP::Hal::ADConverter t;
 
 	char xy,prevkey = -1;
-	bool firstKey = true; //awkward things happening -> 1 is always pressed when first entered
+	bool first = true; //awkward things happening -> 1 is always pressed when first entered
 	while (true) {
 			
 		xy = keypad::getKey();
-		if ( xy != 'z' && xy != prevkey && !firstKey) {
+		if ( xy != 'z' && xy != prevkey && !first) {
 			prevkey = xy;
 			display::clear();
 			display::printChar(xy);
 		}		
-		firstKey = false;
+		first = false;
 		//a = c.getValue<1>();
 		//a = t.getValue<0>();
 		//itoa(a, str, 10);
