@@ -155,11 +155,9 @@ namespace BMCPP {
 			}
 
 			/*
-			* Name         :  Delay
-			* Description  :   delay for LCD init routine.
+			* Description  :   delay for LCD init routine, no interrupt necessary.
 			*/
-			static void Delay()
-			{
+			static void Delay() {
 				for (typename utils::minRequiredUnsigned<MicroController::ClkRate / 1000>::type i = 0; i < MicroController::ClkRate / 1000; i++)
 					__asm("nop");
 			}
@@ -169,8 +167,7 @@ namespace BMCPP {
 			* Argument(s)  :  data -> Data to be sent
 			*                 cd   -> Command or data (see enum in pcd8544.h)
 			*/
-			static void send(char data, bool isData)
-			{
+			static void send(char data, bool isData) {
 				/*  Enable display controller (active low). */
 				ce_pin::off();
 
@@ -183,7 +180,29 @@ namespace BMCPP {
 				ce_pin::on();
 			}
 
+
+
 			public:
+
+
+				/*
+				* Name         :  LcdRect
+				* Description  :  Display a rectangle in char size.
+				* Argument(s)  :  x1   -> absolute first x axis coordinate
+				*                 y1   -> absolute first y axis coordinate
+				*				   x2   -> absolute second x axis coordinate
+				*				   y2   -> absolute second y axis coordinate
+				*				   mode -> Off, On or Xor. See enum in pcd8544.h.
+				* Return value :  see return value on pcd8544.h.
+				*/
+				static void LcdRect()
+				{
+					send(0xff, true);
+					send(0xff, true);
+					send(0xff, true);
+					send(0xff, true);
+					send(0xff, true);
+				}
 
 				/*
 				* Description  :  Performs LCD controller initialization.
@@ -278,7 +297,7 @@ namespace BMCPP {
 				/*
 				* Description  :  Clears the whole screen.
 				*/
-				static void clear(void)
+				static void clear()
 				{
 					for (auto i = 0; i < HEIGHT*WIDTH + 1; i++)
 					{
