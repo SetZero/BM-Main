@@ -61,6 +61,7 @@ int main(){
 	//c.startChannels<1>();
 	adc::init();
 	adc::create<0>();
+	adc::create<1>();
 
 	//LcdClear();
 	//printChar(2);

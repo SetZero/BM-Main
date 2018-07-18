@@ -13,9 +13,12 @@ namespace BMCPP {
 			Hardware_Adc() = delete;
 
 			static inline constexpr auto adc = AVR::getAddress<typename MicroController::ADConverter, adc_number>;
+			static uint8_t activeADCs;
 			using sra = typename MicroController::ADConverter::ADCsra;
 			using mux = typename MicroController::ADConverter::ADMux;
 		public:
+			static constexpr uint8_t maximum_adc = 8;
+
 			static uint8_t adch() {
 				return *adc()->adch;
 			}
@@ -80,6 +83,18 @@ namespace BMCPP {
 				addAdcsra(sra::adsc);
 			}
 
+			static void activateChannel(uint8_t Channel) {
+				activeADCs |= (1 << Channel);
+			}
+
+			static void deactivateChannel(uint8_t Channel) {
+				activeADCs &= ~(1 << Channel);
+			}
+
+			static bool  isActiveChannel(uint8_t Channel) {
+				return (activeADCs >> Channel) & 0x01;
+			}
+
 			static void changeADCMux(uint8_t adc) {
 				clearAdmux();
 				switch (adc) {
@@ -95,5 +110,8 @@ namespace BMCPP {
 
 			}
 		};
+		template<uint8_t adc_number, typename MicroController>
+		uint8_t Hardware_Adc<adc_number, MicroController>::activeADCs = 0;
+
 	}
 }

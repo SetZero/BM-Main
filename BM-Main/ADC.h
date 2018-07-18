@@ -18,7 +18,7 @@ namespace BMCPP
 		template<typename Hardware_Adc>
 		class ADConverter final
 		{
-			static constexpr uint8_t maximum_adc = 8;
+			static constexpr uint8_t maximum_adc = Hardware_Adc::maximum_adc;
 			static volatile uint16_t adc_result[maximum_adc];
 			static ADCMeasurementType m_measurement_type;
 			static uint8_t currentADC;
@@ -33,11 +33,17 @@ namespace BMCPP
 
 			template<uint8_t Channel, ADCMeasurementType measurement_type = CONTINUOUS>
 			static void create() {
+				static_assert(Channel < maximum_adc, "This Channel doesn't exist!");
 				Hardware_Adc::startConversion();
+				Hardware_Adc::activateChannel(Channel);
 				m_measurement_type = measurement_type;
+				
 			}
-			static void stop() {
 
+			template<uint8_t Channel>
+			static void stop() {
+				static_assert(Channel < maximum_adc, "This Channel doesn't exist!");
+				Hardware_Adc::deactivateChannel(Channel);
 			}
 			//TODO
 			template<uint8_t Channel>
@@ -46,7 +52,8 @@ namespace BMCPP
 			}
 
 			static void writeResults() {
-				adc_result[currentADC++] = ADCL | (Hardware_Adc::adch() << 8);
+				if (!Hardware_Adc::isActiveChannel(currentADC)) currentADC++;
+				adc_result[currentADC++] = Hardware_Adc::adcl() | (Hardware_Adc::adch() << 8);
 				if (currentADC > maximum_adc) currentADC = 0;
 				Hardware_Adc::changeADCMux(currentADC);
 
