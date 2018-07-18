@@ -14,6 +14,7 @@ namespace BMCPP {
 
 			static inline constexpr auto adc = AVR::getAddress<typename MicroController::ADConverter, adc_number>;
 			using sra = typename MicroController::ADConverter::ADCsra;
+			using mux = typename MicroController::ADConverter::ADMux;
 		public:
 			static uint8_t adch() {
 				return *adc()->adch;
@@ -21,6 +22,7 @@ namespace BMCPP {
 			static uint8_t adcl() {
 				return *adc()->adcl;
 			}
+
 			static uint8_t adcsra() {
 				return adc()->adcsra.raw();
 			}
@@ -35,11 +37,23 @@ namespace BMCPP {
 			static void clearAdcsra() {
 				adc()->adcsra.setRegister(0x00);
 			}
-			static volatile uint8_t& adcsrb() {
-				return *adc()->adcsrb;
+			static volatile uint8_t adcsrb() {
+				return adc()->adcsrb;
 			}
-			static volatile uint8_t& admux() {
-				return *adc()->admux;
+
+			static volatile uint8_t admux() {
+				return adc()->admux;
+			}
+			template<typename... T>
+			static void setAdmux(T... value) {
+				adc()->admux.set(value...);
+			}
+			template<typename... T>
+			static void addAdmux(T... value) {
+				adc()->admux.add(value...);
+			}
+			static void clearAdmux() {
+				adc()->admux.setRegister(0x00);
 			}
 
 			static constexpr void set_prescaler_value(uint8_t prescaler_value) {
@@ -55,7 +69,7 @@ namespace BMCPP {
 			}
 
 			//static constexpr uint8_t maximum_active_adcs = 8;
-			static void create_adcsra(uint8_t prescaler_value)
+			static void start_adc(uint8_t prescaler_value)
 			{
 				clearAdcsra();
 				set_prescaler_value(prescaler_value);
@@ -64,7 +78,21 @@ namespace BMCPP {
 
 			static void startConversion() {
 				addAdcsra(sra::adsc);
-				//ADCSRA |= (1 << ADSC);
+			}
+
+			static void changeADCMux(uint8_t adc) {
+				clearAdmux();
+				switch (adc) {
+				case 0:		break;
+				case 1:		setAdmux(mux::mux0); break;
+				case 2:		setAdmux(mux::mux1); break;
+				case 3:		setAdmux(mux::mux0, mux::mux1); break;
+				case 4:		setAdmux(mux::mux2); break;
+				case 5:		setAdmux(mux::mux2, mux::mux0); break;
+				case 6:		setAdmux(mux::mux2, mux::mux1); break;
+				case 7:		setAdmux(mux::mux2, mux::mux1, mux::mux0); break;
+				}
+
 			}
 		};
 	}

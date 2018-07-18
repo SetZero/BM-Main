@@ -75,8 +75,12 @@ int main(){
 
 	while (true) {
 		uint16_t a = adc::getValue<0>();//static_cast<uint8_t>(sra::adsc);
+		uint16_t b = adc::getValue<1>();//static_cast<uint8_t>(sra::adsc);
 		char str[32];
 		itoa(a, str, 10);
+		uart_puts(str);
+		uart_puts(" | ");
+		itoa(b, str, 10);
 		uart_puts(str);
 		uart_puts("\n\r");
 		
@@ -113,6 +117,5 @@ ISR(ADC_vect)
 {
 	adc::writeResults();
 
-	ADCSRA |= (1 << ADSC);
-	adc::create<0>();
+	//ADCSRA |= (1 << ADSC);
 }

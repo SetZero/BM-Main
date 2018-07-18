@@ -130,8 +130,8 @@ namespace BMCPP
 				static constexpr const mem_width count = 1;
 				typedef mem_width value_type;
 
-				DataRegister<ADConverter, ReadOnly, mem_width> adch;
 				DataRegister<ADConverter, ReadOnly, mem_width> adcl;
+				DataRegister<ADConverter, ReadOnly, mem_width> adch;
 
 				enum class ADCsra : mem_width {
 					aden = (1 << ADEN),
