@@ -1,20 +1,9 @@
 ﻿  avr-g++ -MM -MG -DF_CPU=16000000 -I./include -mmcu=atmega328p -Wall -Wextra -Wconversion -std=c++17 -Os -fconcepts  -fno-exceptions -fno-unwind-tables -fno-rtti -fno-threadsafe-statics  -funsigned-char -funsigned-bitfields -fshort-enums  main.cc | sed "s/main\.o/& main.d/g" > main.d
-  del *.elf
-  E:\Dokumente\seafile\Seafile\General\Dokumente\FH\BM\Snippets\BM-Main\BM-Main\*.elf konnte nicht gefunden werden
-  del *.o
-  E:\Dokumente\seafile\Seafile\General\Dokumente\FH\BM\Snippets\BM-Main\BM-Main\*.o konnte nicht gefunden werden
-  del *.s
-  E:\Dokumente\seafile\Seafile\General\Dokumente\FH\BM\Snippets\BM-Main\BM-Main\*.s konnte nicht gefunden werden
-  del *.d
-  del *.hex
-  E:\Dokumente\seafile\Seafile\General\Dokumente\FH\BM\Snippets\BM-Main\BM-Main\*.hex konnte nicht gefunden werden
-  del *.map
-  E:\Dokumente\seafile\Seafile\General\Dokumente\FH\BM\Snippets\BM-Main\BM-Main\*.map konnte nicht gefunden werden
   avr-g++ -mmcu=atmega328p -Wall -Wextra -Wconversion -std=c++17 -Os -fconcepts  -fno-exceptions -fno-unwind-tables -fno-rtti -fno-threadsafe-statics  -funsigned-char -funsigned-bitfields -fshort-enums  -DF_CPU=16000000 -I./include  -c -o main.o main.cc
   In file included from main.cc:15:
-ADC.h(59,5): warning G93EE9793: "/*" within comment [-Wcomment]
-       /*int a = (int)ADCSRA;
-        
+ADC.h(77,1): warning G93EE9793: "/*" within comment [-Wcomment]
+   /*ISR(ADC_vect)
+    
   In file included from main.cc:14:
   pcd8544.h: In function 'void LcdInit()':
 pcd8544.h(330,11): warning G04C62F8D: conversion from 'int' to 'uint8_t' {aka 'unsigned char'} may change value [-Wconversion]
@@ -32,69 +21,13 @@ pcd8544.h(494,11): warning G04C62F8D: conversion from 'int' to 'uint8_t' {aka 'u
     LCD_PORT &= ~(_BV(LCD_CE_PIN));
              ^
   In file included from main.cc:15:
-  ADC.h: In constructor 'BMCPP::Hal::ADConverter::ADConverter(uint8_t, uint8_t, BMCPP::Hal::ADCMeasurementType)':
-ADC.h(137,24): warning G40510A9C: unused parameter 'prescaler_value' [-Wunused-parameter]
-      ADConverter(uint8_t prescaler_value = 8, uint8_t adc_number = 0, ADCMeasurementType measurement_type = CONTINUOUS)
-                  ~~~~~~~~^~~~~~~~~~~~~~~~~~~
-ADC.h(137,53): warning G40510A9C: unused parameter 'adc_number' [-Wunused-parameter]
-      ADConverter(uint8_t prescaler_value = 8, uint8_t adc_number = 0, ADCMeasurementType measurement_type = CONTINUOUS)
-                                               ~~~~~~~~^~~~~~~~~~~~~~
-ADC.h(137,88): warning G40510A9C: unused parameter 'measurement_type' [-Wunused-parameter]
-      ADConverter(uint8_t prescaler_value = 8, uint8_t adc_number = 0, ADCMeasurementType measurement_type = CONTINUOUS)
-                                                                       ~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  In file included from main.cc:16:
-  uart.c: In function 'void __vector_19()':
-uart.c(422,23): warning G04C62F8D: conversion from 'int' to 'uint8_t' {aka 'unsigned char'} may change value [-Wconversion]
-           UART0_CONTROL &= ~_BV(UART0_UDRIE);
-                         ^
+  ADC.h: At global scope:
+ADC.h(8,1): error G49BDF932: expected unqualified-id before '.' token
+   .-namespace BMCPP
+   ^
   In file included from main.cc:14:
-  pcd8544.h: At global scope:
 pcd8544.h(302,14): warning G1AD04B87: 'LcdCacheIdx' defined but not used [-Wunused-variable]
    static int   LcdCacheIdx;
                 ^~~~~~~~~~~
-  avr-gcc -mmcu=atmega328p -Wall -Wextra -Wconversion -std=c11 -Os   -DF_CPU=16000000 -I./include  -Wl,-Map=main.map,--cref  "-Wl,--section-start=.mmcu=0x910000"  -o main.elf main.o
-  ECHO ist ausgeschaltet (OFF).
-  Creating load file for Flash: main.hex
-  avr-objcopy -O ihex -R .flash main.elf main.hex
-  avr-g++ -DF_CPU=16000000 -I./include -mmcu=atmega328p -Wall -Wextra -Wconversion -std=c++17 -Os -fconcepts  -fno-exceptions -fno-unwind-tables -fno-rtti -fno-threadsafe-statics  -funsigned-char -funsigned-bitfields -fshort-enums  -fverbose-asm -Wa,-adhln -S -o main.s main.cc
-  In file included from main.cc:15:
-ADC.h(59,5): warning G93EE9793: "/*" within comment [-Wcomment]
-       /*int a = (int)ADCSRA;
-        
-  In file included from main.cc:14:
-  pcd8544.h: In function 'void LcdInit()':
-pcd8544.h(330,11): warning G04C62F8D: conversion from 'int' to 'uint8_t' {aka 'unsigned char'} may change value [-Wconversion]
-    LCD_PORT &= ~(_BV(LCD_RST_PIN));
-             ^
-  pcd8544.h: In function 'void LcdUpdate()':
-pcd8544.h(467,15): warning G04C62F8D: conversion from 'int' to 'char' may change value [-Wconversion]
-    LcdSend(0x80 | (LoWaterMark % LCD_X_RES), LCD_CMD);
-            ~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~
-pcd8544.h(468,15): warning G04C62F8D: conversion from 'int' to 'char' may change value [-Wconversion]
-    LcdSend(0x40 | (LoWaterMark / LCD_X_RES), LCD_CMD);
-            ~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~
-  pcd8544.h: In function 'void LcdSend(char, LcdCmdData)':
-pcd8544.h(494,11): warning G04C62F8D: conversion from 'int' to 'uint8_t' {aka 'unsigned char'} may change value [-Wconversion]
-    LCD_PORT &= ~(_BV(LCD_CE_PIN));
-             ^
-  In file included from main.cc:15:
-  ADC.h: In constructor 'BMCPP::Hal::ADConverter::ADConverter(uint8_t, uint8_t, BMCPP::Hal::ADCMeasurementType)':
-ADC.h(137,24): warning G40510A9C: unused parameter 'prescaler_value' [-Wunused-parameter]
-      ADConverter(uint8_t prescaler_value = 8, uint8_t adc_number = 0, ADCMeasurementType measurement_type = CONTINUOUS)
-                  ~~~~~~~~^~~~~~~~~~~~~~~~~~~
-ADC.h(137,53): warning G40510A9C: unused parameter 'adc_number' [-Wunused-parameter]
-      ADConverter(uint8_t prescaler_value = 8, uint8_t adc_number = 0, ADCMeasurementType measurement_type = CONTINUOUS)
-                                               ~~~~~~~~^~~~~~~~~~~~~~
-ADC.h(137,88): warning G40510A9C: unused parameter 'measurement_type' [-Wunused-parameter]
-      ADConverter(uint8_t prescaler_value = 8, uint8_t adc_number = 0, ADCMeasurementType measurement_type = CONTINUOUS)
-                                                                       ~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  In file included from main.cc:16:
-  uart.c: In function 'void __vector_19()':
-uart.c(422,23): warning G04C62F8D: conversion from 'int' to 'uint8_t' {aka 'unsigned char'} may change value [-Wconversion]
-           UART0_CONTROL &= ~_BV(UART0_UDRIE);
-                         ^
-  In file included from main.cc:14:
-  pcd8544.h: At global scope:
-pcd8544.h(302,14): warning G1AD04B87: 'LcdCacheIdx' defined but not used [-Wunused-variable]
-   static int   LcdCacheIdx;
-                ^~~~~~~~~~~
+  make: *** [<builtin>: main.o] Error 1
+C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\VC\VCTargets\Microsoft.MakeFile.Targets(44,5): error MSB3073: Der Befehl "make" wurde mit dem Code 2 beendet.

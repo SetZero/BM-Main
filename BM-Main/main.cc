@@ -16,6 +16,10 @@
 #include "uart.c"
 #include <stdlib.h>
 
+
+using hardware_adc = BMCPP::Hal::Hardware_Adc<0>;
+using adc = BMCPP::Hal::ADConverter<hardware_adc>;
+
 //using namespace BMCPP;
 //using namespace AVR;
 volatile uint16_t adc_result[2];
@@ -68,28 +72,34 @@ int main(){
 	initADC();
 	//adc c;
 	//BMCPP::Hal::ADConverter* t = BMCPP::Hal::ADConverter::create<>();
-	int a;
-	char str[16];
-
+	uart_puts("Test");
 	//c.startChannels<1>();
-	BMCPP::Hal::ADConverter t;
+	adc::init();
+	adc::create<0>();
 
-	LcdClear();
+	//LcdClear();
 	//printChar(2);
 	//printStr("FAM");
-	printStr("scheiss Lyroit");
-	newLine();
-	printStr("Neises Nokia");
-	newLine();
-	newLine();
-	printStr("101010");
+	//printStr("scheiss Lyroit");
+	//newLine();
+	//printStr("Neises Nokia");
+	//newLine();
+	//newLine();
+	//printStr("101010");
+	int a = 0;
 
 	while (true) {
-		//a = c.getValue<1>();
-		a = t.getValue<0>();
+		uint16_t a = adc::getValue<0>();//static_cast<uint8_t>(sra::adsc);
+		char str[32];
 		itoa(a, str, 10);
 		uart_puts(str);
 		uart_puts("\n\r");
+		//a = c.getValue<1>();
+		//a = adc::getValue<0>();
+		//uart_puts(reinterpret_cast<char*>(a));
+		//itoa(a, str, 10);
+		//uart_puts(str);
+		//uart_puts("\n\r");
 		//spi0::readWriteSingle(22);
 		//spi::spi_transmit_sync(&tesst, 1);
 		//spi0::spi_send('a');
@@ -113,20 +123,9 @@ int main(){
 	return 0;
 }				
 
-/*ISR(ADC_vect)
+ISR(ADC_vect)
 {
-	// Save conversion result.
-	adc_result[channel_sel] = ADC;
-
-	if (channel_sel == 1) {
-		ADMUX &= ~(1 << MUX0);
-		channel_sel = 0;
-	}
-	else {
-		ADMUX |= (1 << MUX0);
-		channel_sel = 1;
-	}
-
-	// Start the next conversion.
+	adc::writeResults();
 	ADCSRA |= (1 << ADSC);
-}*/
+	//adc::create<0>();
+}
