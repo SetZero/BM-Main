@@ -295,7 +295,7 @@ namespace BMCPP {
 				}
 
 				/*
-				* Description  :  Clears the whole screen.
+				* Description  :  Clears the whole screen and returns to position (0,0).
 				*/
 				static void clear()
 				{
