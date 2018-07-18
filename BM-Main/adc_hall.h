@@ -64,13 +64,7 @@ namespace BMCPP {
 
 			static void startConversion() {
 				addAdcsra(sra::adsc);
-				/*uart_puts("Calling you:");
-				uint8_t *ptr = (uint8_t*)0x7A;
-				uint8_t a = *ptr;//static_cast<uint8_t>(sra::adsc);
-				char str[16];
-				itoa(a, str, 10);
-				uart_puts(str);
-				uart_puts("\n\r");*/
+				//ADCSRA |= (1 << ADSC);
 			}
 		};
 	}

@@ -22,24 +22,8 @@ using adc = BMCPP::Hal::ADConverter<hardware_adc>;
 
 //using namespace BMCPP;
 //using namespace AVR;
-volatile uint16_t adc_result[2];
-
-uint8_t currentChannel = 0;
-uint8_t channel_sel = 0;
-void initADC(void) {
-	ADMUX |= (1 << REFS0);					//REF voltage
-	ADCSRA |= (1 << ADPS1) | (1 << ADPS0);	//ADC clockprescale /8
-	ADCSRA |= (1 << ADEN) | (1 << ADIE);		//Enable + Interrupt
-	sei();									//be sure to enable interrupts
-	ADCSRA |= (1 << ADSC);					//Start 1st conversion
-}
-
-uint16_t getAdcValue(void) {
-	return adc_result[currentChannel];
-}
 
 int main(){
-	
 	//constexpr int x = static_cast<uint8_t>(~16) & 16;
 	// START DEBUG
 	//LcdInit();
@@ -69,7 +53,8 @@ int main(){
 	LcdUpdate();
 	LcdChr(LcdFontSize::FONT_2X, 'B');*/
 	uart_init(UART_BAUD_SELECT(9600, F_CPU));
-	initADC();
+	sei();
+	//initADC();
 	//adc c;
 	//BMCPP::Hal::ADConverter* t = BMCPP::Hal::ADConverter::create<>();
 	uart_puts("Test");
@@ -94,6 +79,7 @@ int main(){
 		itoa(a, str, 10);
 		uart_puts(str);
 		uart_puts("\n\r");
+		
 		//a = c.getValue<1>();
 		//a = adc::getValue<0>();
 		//uart_puts(reinterpret_cast<char*>(a));
@@ -126,6 +112,7 @@ int main(){
 ISR(ADC_vect)
 {
 	adc::writeResults();
+
 	ADCSRA |= (1 << ADSC);
-	//adc::create<0>();
+	adc::create<0>();
 }

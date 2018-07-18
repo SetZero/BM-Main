@@ -45,7 +45,6 @@ namespace BMCPP
 
 			static void writeResults() {
 				adc_result[0] = ADC;//(Hardware_Adc::adch() << 8) | Hardware_Adc::adcl();
-				Hardware_Adc::startConversion();
 
 			}
 		};
