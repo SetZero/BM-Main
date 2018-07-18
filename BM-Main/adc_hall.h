@@ -17,8 +17,8 @@ namespace BMCPP {
 			static volatile uint8_t& adcl() {
 				return *adc()->adcl.raw();
 			}
-			static volatile uint8_t& adcsra() {
-				return *adc()->adcsra;
+			static uint8_t adcsra() {
+				return adc()->adcsra.raw();
 			}
 			static volatile uint8_t& adcsrb() {
 				return *adc()->adcsrb;
