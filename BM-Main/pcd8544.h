@@ -139,7 +139,7 @@ namespace BMCPP {
 			template<typename, typename> typename port_template,
 			template<typename, uint8_t> typename pin_template,
 			typename MicroController = __DEFAULT_MMCU__>
-			class PCD_8544 {
+			struct PCD_8544 {
 
 			static unsigned const char WIDTH = 84;
 			static unsigned const char HEIGHT = 48;
@@ -149,7 +149,7 @@ namespace BMCPP {
 			using spi = spi_template<SPI_number, clkRateDiv4, port_template, pin_template, true, MicroController>;
 
 			static void inline setYPtr() {
-				yPtr < HEIGHT ?
+				yPtr < (HEIGHT-CHAR_HEIGHT) ?
 					yPtr = static_cast<unsigned char>(yPtr + CHAR_HEIGHT) :
 					yPtr = 0;
 			}
@@ -267,7 +267,7 @@ namespace BMCPP {
 						if (xPtr < WIDTH)
 							xPtr++;
 						else {
-							xPtr = 0;
+							xPtr = 0;  // new line
 							setYPtr();
 						}
 					}
@@ -299,10 +299,15 @@ namespace BMCPP {
 				*/
 				static void clear()
 				{
-					for (auto i = 0; i < HEIGHT*WIDTH + 1; i++)
-					{
+					for (typename utils::minRequiredUnsigned<WIDTH*HEIGHT>::type i = 0; i < (WIDTH*HEIGHT); i++) {
 						send(0, true);
 					}
+					newLine();
+					while (yPtr != 0)
+					{
+						newLine();
+					}
+
 				}
 		};
 	}

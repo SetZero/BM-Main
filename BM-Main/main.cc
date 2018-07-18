@@ -12,7 +12,7 @@
 #include "hal\port.h"
 #include "spi_hal.h"
 #include "pcd8544.h"
-#include "ADC.h"
+//#include "ADC.h"
 //#include "uart.c"
 #include <stdlib.h>
 
@@ -42,19 +42,34 @@ uint16_t getAdcValue(void) {
 	return adc_result[currentChannel];
 }
 
-
+#define RowColDirection DDRD//Data Direction Configuration for keypad
+#define ROW PORTD            //Lower four bits of PORTC are used as ROWs
+#define COL PIND            //Higher four bits of PORTC are used as COLs
 char getkey();
+unsigned char KEYPAD_ScanKey();
 
 int main(){
-
+	RowColDirection = 0xf0;
 	//constexpr int x = static_cast<uint8_t>(~16) & 16;
 	// START DEBUG
 	using display = PCD_8544<0,rst_pin,ce_pin,dc_pin, BMCPP::Hal::SPI, BMCPP::Hal::Port, BMCPP::Hal::Pin>;
 	display::init();
-	display::LcdRect();
-	display::printStr(" first menue");
+	display::printChar(yPtr+32);
 	display::newLine();
-	display::printStr(" second menue");
+	display::printChar(yPtr+32);
+	display::newLine();
+	display::printChar(yPtr + 32);
+	display::newLine();
+	display::printChar(yPtr + 32);
+	display::newLine();
+	display::printChar(yPtr + 32);
+	display::newLine();
+	display::printChar(yPtr + 32);
+	display::newLine();
+	display::printChar(yPtr + 32);
+	display::clear();
+	display::LcdRect();
+	constexpr int zzzz = 'P';
 
 	//uart_init(UART_BAUD_SELECT(9600, F_CPU));
 	//initADC();
@@ -66,20 +81,15 @@ int main(){
 	//c.startChannels<1>();
 	//BMCPP::Hal::ADConverter t;
 
-	char xy;
+	char xy,prevkey = -1;
 	while (true) {
-		DDRD = 0xF0;//taking column pins as input and row pins as output
-
-		_delay_ms(1);
-
-		PORTD = 0x0F;// powering the row ins
-
-		_delay_ms(1);
-		xy = getkey();
-		if ( xy != 0) {
+			/*
+		xy = KEYPAD_ScanKey();
+		if ( xy != 'z' && xy != prevkey) {
+			prevkey = xy;
 			display::clear();
 			display::printChar(xy);
-		}
+		}		*/
 		//a = c.getValue<1>();
 		//a = t.getValue<0>();
 		//itoa(a, str, 10);
@@ -105,6 +115,53 @@ int main(){
 	return 0;
 }				
 
+
+
+
+
+unsigned char KEYPAD_ScanKey()
+{
+
+	unsigned char ScanKey = 0xe0, i, key;
+
+	for (i = 0; i<0x04; i++)           // Scan All the 4-Rows for key press
+	{
+		ROW = ScanKey + 0x0F;         // Select 1-Row at a time for Scanning the Key
+		key = COL & 0x0F;             // Read the Column, for key press
+
+		if (key != 0x0F)             // If the KEY press is detected for the selected
+			break;                   // ROW then stop Scanning,
+
+		ScanKey = (ScanKey << 1) + 0x10; // Rotate the ScanKey to SCAN the remaining Rows
+	}
+
+	key = key + (ScanKey & 0xf0);  // Return the row and COL status to decode the key
+
+	switch (key)                       // Decode the key
+	{
+	case 0xe7: key = '1'; break;	//
+	case 0xeb: key = '2'; break;  //
+	case 0xed: key = 'A'; break;//
+	case 0xee: key = '3'; break; //
+	case 0xd7: key = '*'; break; //
+	case 0xdb: key = '1'; break; //
+	case 0xdd: key = 'D'; break; //
+	case 0xde: key = '#'; break;// 
+	case 0xb7: key = '7'; break;//
+	case 0xbb: key = '8'; break;//
+	case 0xbd: key = 'C'; break;//
+	case 0xbe: key = '9'; break; //
+	case 0x77: key = '4'; break;//
+	case 0x7b: key = '5'; break; //
+	case 0x7d: key = 'B'; break; //
+	case 0x7e: key = '6'; break; //
+	default: key = 'z';
+	}
+
+	return key;
+}
+
+
 char getkey() {
 	if (PIND != 0b11110000)//in any of column pins goes high execute the loop
 	{
@@ -113,17 +170,7 @@ char getkey() {
 
 		auto keypressed = PIND;//taking the column value into integer
 
-		DDRD ^= 0b11111111;//making rows as inputs and columns as ouput
-
-		_delay_ms(1);
-
-		PORTD ^= 0b11111111;//powering columns
-
-		_delay_ms(1);
-
-
-
-		keypressed |= PIND; //taking row value and OR ing it to column value
+		
 
 
 
