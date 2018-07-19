@@ -332,7 +332,7 @@ namespace BMCPP {
 				*/
 				static void newLine() {
 					YPtrIncr();
-					gotoRowColumn(0,yPtr / CHAR_HEIGHT);
+					gotoCharPos(0,yPtr / CHAR_HEIGHT);
 					xPtr = 0;
 				}
 
@@ -344,13 +344,21 @@ namespace BMCPP {
 					constexpr uint16_t bits_to_clear = WIDTH * 6; //6 rows
 					for (uint16_t i = 0; i < bits_to_clear; i++)
 						send(0, true);
-					gotoRowColumn(0, 0);
+					gotoCharPos(0, 0);
+				}
+
+				static void clearLine(const uint8_t lineNumber) {
+					gotoCharPos(0, lineNumber);
+					for (uint8_t i = 0; i < WIDTH; i++)
+						send(0,true);
+					gotoCharPos(0, lineNumber);
+					yPtr = lineNumber * CHAR_HEIGHT;
 				}
 
 				/*
 				*	Description: goes to Column x, Row y -> char sizes
 				*/
-				static void gotoCharPos(uint8_t x, uint8_t y) {
+				static void gotoCharPos(const uint8_t x,const uint8_t y) {
 					if (x < WIDTH && y < HEIGHT) {
 						send(static_cast<uint8_t>(0x80 | x), false);
 						send(static_cast<uint8_t>(0x40 | y), false);
