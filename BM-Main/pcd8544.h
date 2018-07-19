@@ -350,7 +350,7 @@ namespace BMCPP {
 				/*
 				*	Description: goes to Column x, Row y -> char sizes
 				*/
-				static void gotoRowColumn(uint8_t x, uint8_t y) {
+				static void gotoCharPos(uint8_t x, uint8_t y) {
 					if (x < WIDTH && y < HEIGHT) {
 						send(static_cast<uint8_t>(0x80 | x), false);
 						send(static_cast<uint8_t>(0x40 | y), false);
