@@ -52,8 +52,9 @@ namespace BMCPP
 			}
 
 			static void writeResults() {
-				if (!Hardware_Adc::isActiveChannel(currentADC)) currentADC++;
-				adc_result[currentADC++] = Hardware_Adc::adcl() | (Hardware_Adc::adch() << 8);
+				if (!Hardware_Adc::isAnyChannelActive()) return;
+				while (!Hardware_Adc::isActiveChannel(currentADC) || currentADC > maximum_adc) currentADC++;
+				adc_result[currentADC++] = Hardware_Adc::getADCValue();
 				if (currentADC > maximum_adc) currentADC = 0;
 				Hardware_Adc::changeADCMux(currentADC);
 

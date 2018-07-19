@@ -16,17 +16,16 @@ namespace BMCPP {
 			static uint8_t activeADCs;
 			using sra = typename MicroController::ADConverter::ADCsra;
 			using mux = typename MicroController::ADConverter::ADMux;
-		public:
-			static constexpr uint8_t maximum_adc = 8;
 
-			static uint8_t adch() {
+
+			static typename MicroController::mem_width adch() {
 				return *adc()->adch;
 			}
-			static uint8_t adcl() {
+			static typename MicroController::mem_width adcl() {
 				return *adc()->adcl;
 			}
 
-			static uint8_t adcsra() {
+			static typename MicroController::mem_width adcsra() {
 				return adc()->adcsra.raw();
 			}
 			template<typename... T>
@@ -40,11 +39,11 @@ namespace BMCPP {
 			static void clearAdcsra() {
 				adc()->adcsra.setRegister(0x00);
 			}
-			static volatile uint8_t adcsrb() {
+			static volatile typename MicroController::mem_width adcsrb() {
 				return adc()->adcsrb;
 			}
 
-			static volatile uint8_t admux() {
+			static volatile typename MicroController::mem_width admux() {
 				return adc()->admux;
 			}
 			template<typename... T>
@@ -59,7 +58,7 @@ namespace BMCPP {
 				adc()->admux.setRegister(0x00);
 			}
 
-			static constexpr void set_prescaler_value(uint8_t prescaler_value) {
+			static constexpr void set_prescaler_value(typename MicroController::mem_width prescaler_value) {
 				switch (prescaler_value) {
 				case 2:		break;
 				case 4:		setAdcsra(sra::adps1); break;
@@ -70,9 +69,15 @@ namespace BMCPP {
 				case 128:	setAdcsra(sra::adps2, sra::adps1, sra::adps0); break;
 				}
 			}
+		public:
+			static constexpr uint8_t maximum_adc = 8;
+
+			static uint16_t getADCValue() {
+				return adcl() | (adch() << 8);
+			}
 
 			//static constexpr uint8_t maximum_active_adcs = 8;
-			static void start_adc(uint8_t prescaler_value)
+			static void start_adc(typename MicroController::mem_width prescaler_value)
 			{
 				clearAdcsra();
 				set_prescaler_value(prescaler_value);
@@ -83,19 +88,22 @@ namespace BMCPP {
 				addAdcsra(sra::adsc);
 			}
 
-			static void activateChannel(uint8_t Channel) {
+			static void activateChannel(typename MicroController::mem_width Channel) {
 				activeADCs |= (1 << Channel);
 			}
 
-			static void deactivateChannel(uint8_t Channel) {
+			static void deactivateChannel(typename MicroController::mem_width Channel) {
 				activeADCs &= ~(1 << Channel);
 			}
 
-			static bool  isActiveChannel(uint8_t Channel) {
+			static bool  isActiveChannel(typename MicroController::mem_width Channel) {
 				return (activeADCs >> Channel) & 0x01;
 			}
+			static bool isAnyChannelActive() {
+				return activeADCs != 0;
+			}
 
-			static void changeADCMux(uint8_t adc) {
+			static void changeADCMux(typename MicroController::mem_width adc) {
 				clearAdmux();
 				switch (adc) {
 				case 0:		break;
