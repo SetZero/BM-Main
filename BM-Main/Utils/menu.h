@@ -53,6 +53,12 @@ namespace BMCPP {
 					if(i != display::MAX_CHAR_HEIGHT - 1) display::newLine();
 				}
 			}
+
+			static void updateCursor() {
+				display::gotoRowColumn(0, selected_item);
+				display::printStr("-> ");
+				display::printStr(spots[selected_item].name);
+			}
 		};
 	}
 }

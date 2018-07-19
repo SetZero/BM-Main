@@ -87,10 +87,6 @@ int main(){
 	menu::create_entry<3>("Four!");
 	menu::create_entry<4>("Five!");
 	menu::create_entry<5>("Six!");
-
-	adc::init();
-	adc::create<0>();
-	adc::create<1>();
 	sei();
 
 
@@ -111,16 +107,18 @@ int main(){
 	auto test = [](int i) { return i + 4; };
 	bool first = true; //awkward things happening -> 1 is always pressed when first entered	  (should be nothing -> 'z')
 	//int a = 0;
+	menu::show();
 	while (true) {
 		display::gotoRowColumn(0, 0);
 		uint16_t a = adc::getValue<1>();
 		if (a > 600) {
 			menu::select_prev();
-			menu::show();
+			//menu::show();
+			menu::updateCursor();
 		}
 		else if (a < 400) {
 			menu::select_next();
-			menu::show();
+			menu::updateCursor();
 		}
 	}
 	return 0;
