@@ -334,11 +334,12 @@ namespace BMCPP {
 
 				static void gotoXY(uint8_t x, uint8_t y)
 				{
-					if (x >= WIDTH || y >= HEIGHT) return;
-					send(0x80 | x, false);
-					send(0x40 | y, false);
-					xPtr = 0;
-					yPtr = 0;
+					if (x < WIDTH && y < HEIGHT) {
+						send(static_cast<uint8_t>(0x80 | x), false);
+						send(static_cast<uint8_t>(0x40 | y), false);
+						xPtr = 0;
+						yPtr = 0;
+					}
 				}
 
 				/*
@@ -346,19 +347,10 @@ namespace BMCPP {
 				*/
 				static void clear()
 				{
-					// 84 * 6 (6 rows of 8 bits)
+					constexpr uint16_t bits_to_clear = WIDTH * 6; //6 rows
 					for (uint16_t i = 0; i < 504; i++)
 						send(0, true);
 					gotoXY(0, 0);
-					/*for (typename utils::minRequiredUnsigned<WIDTH*HEIGHT>::type i = 0; i < (WIDTH*HEIGHT); i++) {
-						send(0, true);
-					}
-					newLine();
-					while (yPtr != 0)
-					{
-						newLine();
-					}*/
-
 				}
 		};
 	}
