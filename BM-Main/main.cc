@@ -72,10 +72,10 @@ int main(){
 	adc::create<1>();
 
 	char xy,prevkey = -1;
-	bool first = true; //awkward things happening -> 1 is always pressed when first entered
 	int a = 0;
 	auto test = [](int i) { return i + 4; };
-
+	bool first = true; //awkward things happening -> 1 is always pressed when first entered	  (should be nothing -> 'z')
+	//int a = 0;
 	while (true) {
 			
 		xy = keypad::getKey();
