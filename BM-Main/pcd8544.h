@@ -193,10 +193,19 @@ namespace BMCPP {
 
 			PCD_8544() = delete;
 
-			static void inline setYPtr() {
+			static void inline YPtrIncr() {
 				yPtr < (HEIGHT - CHAR_HEIGHT) ?
 					yPtr = static_cast<unsigned char>(yPtr + CHAR_HEIGHT) :
 					yPtr = 0;
+			}
+
+			static void inline XPtrIncr() {
+				if (xPtr < WIDTH)
+					xPtr++;
+				else {
+					xPtr = 0;  // new line
+					YPtrIncr();
+				}
 			}
 
 			/*
@@ -217,8 +226,11 @@ namespace BMCPP {
 				/*  Enable display controller (active low). */
 				ce_pin::off();
 
-				isData ?
-					dc_pin::on() :
+				if (isData) {
+					dc_pin::on();
+					XPtrIncr();
+				}
+				else
 					dc_pin::off();
 
 				spi::readWriteSingle(data);
@@ -302,24 +314,7 @@ namespace BMCPP {
 						uint8_t c = static_cast<uint8_t>(pgm_read_byte(&(FontLookup[ch - 32][i])) << 1);
 
 						send(c, true);
-						if (xPtr < WIDTH)
-							xPtr++;
-						else {
-							xPtr = 0;  // new line
-							setYPtr();
-						}
 					}
-				}
-
-				/*
-				* Description  :  fills the current line with whitespaces and goes to the next Line.
-				*/
-				static void newLine() {
-					for (int i = 0; i < (WIDTH - xPtr); i++) {
-						send(0, true);
-					}
-					xPtr = 0;
-					setYPtr();
 				}
 
 				/*
@@ -332,13 +327,13 @@ namespace BMCPP {
 					}
 				}
 
-				static void gotoXY(uint8_t x, uint8_t y)
-				{
-					if (x >= WIDTH || y >= HEIGHT) return;
-					send(0x80 | x, false);
-					send(0x40 | y, false);
+				/*
+				* Description  :  fills the current line with whitespaces and goes to the next Line.
+				*/
+				static void newLine() {
+					YPtrIncr();
+					gotoRowColumn(0,yPtr / CHAR_HEIGHT);
 					xPtr = 0;
-					yPtr = 0;
 				}
 
 				/*
@@ -346,19 +341,22 @@ namespace BMCPP {
 				*/
 				static void clear()
 				{
-					// 84 * 6 (6 rows of 8 bits)
-					for (uint16_t i = 0; i < 504; i++)
+					constexpr uint16_t bits_to_clear = WIDTH * 6; //6 rows
+					for (uint16_t i = 0; i < bits_to_clear; i++)
 						send(0, true);
-					gotoXY(0, 0);
-					/*for (typename utils::minRequiredUnsigned<WIDTH*HEIGHT>::type i = 0; i < (WIDTH*HEIGHT); i++) {
-						send(0, true);
-					}
-					newLine();
-					while (yPtr != 0)
-					{
-						newLine();
-					}*/
+					gotoRowColumn(0, 0);
+				}
 
+				/*
+				*	Description: goes to Column x, Row y -> char sizes
+				*/
+				static void gotoRowColumn(uint8_t x, uint8_t y) {
+					if (x < WIDTH && y < HEIGHT) {
+						send(static_cast<uint8_t>(0x80 | x), false);
+						send(static_cast<uint8_t>(0x40 | y), false);
+						xPtr = static_cast<uint8_t>(x * CHAR_WIDTH);
+						yPtr = static_cast<uint8_t>(y * CHAR_HEIGHT);
+					}
 				}
 		};
 	}
