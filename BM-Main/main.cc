@@ -112,7 +112,7 @@ int main(){
 	bool first = true; //awkward things happening -> 1 is always pressed when first entered	  (should be nothing -> 'z')
 	//int a = 0;
 	while (true) {
-		display::gotoRowColumn(0, 0);
+		display::gotoCharPos(0, 0);
 		uint16_t a = adc::getValue<1>();
 		if (a > 600) {
 			menu::select_prev();
