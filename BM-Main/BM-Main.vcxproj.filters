@@ -66,6 +66,9 @@
     <ClInclude Include="..\..\BM-Code-Snippets\LCD\pcd8544.h">
       <Filter>Quelldateien</Filter>
     </ClInclude>
+    <ClInclude Include="Utils\menu.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cc">

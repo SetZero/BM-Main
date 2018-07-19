@@ -26,6 +26,7 @@ namespace BMCPP {
 			template<typename, typename> typename PORT,
 			template<typename, uint8_t> typename PIN,
 			bool Master = true,
+			bool SPI_Interrupt = false,
 			typename MicroController = __DEFAULT_MMCU__>
 			class SPI {
 
@@ -95,10 +96,12 @@ namespace BMCPP {
 					//set Spcr to zero
 					clearSpcr();
 
-					//enable SPI - - - - set SPI Interrupt enable - - - - set Device to 
+					//enable SPI - - - - set SPI Interrupt enable on request - - - - set Device to 
 					if (Master) {
-						setSpcr(MicroController::SPI::spcr::SPE0, MicroController::SPI::spcr::SPIE0,
+						setSpcr(MicroController::SPI::spcr::SPE0, 
 							MicroController::SPI::spcr::MSTR0);
+						if (SPI_Interrupt)
+							setSpcr(MicroController::SPI::spcr::SPIE0);
 						Mosi::template dir<typename Mosi::Output>();
 						Miso::template dir<typename Miso::Input>();
 						SS::template dir<typename SS::Output>();

@@ -47,6 +47,8 @@ int main(){
 	keypad::init();
 	using display = PCD_8544<0,rst_pin,ce_pin,dc_pin, BMCPP::Hal::SPI, BMCPP::Hal::Port, BMCPP::Hal::Pin>;
 	display::init();
+	uart_init(UART_BAUD_SELECT(9600, F_CPU));
+	sei();
 	display::printStr("B");
 	display::newLine();
 	display::printStr("M");
@@ -60,8 +62,6 @@ int main(){
 	display::printStr(":)");
 	display::newLine();
 
-	uart_init(UART_BAUD_SELECT(9600, F_CPU));
-	sei();
 	//initADC();
 	//adc c;
 	//BMCPP::Hal::ADConverter* t = BMCPP::Hal::ADConverter::create<>();

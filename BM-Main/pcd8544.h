@@ -175,7 +175,7 @@ namespace BMCPP {
 		};
 
 		template<uint8_t SPI_number, typename rst_pin, typename ce_pin, typename dc_pin,
-			template<uint8_t, typename clockRate, template<typename, typename> typename, template<typename, uint8_t> typename, bool, typename> typename spi_template,
+			template<uint8_t, typename clockRate, template<typename, typename> typename, template<typename, uint8_t> typename, bool, bool, typename> typename spi_template,
 			template<typename, typename> typename port_template,
 			template<typename, uint8_t> typename pin_template,
 			typename MicroController = __DEFAULT_MMCU__>
@@ -193,7 +193,7 @@ namespace BMCPP {
 			static unsigned const char CHAR_WIDTH = 5;
 			static unsigned const char CHAR_HEIGHT = 8;
 
-			using spi = spi_template<SPI_number, clkRateDiv4, port_template, pin_template, true, MicroController>;
+			using spi = spi_template<SPI_number, clkRateDiv4, port_template, pin_template, true, false, MicroController>;
 
 			PCD_8544() = delete;
 
