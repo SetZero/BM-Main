@@ -202,7 +202,8 @@ namespace BMCPP {
 			* Description  :   delay for LCD init routine, no interrupt necessary.
 			*/
 			static void Delay() {
-				for (typename utils::minRequiredUnsigned<MicroController::ClkRate / 1000>::type i = 0; i < MicroController::ClkRate / 1000; i++)
+				for (typename utils::minRequiredUnsigned<MicroController::ClkRate /
+					1000>::type i = 0; i < MicroController::ClkRate / 1000; i++)
 					__asm("nop");
 			}
 
@@ -282,12 +283,12 @@ namespace BMCPP {
 				* Description  :  Prints a single Character on the screen.
 				*/
 				static void printChar(unsigned char ch) {
-
 					//err -> no printable Char below 32
 					if (ch < 32) {
 						clear();
 						printChar('4');
 						printChar('2');
+						return;
 					}
 
 					spi::readWriteSingle(1);

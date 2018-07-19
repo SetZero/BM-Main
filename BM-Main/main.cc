@@ -60,7 +60,7 @@ int main(){
 	menu::create_entry<2>("Welcome World!");
 	menu::create_entry<3>("Tea World!");
 	menu::create_entry<4>("Lambda World!");
-	menu::create_entry<4>("Rambo World!");
+	menu::create_entry<5>("Rambo World!");
 	menu::show();
 
 	/*display::printStr("B");
