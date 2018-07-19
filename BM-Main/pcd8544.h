@@ -193,10 +193,19 @@ namespace BMCPP {
 
 			PCD_8544() = delete;
 
-			static void inline setYPtr() {
+			static void inline YPtrIncr() {
 				yPtr < (HEIGHT - CHAR_HEIGHT) ?
 					yPtr = static_cast<unsigned char>(yPtr + CHAR_HEIGHT) :
 					yPtr = 0;
+			}
+
+			static void inline XPtrIncr() {
+				if (xPtr < WIDTH)
+					xPtr++;
+				else {
+					xPtr = 0;  // new line
+					YPtrIncr();
+				}
 			}
 
 			/*
@@ -217,8 +226,11 @@ namespace BMCPP {
 				/*  Enable display controller (active low). */
 				ce_pin::off();
 
-				isData ?
-					dc_pin::on() :
+				if (isData) {
+					dc_pin::on();
+					XPtrIncr();
+				}
+				else
 					dc_pin::off();
 
 				spi::readWriteSingle(data);
@@ -302,12 +314,6 @@ namespace BMCPP {
 						uint8_t c = static_cast<uint8_t>(pgm_read_byte(&(FontLookup[ch - 32][i])) << 1);
 
 						send(c, true);
-						if (xPtr < WIDTH)
-							xPtr++;
-						else {
-							xPtr = 0;  // new line
-							setYPtr();
-						}
 					}
 				}
 
@@ -325,7 +331,7 @@ namespace BMCPP {
 				* Description  :  fills the current line with whitespaces and goes to the next Line.
 				*/
 				static void newLine() {
-					setYPtr();
+					YPtrIncr();
 					gotoRowColumn(0,yPtr / CHAR_HEIGHT);
 					xPtr = 0;
 				}
