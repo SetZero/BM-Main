@@ -1,7 +1,7 @@
 #pragma once
 #include "adc_hal.h"
 #include "../Utils/Utils.h"
-#include "../uart.h"
+//#include "../uart.h"
 #include <avr/interrupt.h>
 #include <stdlib.h>
 
@@ -24,19 +24,19 @@ namespace BMCPP
 			static uint8_t currentADC;
 			
 		public:
-			template<uint8_t prescaler_value = 8>
+			template<uint8_t prescaler_value = 8, ADCMeasurementType measurement_type = CONTINUOUS>
 			static void init() {
 				static_assert(prescaler_value >= 2 && prescaler_value <= 128, "Prescaler value has to be between 2 and 128!");
 				static_assert((prescaler_value & (prescaler_value - 1)) == 0, "Prescaler value has to be a power of 2!");
 				Hardware_Adc::start_adc(prescaler_value);
+				m_measurement_type = measurement_type;
 			}
 
-			template<uint8_t Channel, ADCMeasurementType measurement_type = CONTINUOUS>
+			template<uint8_t Channel>
 			static void create() {
 				static_assert(Channel < maximum_adc, "This Channel doesn't exist!");
 				Hardware_Adc::startConversion();
 				Hardware_Adc::activateChannel(Channel);
-				m_measurement_type = measurement_type;
 				
 			}
 

@@ -14,7 +14,7 @@
 #include "pcd8544.h"
 #include "4X4_KeyPad.h"
 #include "adc/ADC.h"
-#include "uart.c"
+//#include "uart.c"
 #include "Utils/literals.h"
 #include "Utils/menu.h"
 #include <stdlib.h>
@@ -54,14 +54,7 @@ int main(){
 	//uart_init(UART_BAUD_SELECT(9600, F_CPU));
 
 
-	display::init();
-	menu::create_entry<0>("Hello World!");
-	menu::create_entry<1>("Test World!");
-	menu::create_entry<2>("Welcome World!");
-	menu::create_entry<3>("Tea World!");
-	menu::create_entry<4>("Lambda World!");
-	menu::create_entry<5>("Rambo World!");
-	menu::show();
+
 
 	/*display::printStr("B");
 	display::newLine();
@@ -77,9 +70,21 @@ int main(){
 	display::newLine();*/
 
 
+	display::init();
+	menu::create_entry<0>("Hello World!");
+	menu::create_entry<1>("Test World!");
+	menu::create_entry<2>("Welcome World!");
+	menu::create_entry<3>("Tea World!");
+	menu::create_entry<4>("Lambda World!");
+	menu::create_entry<5>("Rambo World!");
+
 	adc::init();
 	adc::create<0>();
 	adc::create<1>();
+	sei();
+
+	cli();
+	menu::show();
 	sei();
 	//uart_puts("Test");
 
@@ -93,7 +98,6 @@ int main(){
 	bool first = true; //awkward things happening -> 1 is always pressed when first entered	  (should be nothing -> 'z')
 	//int a = 0;
 	while (true) {
-			
 		/*xy = keypad::getKey();
 		if ( xy != 'z' && xy != prevkey && !first) {
 			prevkey = xy;
