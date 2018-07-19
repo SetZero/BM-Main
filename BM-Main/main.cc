@@ -81,12 +81,12 @@ int main(){
 
 
 	display::init();
-	menu::create_entry<0>("Hello World!");
-	menu::create_entry<1>("Test World!");
-	menu::create_entry<2>("Welcome World!");
-	menu::create_entry<3>("Tea World!");
-	menu::create_entry<4>("Lambda World!");
-	menu::create_entry<5>("Rambo World!");
+	menu::create_entry<0>("One!");
+	menu::create_entry<1>("Two!");
+	menu::create_entry<2>("Three!");
+	menu::create_entry<3>("Four!");
+	menu::create_entry<4>("Five!");
+	menu::create_entry<5>("Six!");
 
 	adc::init();
 	adc::create<0>();
@@ -112,18 +112,16 @@ int main(){
 	bool first = true; //awkward things happening -> 1 is always pressed when first entered	  (should be nothing -> 'z')
 	//int a = 0;
 	while (true) {
-		display::clear();
-		menu::show();
-		if (adc::getValue<0>() < 450)
-			menu::select_next();
-		/*uint16_t a = adc::getValue<0>();
+		display::gotoXY(0, 0);
+		uint16_t a = adc::getValue<1>();
 		if (a > 600) {
-			menu::select_next();
+			menu::select_prev();
 			menu::show();
 		}
 		else if (a < 400) {
-			menu::select_prev();
-		}*/
+			menu::select_next();
+			menu::show();
+		}
 		/*xy = keypad::getKey();
 		if ( xy != 'z' && xy != prevkey && !first) {
 			prevkey = xy;
