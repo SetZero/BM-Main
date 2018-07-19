@@ -137,7 +137,7 @@ void LcdInit (  )
     HiWaterMark = 0;
 
     /* Clear display on first time use */
-    clear();
+    LcdClear();
     LcdUpdate();
 }
 
@@ -166,7 +166,7 @@ void LcdContrast (char contrast )
  * Return value :  None.
  * Note         :  Based on Sylvain Bissonette's code
  */
-void clear ( void )
+void LcdClear ( void )
 {
 // Removed in version 0.2.6, March 14 2009
 // Optimized by Jakub Lasinski

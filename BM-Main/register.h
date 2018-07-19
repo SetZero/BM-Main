@@ -64,6 +64,12 @@ namespace BMCPP {
             {
                 hwRegister |= static_cast<value_type>(F);
             }
+			template<typename... T>
+			void inline add(T... v)
+			{
+				static_assert((std::is_same<T, BitType>::value & ...));
+				hwRegister |= (static_cast<value_type>(v) | ...);
+			}
             template<BitType F>
             void inline clear()
             {

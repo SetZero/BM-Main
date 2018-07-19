@@ -2,16 +2,17 @@
 #include "uc_select.h"
 #include "hal\port.h"
 
-
 namespace BMCPP {
 	namespace Hal {
 
-		struct clkRateDiv4 {};
-		struct clkRateDiv16 {};
-		struct	clkRateDiv64 {};
-		struct	clkRateDiv128 {};
-
 		namespace spi {
+			enum class Mode : uint8_t {
+				m0 = 0,
+				m1 = 1,
+				m2 = 2,
+				m3 = 3
+			};
+
 			enum class ClkRate : uint8_t {
 				clkRateDiv4 = 0,
 				clkRateDiv16 = 1,
@@ -91,6 +92,10 @@ namespace BMCPP {
 				Miso::off();
 				SS::on();
 				SCK::on();
+				//BMCPP::Hal::SPI<0>::spiDDR() &= static_cast<uint8_t>(UC::SPI::Pins::Mosi, UC::SPI::Pins::Miso, UC::SPI::Pins::SS ,(1 << DD_SCK)));
+				// Define the following pins as output
+				//BMCPP::Hal::SPI<0>::spiDDR() |= ((1 << DD_MOSI) | (1 << DD_SS) | (1 << DD_SCK));
+
 				//set Spcr to zero
 				clearSpcr();
 
@@ -122,6 +127,17 @@ namespace BMCPP {
 
 				//set doubleSpeed
 				setDoubleSpeed();
+				/*
+				//SPCR = /((1 << SPE) |               // SPI Enable
+				(1 << SPIE) |              // SPI Interupt Enable
+				(0 << DORD) |              // Data Order (0:MSB first / 1:LSB first)
+				(1 << MSTR) |              // Master/Slave select
+				(0 << SPR1) | (1 << SPR0) |    // SPI Clock Rate
+				(0 << CPOL) |              // Clock Polarity (0:SCK low / 1:SCK hi when idle)
+				(0 << CPHA)));             // Clock Phase (0:leading / 1:trailing edge sampling)
+
+				SPSR = (1 << SPI2X);              // Double Clock Rate	   */
+
 			}
 
 			void writeRead(typename MicroController::mem_width * dataout, typename MicroController::mem_width * datain, typename MicroController::mem_width len)

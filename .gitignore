@@ -337,7 +337,3 @@ __pycache__/
 
 
 # End of https://www.gitignore.io/api/c++,visualstudio
-.vs/BM-Main/v15/.suo
-BM-Main/BM-Main.vcxproj
-BM-Main/BM-Main.vcxproj.filters
-BM-Main/main.elf
