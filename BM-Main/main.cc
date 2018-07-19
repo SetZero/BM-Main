@@ -122,26 +122,6 @@ int main(){
 			menu::select_next();
 			menu::show();
 		}
-		/*xy = keypad::getKey();
-		if ( xy != 'z' && xy != prevkey && !first) {
-			prevkey = xy;
-			display::clear();
-			display::printChar(xy);
-		}		
-		first = false;
-		uint16_t a = adc::getValue<0>();//static_cast<uint8_t>(sra::adsc);
-		uint16_t b = adc::getValue<1>();//static_cast<uint8_t>(sra::adsc);
-		volatile uint16_t c = test(1);//static_cast<uint8_t>(sra::adsc);
-		char str[32];
-		itoa(a, str, 10);
-		uart_puts(str);
-		uart_puts(" | ");
-		itoa(b, str, 10);
-		uart_puts(str);
-		uart_puts(" | ");
-		itoa(c, str, 10);
-		uart_puts(str);
-		uart_puts("\n\r");*/
 	}
 	return 0;
 }				
