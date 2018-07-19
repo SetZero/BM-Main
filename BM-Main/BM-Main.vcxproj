@@ -35,6 +35,7 @@
     <ClInclude Include="SPI.h" />
     <ClInclude Include="spi_hal.h" />
     <ClInclude Include="uc_select.h" />
+    <ClInclude Include="Utils\menu.h" />
     <ClInclude Include="Utils\Utils.h" />
   </ItemGroup>
   <ItemGroup>

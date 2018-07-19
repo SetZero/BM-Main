@@ -10,7 +10,8 @@ namespace BMCPP {
 				const char* name = "---";
 				//auto function;
 			};
-			static MenuSpot spots[display::CHAR_HEIGHT];
+			static uint8_t selected_item;
+			static MenuSpot spots[display::MAX_CHAR_HEIGHT];
 		public:
 			static void init() {
 				display::init();
@@ -18,26 +19,44 @@ namespace BMCPP {
 
 			template<uint8_t position>
 			static void create_entry(const char* name) {
-				static_assert(position < display::CHAR_HEIGHT);
-				MenuSpot tmp;
-				tmp.name = name;
-				spots[position] = tmp;
+				static_assert(position < display::MAX_CHAR_HEIGHT);
+				spots[position] = MenuSpot{ name };
+			}
+
+			static void select_next() {
+				if (selected_item < display::MAX_CHAR_HEIGHT) {
+					selected_item++;
+				}
+				else {
+					selected_item = 0;
+				}
+			}
+
+			static void select_prev() {
+				if (selected_item > 0) {
+					selected_item--;
+				}
+				else {
+					selected_item = display::MAX_CHAR_HEIGHT;
+				}
+			}
+
+			static void execute_selected() {
+				spots[selected_item]
 			}
 
 			static void show() {
 				display::clear();
-				for (int i = 0; i < display::CHAR_HEIGHT; i++) {
-					//char buffer[display::CHAR_WIDTH];
-					//strcpy_P(buffer, (PGM_P)pgm_read_word(&(spots[i].name)));
-					//uart_puts("Value: ");
-					//uart_puts(spots[i].name);
-					//uart_puts("\n\r");
+				for (int i = 0; i < display::MAX_CHAR_HEIGHT; i++) {
+					if (i == selected_item) display::printStr("-> ");
 					display::printStr(spots[i].name);
-					display::newLine();
+					if(i != display::MAX_CHAR_HEIGHT - 1) display::newLine();
 				}
 			}
 		};
 	}
 }
 template<typename display>
-typename BMCPP::Utils::Menu<display>::MenuSpot BMCPP::Utils::Menu<display>::spots[display::CHAR_HEIGHT];
+typename BMCPP::Utils::Menu<display>::MenuSpot BMCPP::Utils::Menu<display>::spots[display::MAX_CHAR_HEIGHT];
+template<typename display>
+uint8_t BMCPP::Utils::Menu<display>::selected_item = 0;

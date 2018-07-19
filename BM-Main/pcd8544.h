@@ -175,7 +175,7 @@ namespace BMCPP {
 		};
 
 		template<uint8_t SPI_number, typename rst_pin, typename ce_pin, typename dc_pin,
-			template<uint8_t, typename clockRate, template<typename, typename> typename, template<typename, uint8_t> typename, bool, typename> typename spi_template,
+			template<uint8_t, typename clockRate, template<typename, typename> typename, template<typename, uint8_t> typename, bool, bool, typename> typename spi_template,
 			template<typename, typename> typename port_template,
 			template<typename, uint8_t> typename pin_template,
 			typename MicroController = __DEFAULT_MMCU__>
@@ -188,7 +188,8 @@ namespace BMCPP {
 			static_assert(AVR::isPin<ce_pin>(), "template Parameter rst_pin is not a Pin");
 			static_assert(AVR::isPin<dc_pin>(), "template Parameter rst_pin is not a Pin");
 
-			using spi = spi_template<SPI_number, clkRateDiv4, port_template, pin_template, true, MicroController>;
+			using spi = spi_template<SPI_number, clkRateDiv4, port_template, pin_template, true, false, MicroController>;
+
 
 			PCD_8544() = delete;
 
@@ -230,7 +231,8 @@ namespace BMCPP {
 				static unsigned const char HEIGHT = 48;
 				static unsigned const char CHAR_WIDTH = 5;
 				static unsigned const char CHAR_HEIGHT = 8;
-
+				static unsigned const char MAX_CHAR_WIDTH = WIDTH / CHAR_WIDTH;
+				static unsigned const char MAX_CHAR_HEIGHT = HEIGHT / CHAR_HEIGHT;
 				/*
 				* Name         :  LcdRect
 				* Description  :  Display a rectangle in char size.
