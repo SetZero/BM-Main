@@ -174,8 +174,6 @@ namespace BMCPP {
 		{ 0x44, 0x64, 0x54, 0x4C, 0x44 }    /* z */
 		};
 
-
-
 		template<uint8_t SPI_number, typename rst_pin, typename ce_pin, typename dc_pin,
 			template<uint8_t, typename clockRate, template<typename, typename> typename, template<typename, uint8_t> typename, bool, typename> typename spi_template,
 			template<typename, typename> typename port_template,
@@ -186,6 +184,9 @@ namespace BMCPP {
 			inline static unsigned char yPtr = 0;
 
 			static_assert(BMCPP::AVR::isUC<MicroController>(), " template parameter MicroController is not a MicroController");
+			static_assert(AVR::isPin<rst_pin>(), "template Parameter rst_pin is not a Pin");
+			static_assert(AVR::isPin<ce_pin>(), "template Parameter rst_pin is not a Pin");
+			static_assert(AVR::isPin<dc_pin>(), "template Parameter rst_pin is not a Pin");
 
 			static unsigned const char WIDTH = 84;
 			static unsigned const char HEIGHT = 48;
@@ -193,6 +194,8 @@ namespace BMCPP {
 			static unsigned const char CHAR_HEIGHT = 8;
 
 			using spi = spi_template<SPI_number, clkRateDiv4, port_template, pin_template, true, MicroController>;
+
+			PCD_8544() = delete;
 
 			static void inline setYPtr() {
 				yPtr < (HEIGHT - CHAR_HEIGHT) ?

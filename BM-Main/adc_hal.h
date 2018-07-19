@@ -89,7 +89,7 @@ namespace BMCPP {
 			}
 
 			static void activateChannel(typename MicroController::mem_width Channel) {
-				activeADCs |= (1 << Channel);
+				activeADCs = static_cast<typename MicroController::mem_width>(activeADCs | (1 << Channel));
 			}
 
 			static void deactivateChannel(typename MicroController::mem_width Channel) {

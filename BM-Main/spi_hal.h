@@ -82,7 +82,8 @@ namespace BMCPP {
 			}
 
 			public:
-
+				using d_size = typename MicroController::mem_width;
+				using d_size_ptr = d_size *;
 				static void init()
 					// Initialize pins for spi communication
 				{
