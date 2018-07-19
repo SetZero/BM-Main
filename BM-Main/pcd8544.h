@@ -354,8 +354,8 @@ namespace BMCPP {
 					if (x < WIDTH && y < HEIGHT) {
 						send(static_cast<uint8_t>(0x80 | x), false);
 						send(static_cast<uint8_t>(0x40 | y), false);
-						xPtr = x * CHAR_WIDTH;
-						yPtr = y * CHAR_HEIGHT;
+						xPtr = static_cast<uint8_t>(x * CHAR_WIDTH);
+						yPtr = static_cast<uint8_t>(y * CHAR_HEIGHT);
 					}
 				}
 		};
