@@ -113,7 +113,6 @@ int main(){
 	//int a = 0;
 	while (true) {
 		display::gotoXY(0, 0);
-		menu::show();
 		uint16_t a = adc::getValue<1>();
 		if (a > 600) {
 			menu::select_prev();
@@ -121,6 +120,7 @@ int main(){
 		}
 		else if (a < 400) {
 			menu::select_next();
+			menu::show();
 		}
 		/*xy = keypad::getKey();
 		if ( xy != 'z' && xy != prevkey && !first) {

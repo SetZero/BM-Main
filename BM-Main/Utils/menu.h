@@ -24,11 +24,11 @@ namespace BMCPP {
 			}
 
 			static void select_next() {
-				if (selected_item < display::MAX_CHAR_HEIGHT) {
+				if (selected_item < display::MAX_CHAR_HEIGHT - 1) {
 					selected_item++;
 				}
 				else {
-					selected_item = 0;
+					//selected_item = 0;
 				}
 			}
 
@@ -37,7 +37,7 @@ namespace BMCPP {
 					selected_item--;
 				}
 				else {
-					selected_item = display::MAX_CHAR_HEIGHT - 1;
+					//selected_item = display::MAX_CHAR_HEIGHT - 1;
 				}
 			}
 
