@@ -17,6 +17,14 @@
 #include "uart.c"
 #include <stdlib.h>
 
+using namespace BMCPP;
+using namespace AVR;
+using namespace Hal;
+
+using rst_pin = typename BMCPP::Hal::Pin<typename BMCPP::Hal::Port<typename BMCPP::AVR::B>, 2>;
+using ce_pin = typename BMCPP::Hal::Pin<typename BMCPP::Hal::Port<typename BMCPP::AVR::B>, 1>;
+using dc_pin = typename BMCPP::Hal::Pin<typename BMCPP::Hal::Port<typename BMCPP::AVR::B>, 0>;
+
 
 using hardware_adc = BMCPP::Hal::Hardware_Adc<0>;
 using adc = BMCPP::Hal::ADConverter<hardware_adc>;
@@ -84,7 +92,7 @@ int main(){
 ISR(ADC_vect)
 {
 	// Save conversion result.
-	adc_result[channel_sel] = ADC;
+	adc::writeResults();
 
 	//ADCSRA |= (1 << ADSC);
 }

@@ -66,7 +66,7 @@ namespace BMCPP {
                     Port::ddr() |= mask;
                 }
                 else if constexpr(std::is_same<Dir, Input>::value) {
-                    Port::ddr() &= ~mask;
+					Port::ddr() &= static_cast<uint8_t>(~mask);
                 }
                 else {
                     static_assert(sizeof(Port) == 0, "Only Input or Output allowed");
