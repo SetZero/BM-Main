@@ -332,19 +332,31 @@ namespace BMCPP {
 					}
 				}
 
+				static void gotoXY(uint8_t x, uint8_t y)
+				{
+					if (x >= WIDTH || y >= HEIGHT) return;
+					send(0x80 | x, false);
+					send(0x40 | y, false);
+					xPtr = 0;
+					yPtr = 0;
+				}
+
 				/*
 				* Description  :  Clears the whole screen and returns to position (0,0).
 				*/
 				static void clear()
 				{
-					for (typename utils::minRequiredUnsigned<WIDTH*HEIGHT>::type i = 0; i < (WIDTH*HEIGHT); i++) {
+					for (uint16_t i = 0; i < 504; i++)
+						send(0, true);
+					gotoXY(0, 0);
+					/*for (typename utils::minRequiredUnsigned<WIDTH*HEIGHT>::type i = 0; i < (WIDTH*HEIGHT); i++) {
 						send(0, true);
 					}
 					newLine();
 					while (yPtr != 0)
 					{
 						newLine();
-					}
+					}*/
 
 				}
 		};

@@ -112,15 +112,18 @@ int main(){
 	bool first = true; //awkward things happening -> 1 is always pressed when first entered	  (should be nothing -> 'z')
 	//int a = 0;
 	while (true) {
-		uint16_t a = adc::getValue<0>();
+		display::clear();
+		menu::show();
+		if (adc::getValue<0>() < 450)
+			menu::select_next();
+		/*uint16_t a = adc::getValue<0>();
 		if (a > 600) {
 			menu::select_next();
 			menu::show();
 		}
 		else if (a < 400) {
 			menu::select_prev();
-			menu::show();
-		}
+		}*/
 		/*xy = keypad::getKey();
 		if ( xy != 'z' && xy != prevkey && !first) {
 			prevkey = xy;

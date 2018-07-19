@@ -23,7 +23,6 @@ Discarded input sections
  .group         0x0000000000000000        0xc main.o
  .group         0x0000000000000000        0xc main.o
  .group         0x0000000000000000        0xc main.o
- .group         0x0000000000000000        0xc main.o
  .group         0x0000000000000000        0x8 main.o
  .group         0x0000000000000000        0x8 main.o
  .group         0x0000000000000000        0x8 main.o
@@ -155,7 +154,7 @@ END GROUP
 .rela.plt
  *(.rela.plt)
 
-.text           0x0000000000000000      0x64a
+.text           0x0000000000000000      0x642
  *(.vectors)
  .vectors       0x0000000000000000       0x68 e:/programme/avr-gcc/bin/../lib/gcc/avr/8.1.0/../../../../avr/lib/avr5/crtatmega328p.o
                 0x0000000000000000                __vector_default
@@ -266,87 +265,84 @@ END GROUP
  .text._ZN5BMCPP3Hal8PCD_8544ILh0ENS0_3PinINS0_4PortINS_3AVR1BENS4_9ATMega328EEELh2EEENS2_IS7_Lh1EEENS2_IS7_Lh0EEENS0_3SPIES3_S2_S6_E4sendEcb
                 0x00000000000003a0       0x14 main.o
                 0x00000000000003a0                _ZN5BMCPP3Hal8PCD_8544ILh0ENS0_3PinINS0_4PortINS_3AVR1BENS4_9ATMega328EEELh2EEENS2_IS7_Lh1EEENS2_IS7_Lh0EEENS0_3SPIES3_S2_S6_E4sendEcb
- .text._ZN5BMCPP3Hal8PCD_8544ILh0ENS0_3PinINS0_4PortINS_3AVR1BENS4_9ATMega328EEELh2EEENS2_IS7_Lh1EEENS2_IS7_Lh0EEENS0_3SPIES3_S2_S6_E7setYPtrEv
-                0x00000000000003b4       0x16 main.o
-                0x00000000000003b4                _ZN5BMCPP3Hal8PCD_8544ILh0ENS0_3PinINS0_4PortINS_3AVR1BENS4_9ATMega328EEELh2EEENS2_IS7_Lh1EEENS2_IS7_Lh0EEENS0_3SPIES3_S2_S6_E7setYPtrEv
- .text._ZN5BMCPP3Hal8PCD_8544ILh0ENS0_3PinINS0_4PortINS_3AVR1BENS4_9ATMega328EEELh2EEENS2_IS7_Lh1EEENS2_IS7_Lh0EEENS0_3SPIES3_S2_S6_E7newLineEv
-                0x00000000000003ca       0x3c main.o
-                0x00000000000003ca                _ZN5BMCPP3Hal8PCD_8544ILh0ENS0_3PinINS0_4PortINS_3AVR1BENS4_9ATMega328EEELh2EEENS2_IS7_Lh1EEENS2_IS7_Lh0EEENS0_3SPIES3_S2_S6_E7newLineEv
  .text._ZN5BMCPP3Hal8PCD_8544ILh0ENS0_3PinINS0_4PortINS_3AVR1BENS4_9ATMega328EEELh2EEENS2_IS7_Lh1EEENS2_IS7_Lh0EEENS0_3SPIES3_S2_S6_E5clearEv
-                0x0000000000000406       0x26 main.o
-                0x0000000000000406                _ZN5BMCPP3Hal8PCD_8544ILh0ENS0_3PinINS0_4PortINS_3AVR1BENS4_9ATMega328EEELh2EEENS2_IS7_Lh1EEENS2_IS7_Lh0EEENS0_3SPIES3_S2_S6_E5clearEv
+                0x00000000000003b4       0x32 main.o
+                0x00000000000003b4                _ZN5BMCPP3Hal8PCD_8544ILh0ENS0_3PinINS0_4PortINS_3AVR1BENS4_9ATMega328EEELh2EEENS2_IS7_Lh1EEENS2_IS7_Lh0EEENS0_3SPIES3_S2_S6_E5clearEv
  .text._ZN5BMCPP3Hal8PCD_8544ILh0ENS0_3PinINS0_4PortINS_3AVR1BENS4_9ATMega328EEELh2EEENS2_IS7_Lh1EEENS2_IS7_Lh0EEENS0_3SPIES3_S2_S6_E4initEv
-                0x000000000000042c       0x5c main.o
-                0x000000000000042c                _ZN5BMCPP3Hal8PCD_8544ILh0ENS0_3PinINS0_4PortINS_3AVR1BENS4_9ATMega328EEELh2EEENS2_IS7_Lh1EEENS2_IS7_Lh0EEENS0_3SPIES3_S2_S6_E4initEv
+                0x00000000000003e6       0x5c main.o
+                0x00000000000003e6                _ZN5BMCPP3Hal8PCD_8544ILh0ENS0_3PinINS0_4PortINS_3AVR1BENS4_9ATMega328EEELh2EEENS2_IS7_Lh1EEENS2_IS7_Lh0EEENS0_3SPIES3_S2_S6_E4initEv
+ .text._ZN5BMCPP3Hal8PCD_8544ILh0ENS0_3PinINS0_4PortINS_3AVR1BENS4_9ATMega328EEELh2EEENS2_IS7_Lh1EEENS2_IS7_Lh0EEENS0_3SPIES3_S2_S6_E7setYPtrEv
+                0x0000000000000442       0x16 main.o
+                0x0000000000000442                _ZN5BMCPP3Hal8PCD_8544ILh0ENS0_3PinINS0_4PortINS_3AVR1BENS4_9ATMega328EEELh2EEENS2_IS7_Lh1EEENS2_IS7_Lh0EEENS0_3SPIES3_S2_S6_E7setYPtrEv
  .text._ZN5BMCPP3Hal8PCD_8544ILh0ENS0_3PinINS0_4PortINS_3AVR1BENS4_9ATMega328EEELh2EEENS2_IS7_Lh1EEENS2_IS7_Lh0EEENS0_3SPIES3_S2_S6_E9printCharEh
-                0x0000000000000488       0x6c main.o
-                0x0000000000000488                _ZN5BMCPP3Hal8PCD_8544ILh0ENS0_3PinINS0_4PortINS_3AVR1BENS4_9ATMega328EEELh2EEENS2_IS7_Lh1EEENS2_IS7_Lh0EEENS0_3SPIES3_S2_S6_E9printCharEh
+                0x0000000000000458       0x6c main.o
+                0x0000000000000458                _ZN5BMCPP3Hal8PCD_8544ILh0ENS0_3PinINS0_4PortINS_3AVR1BENS4_9ATMega328EEELh2EEENS2_IS7_Lh1EEENS2_IS7_Lh0EEENS0_3SPIES3_S2_S6_E9printCharEh
  .text._ZN5BMCPP3Hal8PCD_8544ILh0ENS0_3PinINS0_4PortINS_3AVR1BENS4_9ATMega328EEELh2EEENS2_IS7_Lh1EEENS2_IS7_Lh0EEENS0_3SPIES3_S2_S6_E8printStrEPKc
-                0x00000000000004f4       0x18 main.o
-                0x00000000000004f4                _ZN5BMCPP3Hal8PCD_8544ILh0ENS0_3PinINS0_4PortINS_3AVR1BENS4_9ATMega328EEELh2EEENS2_IS7_Lh1EEENS2_IS7_Lh0EEENS0_3SPIES3_S2_S6_E8printStrEPKc
+                0x00000000000004c4       0x18 main.o
+                0x00000000000004c4                _ZN5BMCPP3Hal8PCD_8544ILh0ENS0_3PinINS0_4PortINS_3AVR1BENS4_9ATMega328EEELh2EEENS2_IS7_Lh1EEENS2_IS7_Lh0EEENS0_3SPIES3_S2_S6_E8printStrEPKc
  .text._ZN5BMCPP5Utils4MenuINS_3Hal8PCD_8544ILh0ENS2_3PinINS2_4PortINS_3AVR1BENS6_9ATMega328EEELh2EEENS4_IS9_Lh1EEENS4_IS9_Lh0EEENS2_3SPIES5_S4_S8_EEE4showEv
-                0x000000000000050c       0x4e main.o
-                0x000000000000050c                _ZN5BMCPP5Utils4MenuINS_3Hal8PCD_8544ILh0ENS2_3PinINS2_4PortINS_3AVR1BENS6_9ATMega328EEELh2EEENS4_IS9_Lh1EEENS4_IS9_Lh0EEENS2_3SPIES5_S4_S8_EEE4showEv
- .text.startup  0x000000000000055a       0xd2 main.o
-                0x000000000000055a                main
+                0x00000000000004dc       0x8a main.o
+                0x00000000000004dc                _ZN5BMCPP5Utils4MenuINS_3Hal8PCD_8544ILh0ENS2_3PinINS2_4PortINS_3AVR1BENS6_9ATMega328EEELh2EEENS4_IS9_Lh1EEENS4_IS9_Lh0EEENS2_3SPIES5_S4_S8_EEE4showEv
+ .text.startup  0x0000000000000566       0xbe main.o
+                0x0000000000000566                main
  .text.libgcc.mul
-                0x000000000000062c        0x0 e:/programme/avr-gcc/bin/../lib/gcc/avr/8.1.0/avr5\libgcc.a(_exit.o)
+                0x0000000000000624        0x0 e:/programme/avr-gcc/bin/../lib/gcc/avr/8.1.0/avr5\libgcc.a(_exit.o)
  .text.libgcc.div
-                0x000000000000062c        0x0 e:/programme/avr-gcc/bin/../lib/gcc/avr/8.1.0/avr5\libgcc.a(_exit.o)
- .text.libgcc   0x000000000000062c        0x0 e:/programme/avr-gcc/bin/../lib/gcc/avr/8.1.0/avr5\libgcc.a(_exit.o)
+                0x0000000000000624        0x0 e:/programme/avr-gcc/bin/../lib/gcc/avr/8.1.0/avr5\libgcc.a(_exit.o)
+ .text.libgcc   0x0000000000000624        0x0 e:/programme/avr-gcc/bin/../lib/gcc/avr/8.1.0/avr5\libgcc.a(_exit.o)
  .text.libgcc.prologue
-                0x000000000000062c        0x0 e:/programme/avr-gcc/bin/../lib/gcc/avr/8.1.0/avr5\libgcc.a(_exit.o)
+                0x0000000000000624        0x0 e:/programme/avr-gcc/bin/../lib/gcc/avr/8.1.0/avr5\libgcc.a(_exit.o)
  .text.libgcc.builtins
-                0x000000000000062c        0x0 e:/programme/avr-gcc/bin/../lib/gcc/avr/8.1.0/avr5\libgcc.a(_exit.o)
+                0x0000000000000624        0x0 e:/programme/avr-gcc/bin/../lib/gcc/avr/8.1.0/avr5\libgcc.a(_exit.o)
  .text.libgcc.fmul
-                0x000000000000062c        0x0 e:/programme/avr-gcc/bin/../lib/gcc/avr/8.1.0/avr5\libgcc.a(_exit.o)
+                0x0000000000000624        0x0 e:/programme/avr-gcc/bin/../lib/gcc/avr/8.1.0/avr5\libgcc.a(_exit.o)
  .text.libgcc.fixed
-                0x000000000000062c        0x0 e:/programme/avr-gcc/bin/../lib/gcc/avr/8.1.0/avr5\libgcc.a(_exit.o)
+                0x0000000000000624        0x0 e:/programme/avr-gcc/bin/../lib/gcc/avr/8.1.0/avr5\libgcc.a(_exit.o)
  .text.libgcc.mul
-                0x000000000000062c        0x0 e:/programme/avr-gcc/bin/../lib/gcc/avr/8.1.0/avr5\libgcc.a(_tablejump2.o)
+                0x0000000000000624        0x0 e:/programme/avr-gcc/bin/../lib/gcc/avr/8.1.0/avr5\libgcc.a(_tablejump2.o)
  .text.libgcc.div
-                0x000000000000062c        0x0 e:/programme/avr-gcc/bin/../lib/gcc/avr/8.1.0/avr5\libgcc.a(_tablejump2.o)
- .text.libgcc   0x000000000000062c        0xc e:/programme/avr-gcc/bin/../lib/gcc/avr/8.1.0/avr5\libgcc.a(_tablejump2.o)
-                0x000000000000062c                __tablejump2__
+                0x0000000000000624        0x0 e:/programme/avr-gcc/bin/../lib/gcc/avr/8.1.0/avr5\libgcc.a(_tablejump2.o)
+ .text.libgcc   0x0000000000000624        0xc e:/programme/avr-gcc/bin/../lib/gcc/avr/8.1.0/avr5\libgcc.a(_tablejump2.o)
+                0x0000000000000624                __tablejump2__
  .text.libgcc.prologue
-                0x0000000000000638        0x0 e:/programme/avr-gcc/bin/../lib/gcc/avr/8.1.0/avr5\libgcc.a(_tablejump2.o)
+                0x0000000000000630        0x0 e:/programme/avr-gcc/bin/../lib/gcc/avr/8.1.0/avr5\libgcc.a(_tablejump2.o)
  .text.libgcc.builtins
-                0x0000000000000638        0x0 e:/programme/avr-gcc/bin/../lib/gcc/avr/8.1.0/avr5\libgcc.a(_tablejump2.o)
+                0x0000000000000630        0x0 e:/programme/avr-gcc/bin/../lib/gcc/avr/8.1.0/avr5\libgcc.a(_tablejump2.o)
  .text.libgcc.fmul
-                0x0000000000000638        0x0 e:/programme/avr-gcc/bin/../lib/gcc/avr/8.1.0/avr5\libgcc.a(_tablejump2.o)
+                0x0000000000000630        0x0 e:/programme/avr-gcc/bin/../lib/gcc/avr/8.1.0/avr5\libgcc.a(_tablejump2.o)
  .text.libgcc.fixed
-                0x0000000000000638        0x0 e:/programme/avr-gcc/bin/../lib/gcc/avr/8.1.0/avr5\libgcc.a(_tablejump2.o)
+                0x0000000000000630        0x0 e:/programme/avr-gcc/bin/../lib/gcc/avr/8.1.0/avr5\libgcc.a(_tablejump2.o)
  .text.libgcc.mul
-                0x0000000000000638        0x0 e:/programme/avr-gcc/bin/../lib/gcc/avr/8.1.0/avr5\libgcc.a(_copy_data.o)
+                0x0000000000000630        0x0 e:/programme/avr-gcc/bin/../lib/gcc/avr/8.1.0/avr5\libgcc.a(_copy_data.o)
  .text.libgcc.div
-                0x0000000000000638        0x0 e:/programme/avr-gcc/bin/../lib/gcc/avr/8.1.0/avr5\libgcc.a(_copy_data.o)
- .text.libgcc   0x0000000000000638        0x0 e:/programme/avr-gcc/bin/../lib/gcc/avr/8.1.0/avr5\libgcc.a(_copy_data.o)
+                0x0000000000000630        0x0 e:/programme/avr-gcc/bin/../lib/gcc/avr/8.1.0/avr5\libgcc.a(_copy_data.o)
+ .text.libgcc   0x0000000000000630        0x0 e:/programme/avr-gcc/bin/../lib/gcc/avr/8.1.0/avr5\libgcc.a(_copy_data.o)
  .text.libgcc.prologue
-                0x0000000000000638        0x0 e:/programme/avr-gcc/bin/../lib/gcc/avr/8.1.0/avr5\libgcc.a(_copy_data.o)
+                0x0000000000000630        0x0 e:/programme/avr-gcc/bin/../lib/gcc/avr/8.1.0/avr5\libgcc.a(_copy_data.o)
  .text.libgcc.builtins
-                0x0000000000000638        0x0 e:/programme/avr-gcc/bin/../lib/gcc/avr/8.1.0/avr5\libgcc.a(_copy_data.o)
+                0x0000000000000630        0x0 e:/programme/avr-gcc/bin/../lib/gcc/avr/8.1.0/avr5\libgcc.a(_copy_data.o)
  .text.libgcc.fmul
-                0x0000000000000638        0x0 e:/programme/avr-gcc/bin/../lib/gcc/avr/8.1.0/avr5\libgcc.a(_copy_data.o)
+                0x0000000000000630        0x0 e:/programme/avr-gcc/bin/../lib/gcc/avr/8.1.0/avr5\libgcc.a(_copy_data.o)
  .text.libgcc.fixed
-                0x0000000000000638        0x0 e:/programme/avr-gcc/bin/../lib/gcc/avr/8.1.0/avr5\libgcc.a(_copy_data.o)
+                0x0000000000000630        0x0 e:/programme/avr-gcc/bin/../lib/gcc/avr/8.1.0/avr5\libgcc.a(_copy_data.o)
  .text.libgcc.mul
-                0x0000000000000638        0x0 e:/programme/avr-gcc/bin/../lib/gcc/avr/8.1.0/avr5\libgcc.a(_clear_bss.o)
+                0x0000000000000630        0x0 e:/programme/avr-gcc/bin/../lib/gcc/avr/8.1.0/avr5\libgcc.a(_clear_bss.o)
  .text.libgcc.div
-                0x0000000000000638        0x0 e:/programme/avr-gcc/bin/../lib/gcc/avr/8.1.0/avr5\libgcc.a(_clear_bss.o)
- .text.libgcc   0x0000000000000638        0x0 e:/programme/avr-gcc/bin/../lib/gcc/avr/8.1.0/avr5\libgcc.a(_clear_bss.o)
+                0x0000000000000630        0x0 e:/programme/avr-gcc/bin/../lib/gcc/avr/8.1.0/avr5\libgcc.a(_clear_bss.o)
+ .text.libgcc   0x0000000000000630        0x0 e:/programme/avr-gcc/bin/../lib/gcc/avr/8.1.0/avr5\libgcc.a(_clear_bss.o)
  .text.libgcc.prologue
-                0x0000000000000638        0x0 e:/programme/avr-gcc/bin/../lib/gcc/avr/8.1.0/avr5\libgcc.a(_clear_bss.o)
+                0x0000000000000630        0x0 e:/programme/avr-gcc/bin/../lib/gcc/avr/8.1.0/avr5\libgcc.a(_clear_bss.o)
  .text.libgcc.builtins
-                0x0000000000000638        0x0 e:/programme/avr-gcc/bin/../lib/gcc/avr/8.1.0/avr5\libgcc.a(_clear_bss.o)
+                0x0000000000000630        0x0 e:/programme/avr-gcc/bin/../lib/gcc/avr/8.1.0/avr5\libgcc.a(_clear_bss.o)
  .text.libgcc.fmul
-                0x0000000000000638        0x0 e:/programme/avr-gcc/bin/../lib/gcc/avr/8.1.0/avr5\libgcc.a(_clear_bss.o)
+                0x0000000000000630        0x0 e:/programme/avr-gcc/bin/../lib/gcc/avr/8.1.0/avr5\libgcc.a(_clear_bss.o)
  .text.libgcc.fixed
-                0x0000000000000638        0x0 e:/programme/avr-gcc/bin/../lib/gcc/avr/8.1.0/avr5\libgcc.a(_clear_bss.o)
-                0x0000000000000638                . = ALIGN (0x2)
+                0x0000000000000630        0x0 e:/programme/avr-gcc/bin/../lib/gcc/avr/8.1.0/avr5\libgcc.a(_clear_bss.o)
+                0x0000000000000630                . = ALIGN (0x2)
  *(.fini9)
- .fini9         0x0000000000000638        0x0 e:/programme/avr-gcc/bin/../lib/gcc/avr/8.1.0/avr5\libgcc.a(_exit.o)
-                0x0000000000000638                _exit
-                0x0000000000000638                exit
+ .fini9         0x0000000000000630        0x0 e:/programme/avr-gcc/bin/../lib/gcc/avr/8.1.0/avr5\libgcc.a(_exit.o)
+                0x0000000000000630                _exit
+                0x0000000000000630                exit
  *(.fini9)
  *(.fini8)
  *(.fini8)
@@ -365,19 +361,19 @@ END GROUP
  *(.fini1)
  *(.fini1)
  *(.fini0)
- .fini0         0x0000000000000638        0x4 e:/programme/avr-gcc/bin/../lib/gcc/avr/8.1.0/avr5\libgcc.a(_exit.o)
+ .fini0         0x0000000000000630        0x4 e:/programme/avr-gcc/bin/../lib/gcc/avr/8.1.0/avr5\libgcc.a(_exit.o)
  *(.fini0)
  *(.hightext)
  *(.hightext*)
  *(.progmemx.*)
-                0x000000000000063c                . = ALIGN (0x2)
+                0x0000000000000634                . = ALIGN (0x2)
  *(.jumptables)
  *(.jumptables*)
  .jumptables.gcc.__vector_21
-                0x000000000000063c        0xe main.o
-                0x000000000000064a                _etext = .
+                0x0000000000000634        0xe main.o
+                0x0000000000000642                _etext = .
 
-.data           0x0000000000800100       0x62 load address 0x000000000000064a
+.data           0x0000000000800100       0x62 load address 0x0000000000000642
                 0x0000000000800100                PROVIDE (__data_start = .)
  *(.data)
  .data          0x0000000000800100        0x0 e:/programme/avr-gcc/bin/../lib/gcc/avr/8.1.0/../../../../avr/lib/avr5/crtatmega328p.o
@@ -435,8 +431,8 @@ END GROUP
                 0x0000000000800177                _ZN5BMCPP3Hal8PCD_8544ILh0ENS0_3PinINS0_4PortINS_3AVR1BENS4_9ATMega328EEELh2EEENS2_IS7_Lh1EEENS2_IS7_Lh0EEENS0_3SPIES3_S2_S6_E4xPtrE
  *(COMMON)
                 0x0000000000800178                PROVIDE (__bss_end = .)
-                0x000000000000064a                __data_load_start = LOADADDR (.data)
-                0x00000000000006ac                __data_load_end = (__data_load_start + SIZEOF (.data))
+                0x0000000000000642                __data_load_start = LOADADDR (.data)
+                0x00000000000006a4                __data_load_end = (__data_load_start + SIZEOF (.data))
 
 .noinit         0x0000000000800178        0x0
                 [!provide]                        PROVIDE (__noinit_start = .)
@@ -605,7 +601,6 @@ _ZN5BMCPP3Hal8PCD_8544ILh0ENS0_3PinINS0_4PortINS_3AVR1BENS4_9ATMega328EEELh2EEEN
 _ZN5BMCPP3Hal8PCD_8544ILh0ENS0_3PinINS0_4PortINS_3AVR1BENS4_9ATMega328EEELh2EEENS2_IS7_Lh1EEENS2_IS7_Lh0EEENS0_3SPIES3_S2_S6_E4xPtrE main.o
 _ZN5BMCPP3Hal8PCD_8544ILh0ENS0_3PinINS0_4PortINS_3AVR1BENS4_9ATMega328EEELh2EEENS2_IS7_Lh1EEENS2_IS7_Lh0EEENS0_3SPIES3_S2_S6_E4yPtrE main.o
 _ZN5BMCPP3Hal8PCD_8544ILh0ENS0_3PinINS0_4PortINS_3AVR1BENS4_9ATMega328EEELh2EEENS2_IS7_Lh1EEENS2_IS7_Lh0EEENS0_3SPIES3_S2_S6_E5clearEv main.o
-_ZN5BMCPP3Hal8PCD_8544ILh0ENS0_3PinINS0_4PortINS_3AVR1BENS4_9ATMega328EEELh2EEENS2_IS7_Lh1EEENS2_IS7_Lh0EEENS0_3SPIES3_S2_S6_E7newLineEv main.o
 _ZN5BMCPP3Hal8PCD_8544ILh0ENS0_3PinINS0_4PortINS_3AVR1BENS4_9ATMega328EEELh2EEENS2_IS7_Lh1EEENS2_IS7_Lh0EEENS0_3SPIES3_S2_S6_E7setYPtrEv main.o
 _ZN5BMCPP3Hal8PCD_8544ILh0ENS0_3PinINS0_4PortINS_3AVR1BENS4_9ATMega328EEELh2EEENS2_IS7_Lh1EEENS2_IS7_Lh0EEENS0_3SPIES3_S2_S6_E8printStrEPKc main.o
 _ZN5BMCPP3Hal8PCD_8544ILh0ENS0_3PinINS0_4PortINS_3AVR1BENS4_9ATMega328EEELh2EEENS2_IS7_Lh1EEENS2_IS7_Lh0EEENS0_3SPIES3_S2_S6_E9printCharEh main.o

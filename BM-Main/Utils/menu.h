@@ -46,7 +46,7 @@ namespace BMCPP {
 			}
 
 			static void show() {
-				display::clear();
+				//display::clear();
 				for (int i = 0; i < display::MAX_CHAR_HEIGHT; i++) {
 					if (i == selected_item) display::printStr("-> ");
 					display::printStr(spots[i].name);
