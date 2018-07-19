@@ -17,3 +17,17 @@ main.cc(75,6): warning G7C671A4C: unused variable 'a' [-Wunused-variable]
   ECHO ist ausgeschaltet (OFF).
   Creating load file for Flash: main.hex
   avr-objcopy -O ihex -R .flash main.elf main.hex
+  avr-g++ -DF_CPU=16000000 -I./include -mmcu=atmega328p -Wall -Wextra -Wconversion -std=c++17 -Os -fconcepts  -fno-exceptions -fno-unwind-tables -fno-rtti -fno-threadsafe-statics  -funsigned-char -funsigned-bitfields -fshort-enums  -fverbose-asm -Wa,-adhln -S -o main.s main.cc
+  In file included from main.cc:17:0:
+  uart.c: In function 'void __vector_19()':
+uart.c(422,23): warning G63087B26: conversion to 'uint8_t {aka unsigned char}' from 'int' may alter its value [-Wconversion]
+           UART0_CONTROL &= ~_BV(UART0_UDRIE);
+                         ^
+  main.cc: In function 'void print_num(int)':
+main.cc(37,20): warning G40510A9C: unused parameter 'i' [-Wunused-parameter]
+   void print_num(int i)
+                      ^
+  main.cc: In function 'int main()':
+main.cc(75,6): warning G7C671A4C: unused variable 'a' [-Wunused-variable]
+    int a = 0;
+        ^

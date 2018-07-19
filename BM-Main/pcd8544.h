@@ -195,6 +195,7 @@ namespace BMCPP {
 
 			using spi = spi_template<SPI_number, clkRateDiv4, port_template, pin_template, true, false, MicroController>;
 
+
 			PCD_8544() = delete;
 
 			static void inline setYPtr() {
@@ -207,7 +208,7 @@ namespace BMCPP {
 			* Description  :   delay for LCD init routine, no interrupt necessary.
 			*/
 			static void Delay() {
-				for (typename utils::minRequiredUnsigned<MicroController::ClkRate / 
+				for (typename utils::minRequiredUnsigned<MicroController::ClkRate /
 					1000>::type i = 0; i < MicroController::ClkRate / 1000; i++)
 					__asm("nop");
 			}
