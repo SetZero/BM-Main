@@ -16,6 +16,7 @@
 #include "adc/ADC.h"
 #include "uart.c"
 #include "Utils/literals.h"
+#include "Utils/menu.h"
 #include <stdlib.h>
 
 using namespace BMCPP;
@@ -33,21 +34,36 @@ using adc = BMCPP::Hal::ADConverter<hardware_adc>;
 
 //using namespace BMCPP;
 //using namespace AVR;
-
-void print_num(int i)
-{
-	__asm("nop");
-}
-
 int main(){
-	using keypadPort = BMCPP::Hal::Port<D>;
-	using keypad = Hal::KeyPad<keypadPort>;
+	//using keypadPort = BMCPP::Hal::Port<D>;
+	//using keypad = Hal::KeyPad<keypadPort>;
 	//constexpr int x = static_cast<uint8_t>(~16) & 16;
 	// START DEBUG
-	keypad::init();
+	//keypad::init();
 	using display = PCD_8544<0,rst_pin,ce_pin,dc_pin, BMCPP::Hal::SPI, BMCPP::Hal::Port, BMCPP::Hal::Pin>;
+	using menu = BMCPP::Utils::Menu<display>;
+
+	//menu::init();
+	/*menu::create_entry<0>("Hello World!");
+	menu::create_entry<1>("Test World!");
+	menu::create_entry<2>("Welcome World!");
+	menu::create_entry<3>("Tea World!");
+	menu::create_entry<4>("Lambda World!");*/
+	
+
+	//uart_init(UART_BAUD_SELECT(9600, F_CPU));
+
+
 	display::init();
-	display::printStr("B");
+	menu::create_entry<0>("Hello World!");
+	menu::create_entry<1>("Test World!");
+	menu::create_entry<2>("Welcome World!");
+	menu::create_entry<3>("Tea World!");
+	menu::create_entry<4>("Lambda World!");
+	menu::create_entry<4>("Rambo World!");
+	menu::show();
+
+	/*display::printStr("B");
 	display::newLine();
 	display::printStr("M");
 	display::newLine();
@@ -58,46 +74,42 @@ int main(){
 	display::printStr("P");
 	display::newLine();
 	display::printStr(":)");
-	display::newLine();
+	display::newLine();*/
 
-	uart_init(UART_BAUD_SELECT(9600, F_CPU));
-	sei();
-	//initADC();
-	//adc c;
-	//BMCPP::Hal::ADConverter* t = BMCPP::Hal::ADConverter::create<>();
-	uart_puts("Test");
-	//c.startChannels<1>();
+
 	adc::init();
 	adc::create<0>();
 	adc::create<1>();
+	sei();
+	//uart_puts("Test");
+
+	//initADC();
+	//adc c;
+	//BMCPP::Hal::ADConverter* t = BMCPP::Hal::ADConverter::create<>();
+	//c.startChannels<1>();
 
 	char xy,prevkey = -1;
 	int a = 0;
-	auto test = [](int i) { return i + 4; };
 	bool first = true; //awkward things happening -> 1 is always pressed when first entered	  (should be nothing -> 'z')
 	//int a = 0;
 	while (true) {
 			
-		xy = keypad::getKey();
+		/*xy = keypad::getKey();
 		if ( xy != 'z' && xy != prevkey && !first) {
 			prevkey = xy;
 			display::clear();
 			display::printChar(xy);
 		}		
-		first = false;
+		first = false;*/
 		uint16_t a = adc::getValue<0>();//static_cast<uint8_t>(sra::adsc);
 		uint16_t b = adc::getValue<1>();//static_cast<uint8_t>(sra::adsc);
-		volatile uint16_t c = test(1);//static_cast<uint8_t>(sra::adsc);
-		char str[32];
+		/*char str[32];
 		itoa(a, str, 10);
 		uart_puts(str);
 		uart_puts(" | ");
 		itoa(b, str, 10);
 		uart_puts(str);
-		uart_puts(" | ");
-		itoa(c, str, 10);
-		uart_puts(str);
-		uart_puts("\n\r");
+		uart_puts("\n\r");*/
 	}
 	return 0;
 }				

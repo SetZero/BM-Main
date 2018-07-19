@@ -188,11 +188,6 @@ namespace BMCPP {
 			static_assert(AVR::isPin<ce_pin>(), "template Parameter rst_pin is not a Pin");
 			static_assert(AVR::isPin<dc_pin>(), "template Parameter rst_pin is not a Pin");
 
-			static unsigned const char WIDTH = 84;
-			static unsigned const char HEIGHT = 48;
-			static unsigned const char CHAR_WIDTH = 5;
-			static unsigned const char CHAR_HEIGHT = 8;
-
 			using spi = spi_template<SPI_number, clkRateDiv4, port_template, pin_template, true, MicroController>;
 
 			PCD_8544() = delete;
@@ -230,7 +225,10 @@ namespace BMCPP {
 			}
 
 			public:
-
+				static unsigned const char WIDTH = 84;
+				static unsigned const char HEIGHT = 48;
+				static unsigned const char CHAR_WIDTH = 5;
+				static unsigned const char CHAR_HEIGHT = 8;
 
 				/*
 				* Name         :  LcdRect
