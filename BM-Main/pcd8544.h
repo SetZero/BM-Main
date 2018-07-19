@@ -312,17 +312,6 @@ namespace BMCPP {
 				}
 
 				/*
-				* Description  :  fills the current line with whitespaces and goes to the next Line.
-				*/
-				static void newLine() {
-					for (int i = 0; i < (WIDTH - xPtr); i++) {
-						send(0, true);
-					}
-					xPtr = 0;
-					setYPtr();
-				}
-
-				/*
 				* Description  :  Prints a String on the screen.
 				*/
 				static void printStr(const char* str) {
@@ -332,14 +321,13 @@ namespace BMCPP {
 					}
 				}
 
-				static void gotoXY(uint8_t x, uint8_t y)
-				{
-					if (x < WIDTH && y < HEIGHT) {
-						send(static_cast<uint8_t>(0x80 | x), false);
-						send(static_cast<uint8_t>(0x40 | y), false);
-						xPtr = 0;
-						yPtr = 0;
-					}
+				/*
+				* Description  :  fills the current line with whitespaces and goes to the next Line.
+				*/
+				static void newLine() {
+					setYPtr();
+					gotoRowColumn(0,yPtr / CHAR_HEIGHT);
+					xPtr = 0;
 				}
 
 				/*
@@ -348,9 +336,21 @@ namespace BMCPP {
 				static void clear()
 				{
 					constexpr uint16_t bits_to_clear = WIDTH * 6; //6 rows
-					for (uint16_t i = 0; i < 504; i++)
+					for (uint16_t i = 0; i < bits_to_clear; i++)
 						send(0, true);
-					gotoXY(0, 0);
+					gotoRowColumn(0, 0);
+				}
+
+				/*
+				*	Description: goes to Column x, Row y -> char sizes
+				*/
+				static void gotoRowColumn(uint8_t x, uint8_t y) {
+					if (x < WIDTH && y < HEIGHT) {
+						send(static_cast<uint8_t>(0x80 | x), false);
+						send(static_cast<uint8_t>(0x40 | y), false);
+						xPtr = x * CHAR_WIDTH;
+						yPtr = y * CHAR_HEIGHT;
+					}
 				}
 		};
 	}
