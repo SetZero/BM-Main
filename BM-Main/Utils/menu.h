@@ -20,7 +20,7 @@ namespace BMCPP {
 			template<uint8_t position>
 			static void create_entry(const char* name) {
 				static_assert(position < display::MAX_CHAR_HEIGHT);
-				spots[position] = MenuSpot{ name };
+				spots[position].name = name;
 			}
 
 			static void select_next() {
@@ -37,12 +37,12 @@ namespace BMCPP {
 					selected_item--;
 				}
 				else {
-					selected_item = display::MAX_CHAR_HEIGHT;
+					selected_item = display::MAX_CHAR_HEIGHT - 1;
 				}
 			}
 
 			static void execute_selected() {
-				spots[selected_item]
+				//spots[selected_item]
 			}
 
 			static void show() {
