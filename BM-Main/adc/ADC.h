@@ -1,7 +1,7 @@
 #pragma once
 #include "adc_hal.h"
-#include "Utils/Utils.h"
-#include "uart.h"
+#include "../Utils/Utils.h"
+#include "../uart.h"
 #include <avr/interrupt.h>
 #include <stdlib.h>
 

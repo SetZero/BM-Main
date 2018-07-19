@@ -13,13 +13,15 @@
 #include "spi_hal.h"
 #include "pcd8544.h"
 #include "4X4_KeyPad.h"
-#include "ADC.h"
+#include "adc/ADC.h"
 #include "uart.c"
+#include "Utils/literals.h"
 #include <stdlib.h>
 
 using namespace BMCPP;
 using namespace AVR;
 using namespace Hal;
+using namespace BMCPP::literals;
 
 using rst_pin = typename BMCPP::Hal::Pin<typename BMCPP::Hal::Port<typename BMCPP::AVR::B>, 2>;
 using ce_pin = typename BMCPP::Hal::Pin<typename BMCPP::Hal::Port<typename BMCPP::AVR::B>, 1>;
@@ -31,6 +33,11 @@ using adc = BMCPP::Hal::ADConverter<hardware_adc>;
 
 //using namespace BMCPP;
 //using namespace AVR;
+
+void print_num(int i)
+{
+	__asm("nop");
+}
 
 int main(){
 	using keypadPort = BMCPP::Hal::Port<D>;
@@ -67,6 +74,8 @@ int main(){
 	char xy,prevkey = -1;
 	bool first = true; //awkward things happening -> 1 is always pressed when first entered
 	int a = 0;
+	auto test = [](int i) { return i + 4; };
+
 	while (true) {
 			
 		xy = keypad::getKey();
@@ -78,11 +87,15 @@ int main(){
 		first = false;
 		uint16_t a = adc::getValue<0>();//static_cast<uint8_t>(sra::adsc);
 		uint16_t b = adc::getValue<1>();//static_cast<uint8_t>(sra::adsc);
+		volatile uint16_t c = test(1);//static_cast<uint8_t>(sra::adsc);
 		char str[32];
 		itoa(a, str, 10);
 		uart_puts(str);
 		uart_puts(" | ");
 		itoa(b, str, 10);
+		uart_puts(str);
+		uart_puts(" | ");
+		itoa(c, str, 10);
 		uart_puts(str);
 		uart_puts("\n\r");
 	}
@@ -93,6 +106,4 @@ ISR(ADC_vect)
 {
 	// Save conversion result.
 	adc::writeResults();
-
-	//ADCSRA |= (1 << ADSC);
 }

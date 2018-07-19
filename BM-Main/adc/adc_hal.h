@@ -1,6 +1,6 @@
 #pragma once
-#include "hal/port.h"
-#include "uart.h"
+#include "../hal/port.h"
+#include "../uart.h"
 #include <stdlib.h>
 
 namespace BMCPP {
