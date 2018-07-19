@@ -346,6 +346,7 @@ namespace BMCPP {
 				*/
 				static void clear()
 				{
+					// 84 * 6 (6 rows of 8 bits)
 					for (uint16_t i = 0; i < 504; i++)
 						send(0, true);
 					gotoXY(0, 0);
