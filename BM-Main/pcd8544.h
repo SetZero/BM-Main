@@ -68,10 +68,6 @@
 */
 
 #include <avr\pgmspace.h>
-#include <avr/io.h>
-#include <string.h>
-#include <avr/interrupt.h>
-#include "spi_hal.h"
 #include "uc_select.h"
 #include "Utils\Utils.h"
 #include "AVR_concepts.h"

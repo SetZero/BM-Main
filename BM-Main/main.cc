@@ -21,14 +21,14 @@
 using namespace BMCPP;
 using namespace AVR;
 using namespace Hal;
-using namespace BMCPP::literals;
+
 
 using rst_pin = typename BMCPP::Hal::Pin<typename BMCPP::Hal::Port<typename BMCPP::AVR::B>, 2>;
 using ce_pin = typename BMCPP::Hal::Pin<typename BMCPP::Hal::Port<typename BMCPP::AVR::B>, 1>;
 using dc_pin = typename BMCPP::Hal::Pin<typename BMCPP::Hal::Port<typename BMCPP::AVR::B>, 0>;
 using brew_pin = typename BMCPP::Hal::Pin<typename BMCPP::Hal::Port<typename BMCPP::AVR::C>, 3>;
 using keypadPort = BMCPP::Hal::Port<D>;
-using keypad = Hal::KeyPad<keypadPort>;
+using keypad = BMCPP::Hal::KeyPad<keypadPort>;
 using hardware_adc = BMCPP::Hal::Hardware_Adc<0>;
 using adc = BMCPP::Hal::ADConverter<hardware_adc>;
 
