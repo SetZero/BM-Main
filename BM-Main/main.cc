@@ -23,17 +23,24 @@ using namespace BMCPP;
 using namespace AVR;
 using namespace Hal;
 
-
+//setting up pins for the Display
 using rst_pin = typename BMCPP::Hal::Pin<typename BMCPP::Hal::Port<typename BMCPP::AVR::B>, 2>;
 using ce_pin = typename BMCPP::Hal::Pin<typename BMCPP::Hal::Port<typename BMCPP::AVR::B>, 1>;
 using dc_pin = typename BMCPP::Hal::Pin<typename BMCPP::Hal::Port<typename BMCPP::AVR::B>, 0>;
+//setup display
+using display = PCD_8544<0, rst_pin, ce_pin, dc_pin, BMCPP::Hal::SPI, BMCPP::Hal::Port, BMCPP::Hal::Pin>;
+//setup pin for powering the coffee machine
 using brew_pin = typename BMCPP::Hal::Pin<typename BMCPP::Hal::Port<typename BMCPP::AVR::C>, 3>;
+//setup port for the KeyPad
 using keypadPort = BMCPP::Hal::Port<D>;
+//setup the KeyPad
 using keypad = BMCPP::Hal::KeyPad<keypadPort>;
+//setup adc
 using hardware_adc = BMCPP::Hal::Hardware_Adc<0>;
 using adc = BMCPP::Hal::ADConverter<hardware_adc>;
+//setup JoyStick
 using joystick = JoyStick<adc, 0, 1>;
-using display = PCD_8544<0, rst_pin, ce_pin, dc_pin, BMCPP::Hal::SPI, BMCPP::Hal::Port, BMCPP::Hal::Pin>;
+
 
 using menu = BMCPP::Utils::Menu<display>;
 void reset();
@@ -97,9 +104,9 @@ void cancel_brew() {
 void show_useful() {
 	display::clear();
 	display::printStr("Chuck Norris chews bees");
-	display::newLine;
+	display::newLine();
 	display::printStr("Coffee is the most healthy :)");
-	display::newLine;
+	display::newLine();
 	display::printStr("101010");
 	reset();
 }
@@ -107,7 +114,7 @@ void show_useful() {
 //you can type something with your keypad (maybe because you are bored?)
 void type_something() {
 	display::clear();
-	while (!joystick::isLeft) {
+	while (!joystick::isLeft()) {
 		uint8_t chr = keypad::getKey();
 		if (chr != 'z') {
 			display::printChar(chr);
