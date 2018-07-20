@@ -55,7 +55,7 @@ namespace BMCPP {
 			}
 
 			static void updateCursor() {
-				display::gotoRowColumn(0, selected_item);
+				display::gotoCharPos(0, selected_item);
 				display::printStr("-> ");
 				display::printStr(spots[selected_item].name);
 			}
