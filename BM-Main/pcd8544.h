@@ -341,7 +341,7 @@ namespace BMCPP {
 				*/
 				static void clear()
 				{
-					constexpr uint16_t bits_to_clear = WIDTH * 6; //6 rows
+					constexpr uint16_t bits_to_clear = WIDTH * MAX_CHAR_HEIGHT; //rows*column pixels
 					for (uint16_t i = 0; i < bits_to_clear; i++)
 						send(0, true);
 					gotoCharPos(0, 0);
