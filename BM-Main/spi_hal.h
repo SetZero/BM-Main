@@ -27,6 +27,7 @@ namespace BMCPP {
 			template<typename, uint8_t> typename PIN,
 			bool Master = true,
 			bool SPI_Interrupt = false,
+			typename word_size = uint8_t,
 			typename MicroController = __DEFAULT_MMCU__>
 			class SPI {
 
@@ -83,11 +84,11 @@ namespace BMCPP {
 			}
 
 			public:
-				using d_size = typename MicroController::mem_width;
-				using d_size_ptr = d_size *;
-				static void init()
-					// Initialize pins for spi communication
-				{
+
+				/*
+				* Description: initializes the SPI Component, have to be called before every other method.
+				*/
+				static void init() {
 					//required Pins	 
 					Mosi::on();
 					Miso::off();
@@ -128,30 +129,33 @@ namespace BMCPP {
 					setDoubleSpeed();
 				}
 
-				void writeRead(typename MicroController::mem_width * dataout, typename MicroController::mem_width * datain, typename MicroController::mem_width len)
-					// Shift full array through target device
-				{
+				/*
+				* Description: writes a whole array to the target device and saves the input from the device in de datain array
+				*/
+				void writeRead(const word_size* dataout, word_size* datain,const word_size len) {
 					for (uint8_t i = 0; i < len; i++) {
 						setSPDR(dataout[i]);
-						while ((readSPSR() & static_cast<typename MicroController::mem_width>(MicroController::SPI::spsr::SPIF0)) == 0);
+						while ((readSPSR() & static_cast<word_size>(MicroController::SPI::spsr::SPIF0)) == 0);
 						datain[i] = readSPDR();
 					}
 				}
 
-				void write(typename MicroController::mem_width * dataout, typename MicroController::mem_width len)
-					// Shift full array to target device without receiving any byte
-				{
-					for (uint8_t i = 0; i < len; i++) {
+				/*
+				* Description: writes a whole array to the target device and dont receive
+				*/
+				void write(const word_size* dataout,const word_size len) {
+					for (word_size i = 0; i < len; i++) {
 						setSPDR(dataout[i]);
 						while ((readSPSR() & static_cast<typename MicroController::mem_width>(MicroController::SPI::spsr::SPIF0)) == 0);
 					}
 				}
 
-				static typename MicroController::mem_width readWriteSingle(typename MicroController::mem_width data)
-					// Clocks only one byte to target device and returns the received one
-				{
+				/*
+				* Description: writes a single word to the target device and returns the input from the device
+				*/
+				static word_size readWriteSingle(word_size data) {
 					setSPDR(data);
-					while ((readSPSR() & static_cast<typename MicroController::mem_width>(MicroController::SPI::spsr::SPIF0)) == 0);
+					while ((readSPSR() & static_cast<word_size>(MicroController::SPI::spsr::SPIF0)) == 0);
 					return readSPDR();
 				}
 		};

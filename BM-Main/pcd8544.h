@@ -175,7 +175,7 @@ namespace BMCPP {
 		};
 
 		template<uint8_t SPI_number, typename rst_pin, typename ce_pin, typename dc_pin,
-			template<uint8_t, typename clockRate, template<typename, typename> typename, template<typename, uint8_t> typename, bool, bool, typename> typename spi_template,
+			template<uint8_t, typename clockRate, template<typename, typename> typename, template<typename, uint8_t> typename, bool, bool, typename,typename> typename spi_template,
 			template<typename, typename> typename port_template,
 			template<typename, uint8_t> typename pin_template,
 			typename MicroController = __DEFAULT_MMCU__>
@@ -188,7 +188,7 @@ namespace BMCPP {
 			static_assert(AVR::isPin<ce_pin>(), "template Parameter rst_pin is not a Pin");
 			static_assert(AVR::isPin<dc_pin>(), "template Parameter rst_pin is not a Pin");
 
-			using spi = spi_template<SPI_number, clkRateDiv4, port_template, pin_template, true, false, MicroController>;
+			using spi = spi_template<SPI_number, clkRateDiv4, port_template, pin_template, true, false,uint8_t, MicroController>;
 
 
 			PCD_8544() = delete;
@@ -347,6 +347,10 @@ namespace BMCPP {
 					gotoCharPos(0, 0);
 				}
 
+
+				/*
+				* Description: clears the line with the given number, the pointer is then set to (0,lineNumber)
+				*/
 				static void clearLine(const uint8_t lineNumber) {
 					gotoCharPos(0, lineNumber);
 					for (uint8_t i = 0; i < WIDTH; i++)
