@@ -76,31 +76,39 @@ int main(){
 	return 0;
 }				
 
+//Cancel every action and returns to the start screen
 void reset() {
 	display::clear();
 	cancel_brew();
 	menu::show();
 }
 
+//get your free coffee today
 void brew_coffee() {
 	brew_pin::on();
 }
 
+//stop the machine :(
 void cancel_brew() {
 	brew_pin::off();
 }
+
+//shows very useful hints
 void show_useful() {
 	display::clear();
 	display::printStr("Chuck Norris chews bees");
+	display::newLine;
+	display::printStr("Coffee is the most healthy :)");
+	display::newLine;
+	display::printStr("101010");
 	reset();
 }
 
+//you can type something with your keypad (maybe because you are bored?)
 void type_something() {
 	display::clear();
-	uint8_t chr = 0;
-	while (chr != '*')
-	{
-		chr = keypad::getKey();
+	while (!joystick::isLeft) {
+		uint8_t chr = keypad::getKey();
 		if (chr != 'z') {
 			display::printChar(chr);
 		}
