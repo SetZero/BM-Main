@@ -1,9 +1,3 @@
-
-#ifndef __AVR_ATmega328P__
-	#define __AVR_ATmega328P__
-#endif 
-
-
 #include <avr\io.h>
 #include <util\delay.h>
 #include <avr/interrupt.h>
@@ -29,6 +23,8 @@ using ce_pin = typename BMCPP::Hal::Pin<typename BMCPP::Hal::Port<typename BMCPP
 using dc_pin = typename BMCPP::Hal::Pin<typename BMCPP::Hal::Port<typename BMCPP::AVR::B>, 0>;
 //setup display
 using display = PCD_8544<0, rst_pin, ce_pin, dc_pin, BMCPP::Hal::SPI, BMCPP::Hal::Port, BMCPP::Hal::Pin>;
+//setup menu
+using menu = BMCPP::Utils::Menu<display>;
 //setup pin for powering the coffee machine
 using brew_pin = typename BMCPP::Hal::Pin<typename BMCPP::Hal::Port<typename BMCPP::AVR::C>, 3>;
 //setup port for the KeyPad
@@ -41,8 +37,7 @@ using adc = BMCPP::Hal::ADConverter<hardware_adc>;
 //setup JoyStick
 using joystick = JoyStick<adc, 0, 1>;
 
-
-using menu = BMCPP::Utils::Menu<display>;
+//function prototypes for the Menu entrys
 void reset();
 void brew_coffee();
 void cancel_brew();
@@ -50,32 +45,30 @@ void show_useful();
 void type_something();
 
 int main(){
+	//initialize brew pin
 	brew_pin::dir<brew_pin::Output>();
 	keypad::init();
 	display::init();
+	joystick::init();
+	//create menu entrys
 	menu::create_entry<0>("Reset", &reset);
 	menu::create_entry<1>("Brew Coffee", &brew_coffee);
 	menu::create_entry<2>("Cancel Brew", &cancel_brew);
 	menu::create_entry<3>("Show Useful", &show_useful);
 	menu::create_entry<4>("type something", &type_something);
 
-	sei();
-	adc::init();
-	adc::create<0>();
-	adc::create<1>();
 
 	menu::show();
 	while (true) {
 		display::gotoCharPos(0, 0);
+		//looking which direction the joystick points to and reacting 
 		if (joystick::isUp()) {
 			menu::select_prev();
 			menu::updateCursor();
-		}
-		else if (joystick::isDown()) {
+		} else if (joystick::isDown()) {
 			menu::select_next();
 			menu::updateCursor();
-		}
-		if (joystick::isRight()) {
+		} else if (joystick::isRight()) {
 			menu::execute_selected();
 		}
 		
@@ -123,8 +116,6 @@ void type_something() {
 	reset();
 }
 
-ISR(ADC_vect)
-{
-	// Save conversion result.
+ISR(ADC_vect) { // Save conversion result.
 	adc::writeResults();
 }
