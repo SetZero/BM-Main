@@ -5,21 +5,28 @@ main.cc(38,20): warning G40510A9C: unused parameter 'i' [-Wunused-parameter]
    void print_num(int i)
                       ^
   main.cc: In function 'int main()':
-main.cc(105,7): warning G7C671A4C: unused variable 'xy' [-Wunused-variable]
+main.cc(115,7): warning G7C671A4C: unused variable 'xy' [-Wunused-variable]
     char xy,prevkey = -1;
          ^~
-main.cc(105,10): warning G7C671A4C: unused variable 'prevkey' [-Wunused-variable]
+main.cc(115,10): warning G7C671A4C: unused variable 'prevkey' [-Wunused-variable]
     char xy,prevkey = -1;
             ^~~~~~~
-main.cc(106,6): warning G7C671A4C: unused variable 'a' [-Wunused-variable]
+main.cc(116,6): warning G7C671A4C: unused variable 'a' [-Wunused-variable]
     int a = 0;
         ^
-main.cc(107,7): warning GF0156036: variable 'test' set but not used [-Wunused-but-set-variable]
+main.cc(117,7): warning GF0156036: variable 'test' set but not used [-Wunused-but-set-variable]
     auto test = [](int i) { return i + 4; };
          ^~~~
-main.cc(108,7): warning G7C671A4C: unused variable 'first' [-Wunused-variable]
+main.cc(118,7): warning G7C671A4C: unused variable 'first' [-Wunused-variable]
     bool first = true; //awkward things happening -> 1 is always pressed when first entered   (should be nothing -> 'z')
          ^~~~~
+  In file included from main.cc:14:0:
+  pcd8544.h: In instantiation of 'static void BMCPP::Hal::PCD_8544<SPI_number, rst_pin, ce_pin, dc_pin, spi_template, port_template, pin_template, MicroController>::clearLine(uint8_t) [with unsigned char SPI_number = 0; rst_pin = BMCPP::Hal::Pin<BMCPP::Hal::Port<BMCPP::AVR::B>, 2>; ce_pin = BMCPP::Hal::Pin<BMCPP::Hal::Port<BMCPP::AVR::B>, 1>; dc_pin = BMCPP::Hal::Pin<BMCPP::Hal::Port<BMCPP::AVR::B>, 0>; spi_template = BMCPP::Hal::SPI; port_template = BMCPP::Hal::Port; pin_template = BMCPP::Hal::Pin; MicroController = BMCPP::AVR::ATMega328; uint8_t = unsigned char]':
+  Utils/menu.h:72:23:   required from 'static void BMCPP::Utils::Menu<display>::updateCursor() [with display = BMCPP::Hal::PCD_8544<0, BMCPP::Hal::Pin<BMCPP::Hal::Port<BMCPP::AVR::B>, 2>, BMCPP::Hal::Pin<BMCPP::Hal::Port<BMCPP::AVR::B>, 1>, BMCPP::Hal::Pin<BMCPP::Hal::Port<BMCPP::AVR::B>, 0>, BMCPP::Hal::SPI, BMCPP::Hal::Port, BMCPP::Hal::Pin>]'
+  main.cc:128:10:   required from here
+pcd8544.h(359,24): warning G63087B26: conversion to 'unsigned char' from 'int' may alter its value [-Wconversion]
+        yPtr = lineNumber * CHAR_HEIGHT;
+               ~~~~~~~~~~~^~~~~~~~~~~~~
   avr-gcc -mmcu=atmega328p -Wall -Wextra -Wconversion -std=c11 -Os   -DF_CPU=16000000 -I./include  -Wl,-Map=main.map,--cref  "-Wl,--section-start=.mmcu=0x910000"  -o main.elf main.o
   ECHO ist ausgeschaltet (OFF).
   Creating load file for Flash: main.hex

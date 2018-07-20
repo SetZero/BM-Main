@@ -1,30 +1,41 @@
 #pragma once
 #include "../uart.h"
 #include <avr\pgmspace.h>
+#include "Utils.h"
 
 namespace BMCPP {
 	namespace Utils {
+		
 		template<typename display>
 		class Menu {
 			struct MenuSpot {
 				const char* name = "---";
+				void(* ptr)(void);
 				//auto function;
 			};
 			static uint8_t selected_item;
 			static MenuSpot spots[display::MAX_CHAR_HEIGHT];
+
+			static void reDrawSelectedLine() {
+				display::clearLine(selected_item);
+				display::printStr(spots[selected_item].name);
+			}
+
 		public:
 			static void init() {
 				display::init();
 			}
 
 			template<uint8_t position>
-			static void create_entry(const char* name) {
+			static void create_entry(const char* name, void (* function)(void)) {
 				static_assert(position < display::MAX_CHAR_HEIGHT);
 				spots[position].name = name;
+				spots[position].ptr = function;
 			}
 
 			static void select_next() {
 				if (selected_item < display::MAX_CHAR_HEIGHT - 1) {
+					reDrawSelectedLine();
 					selected_item++;
 				}
 				else {
@@ -34,6 +45,7 @@ namespace BMCPP {
 
 			static void select_prev() {
 				if (selected_item > 0) {
+					reDrawSelectedLine();
 					selected_item--;
 				}
 				else {
@@ -41,8 +53,10 @@ namespace BMCPP {
 				}
 			}
 
+
+
 			static void execute_selected() {
-				//spots[selected_item]
+				(*spots[selected_item].ptr)();
 			}
 
 			static void show() {
@@ -55,7 +69,7 @@ namespace BMCPP {
 			}
 
 			static void updateCursor() {
-				display::gotoCharPos(0, selected_item);
+				display::clearLine(selected_item);
 				display::printStr("-> ");
 				display::printStr(spots[selected_item].name);
 			}
