@@ -72,6 +72,9 @@
     <ClInclude Include="4X4_KeyPad.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
+    <ClInclude Include="JoyStick.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cc">

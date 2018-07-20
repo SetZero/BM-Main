@@ -17,6 +17,7 @@
 #include "Utils/literals.h"
 #include "Utils/menu.h"
 #include <stdlib.h>
+#include "JoyStick.h"
 
 using namespace BMCPP;
 using namespace AVR;
@@ -31,7 +32,7 @@ using keypadPort = BMCPP::Hal::Port<D>;
 using keypad = BMCPP::Hal::KeyPad<keypadPort>;
 using hardware_adc = BMCPP::Hal::Hardware_Adc<0>;
 using adc = BMCPP::Hal::ADConverter<hardware_adc>;
-
+using joystick = JoyStick<adc, 0, 1>;
 using display = PCD_8544<0, rst_pin, ce_pin, dc_pin, BMCPP::Hal::SPI, BMCPP::Hal::Port, BMCPP::Hal::Pin>;
 
 using menu = BMCPP::Utils::Menu<display>;
@@ -59,18 +60,15 @@ int main(){
 	menu::show();
 	while (true) {
 		display::gotoCharPos(0, 0);
-		uint16_t a = adc::getValue<1>();
-		uint16_t b = adc::getValue<0>();
-		if (a > 600) {
+		if (joystick::isUp()) {
 			menu::select_prev();
-			//menu::show();
 			menu::updateCursor();
 		}
-		else if (a < 400) {
+		else if (joystick::isDown()) {
 			menu::select_next();
 			menu::updateCursor();
 		}
-		if (b > 600) {
+		if (joystick::isRight()) {
 			menu::execute_selected();
 		}
 		
