@@ -133,7 +133,7 @@ namespace BMCPP {
 				* Description: writes a whole array to the target device and saves the input from the device in de datain array
 				*/
 				void writeRead(const word_size* dataout, word_size* datain,const word_size len) {
-					for (uint8_t i = 0; i < len; i++) {
+					for (word_size i = 0; i < len; i++) {
 						setSPDR(dataout[i]);
 						while ((readSPSR() & static_cast<word_size>(MicroController::SPI::spsr::SPIF0)) == 0);
 						datain[i] = readSPDR();

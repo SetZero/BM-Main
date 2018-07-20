@@ -24,24 +24,3 @@ main.cc(108,7): warning G7C671A4C: unused variable 'first' [-Wunused-variable]
   ECHO ist ausgeschaltet (OFF).
   Creating load file for Flash: main.hex
   avr-objcopy -O ihex -R .flash main.elf main.hex
-  avr-g++ -DF_CPU=16000000 -I./include -mmcu=atmega328p -Wall -Wextra -Wconversion -std=c++17 -Os -fconcepts  -fno-exceptions -fno-unwind-tables -fno-rtti -fno-threadsafe-statics  -funsigned-char -funsigned-bitfields -fshort-enums  -fverbose-asm -Wa,-adhln -S -o main.s main.cc
-  main.cc: In function 'void print_num(int)':
-main.cc(38,20): warning G40510A9C: unused parameter 'i' [-Wunused-parameter]
-   void print_num(int i)
-                      ^
-  main.cc: In function 'int main()':
-main.cc(105,7): warning G7C671A4C: unused variable 'xy' [-Wunused-variable]
-    char xy,prevkey = -1;
-         ^~
-main.cc(105,10): warning G7C671A4C: unused variable 'prevkey' [-Wunused-variable]
-    char xy,prevkey = -1;
-            ^~~~~~~
-main.cc(106,6): warning G7C671A4C: unused variable 'a' [-Wunused-variable]
-    int a = 0;
-        ^
-main.cc(107,7): warning GF0156036: variable 'test' set but not used [-Wunused-but-set-variable]
-    auto test = [](int i) { return i + 4; };
-         ^~~~
-main.cc(108,7): warning G7C671A4C: unused variable 'first' [-Wunused-variable]
-    bool first = true; //awkward things happening -> 1 is always pressed when first entered   (should be nothing -> 'z')
-         ^~~~~
