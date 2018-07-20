@@ -1,9 +1,3 @@
-
-#ifndef __AVR_ATmega328P__
-	#define __AVR_ATmega328P__
-#endif 
-
-
 #include <avr\io.h>
 #include <util\delay.h>
 #include <avr/interrupt.h>
@@ -50,9 +44,11 @@ void show_useful();
 void type_something();
 
 int main(){
+	//initialize brew pin
 	brew_pin::dir<brew_pin::Output>();
 	keypad::init();
 	display::init();
+	//create menu entrys
 	menu::create_entry<0>("Reset", &reset);
 	menu::create_entry<1>("Brew Coffee", &brew_coffee);
 	menu::create_entry<2>("Cancel Brew", &cancel_brew);
@@ -67,15 +63,14 @@ int main(){
 	menu::show();
 	while (true) {
 		display::gotoCharPos(0, 0);
+		//looking which direction the joystick points to and reacting 
 		if (joystick::isUp()) {
 			menu::select_prev();
 			menu::updateCursor();
-		}
-		else if (joystick::isDown()) {
+		} else if (joystick::isDown()) {
 			menu::select_next();
 			menu::updateCursor();
-		}
-		if (joystick::isRight()) {
+		} else if (joystick::isRight()) {
 			menu::execute_selected();
 		}
 		
@@ -123,8 +118,6 @@ void type_something() {
 	reset();
 }
 
-ISR(ADC_vect)
-{
-	// Save conversion result.
+ISR(ADC_vect) { // Save conversion result.
 	adc::writeResults();
 }
