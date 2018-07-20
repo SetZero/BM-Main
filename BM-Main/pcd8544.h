@@ -356,7 +356,7 @@ namespace BMCPP {
 					for (uint8_t i = 0; i < WIDTH; i++)
 						send(0,true);
 					gotoCharPos(0, lineNumber);
-					yPtr = lineNumber * CHAR_HEIGHT;
+					yPtr = static_cast<uint8_t>(lineNumber * CHAR_HEIGHT);
 				}
 
 				/*

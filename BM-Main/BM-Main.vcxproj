@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\BM-Code-Snippets\LCD\pcd8544.h" />
+    <ClInclude Include="4X4_KeyPad.h" />
     <ClInclude Include="ADC.h" />
     <ClInclude Include="adc_hal.h" />
     <ClInclude Include="adc_hall.h" />
