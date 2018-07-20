@@ -11,15 +11,6 @@ namespace BMCPP {
 		struct	clkRateDiv64 {};
 		struct	clkRateDiv128 {};
 
-		namespace spi {
-			enum class ClkRate : uint8_t {
-				clkRateDiv4 = 0,
-				clkRateDiv16 = 1,
-				clkRateDiv64 = 2,
-				clkRateDiv128 = 3
-			};
-		}
-
 		template<
 			uint8_t number,
 			typename clockRate,
