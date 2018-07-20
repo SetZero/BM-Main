@@ -1,6 +1,5 @@
 #pragma once
 
-
 /*
 * Description: ChannelNumberX/Y are the pins which are used to get x/y from the controller
 */
@@ -10,6 +9,16 @@ class JoyStick {
 	JoyStick() = delete;
 
 public:
+	/*
+	* Description: initializes the adc Component
+	*/
+	static void init() {
+		sei();
+		adc::init();
+		adc::template create<ChannelNumberX>();
+		adc::template create<ChannelNumberY>();
+	}
+
 	/*
 	* Description: tests if the Controller is moved to left
 	*/
