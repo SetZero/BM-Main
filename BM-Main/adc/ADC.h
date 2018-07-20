@@ -45,7 +45,7 @@ namespace BMCPP
 				static_assert(Channel < maximum_adc, "This Channel doesn't exist!");
 				Hardware_Adc::deactivateChannel(Channel);
 			}
-			//TODO
+
 			template<uint8_t Channel>
 			static uint16_t getValue() {
 				return adc_result[Channel];

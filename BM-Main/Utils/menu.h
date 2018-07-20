@@ -11,7 +11,6 @@ namespace BMCPP {
 			struct MenuSpot {
 				const char* name = "---";
 				void(* ptr)(void);
-				//auto function;
 			};
 			static uint8_t selected_item;
 			static MenuSpot spots[display::MAX_CHAR_HEIGHT];
@@ -38,18 +37,12 @@ namespace BMCPP {
 					reDrawSelectedLine();
 					selected_item++;
 				}
-				else {
-					//selected_item = 0;
-				}
 			}
 
 			static void select_prev() {
 				if (selected_item > 0) {
 					reDrawSelectedLine();
 					selected_item--;
-				}
-				else {
-					//selected_item = display::MAX_CHAR_HEIGHT - 1;
 				}
 			}
 
@@ -60,7 +53,6 @@ namespace BMCPP {
 			}
 
 			static void show() {
-				//display::clear();
 				for (int i = 0; i < display::MAX_CHAR_HEIGHT; i++) {
 					if (i == selected_item) display::printStr("-> ");
 					display::printStr(spots[i].name);
